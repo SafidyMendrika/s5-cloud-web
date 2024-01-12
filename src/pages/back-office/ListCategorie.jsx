@@ -26,11 +26,11 @@ const data = [
 
 const ListCategorie = () => {
   const [categories, setCategories] = useState([]);
-  const [filterCategories, setFilterCategories] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState([]);
 
   useEffect(() => {
     fetchCategories();
-    setFilterCategories(categories);
+    setFilteredCategories(categories);
   }, [categories]);
 
   const fetchCategories = () => {
@@ -44,12 +44,12 @@ const ListCategorie = () => {
 
   const handleSearch = ({ target: { value } }) => {
     if (value === "") {
-      setFilterCategories(categories);
+      setFilteredCategories(categories);
     } else {
       const result = categories.filter((categorie) =>
         categorie.nom_categorie.toLowerCase().includes(value.toLowerCase())
       );
-      setFilterCategories(result);
+      setFilteredCategories(result);
     }
   };
 
@@ -100,8 +100,8 @@ const ListCategorie = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filterCategories &&
-                      filterCategories.map((categorie) => (
+                    {filteredCategories &&
+                      filteredCategories.map((categorie) => (
                         <tr key={categorie.id_categorie}>
                           <td className="">{categorie.id_categorie}</td>
                           <td className="text-dark fw-semibold">
