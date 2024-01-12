@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Header from "../components/front-office/Header";
 import Footer from "../components/front-office/Footer";
 
