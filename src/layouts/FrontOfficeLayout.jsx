@@ -13,9 +13,9 @@ const FrontOfficeLayout = ({ children }) => {
     <>
       <Header />
       <h1>Front Office</h1>
-      <Link to={"/back-office/dashboard"} className={handleActivePage("home")}>
+      <a href="/back-office/dashboard" className={handleActivePage("home")}>
         Home
-      </Link>
+      </a>
       <br />
       <div className="container">{children}</div>
       <br />
