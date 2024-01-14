@@ -1,5 +1,3 @@
-import logo from "../../assets/images/logos/dark-logo.svg";
-
 const SideBar = () => {
   return (
     <>
@@ -7,7 +5,11 @@ const SideBar = () => {
         <div>
           <div className="brand-logo d-flex align-items-center justify-content-between">
             <a href="./index.html" className="text-nowrap logo-img">
-              <img src={logo} width="180" alt="" />
+              <img
+                src={`${process.env.PUBLIC_URL}/images/logos/dark-logo.svg`}
+                width="180"
+                alt=""
+              />
             </a>
             <div
               className="close-btn d-xl-none d-block sidebartoggler cursor-pointer"

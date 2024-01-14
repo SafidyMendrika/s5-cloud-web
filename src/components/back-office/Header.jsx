@@ -1,5 +1,3 @@
-import profil from "../../assets/images/profile/user-1.jpg";
-
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -39,7 +37,7 @@ const Header = () => {
                   aria-expanded="false"
                 >
                   <img
-                    src={profil}
+                    src={`${process.env.PUBLIC_URL}/images/profile/user-1.jpg`}
                     alt=""
                     width="35"
                     height="35"

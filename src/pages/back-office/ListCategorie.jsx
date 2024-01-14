@@ -64,7 +64,7 @@ const ListCategorie = () => {
                 Liste des categories
               </h5>
               <div className="row mb-4">
-                <form className="col-sm-6 col-12 mb-sm-0 mb-3">
+                <form className="col-sm-5 col-12 mb-sm-0 mb-3">
                   <div className="">
                     <input
                       type="text"
