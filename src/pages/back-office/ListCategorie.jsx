@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "../../context/UrlContext";
 
-const data = [
+var dataCategorie = [
   {
     id_categorie: 1,
     nom_categorie: "Compacte",
@@ -34,12 +34,14 @@ const ListCategorie = () => {
   }, [categories]);
 
   const fetchCategories = () => {
-    // fetch(`${API_URL}/categories`)
+    // fetch(`${API_URL}/categories`, {
+    //   method: "GET",
+    // })
     //   .then((response) => response.json())
     //   .then((data) => {
     //     setCategories(data);
     //   });
-    setCategories(data);
+    setCategories(dataCategorie);
   };
 
   const handleSearch = ({ target: { value } }) => {
@@ -51,6 +53,20 @@ const ListCategorie = () => {
       );
       setFilteredCategories(result);
     }
+  };
+
+  const handleDelete = (id) => {
+    // fetch(`${API_URL}/categories/${id}`, {
+    //   method: "DELETE",
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     fetchCategories();
+    //   });
+    dataCategorie = dataCategorie.filter(
+      (categorie) => categorie.id_categorie !== id
+    );
+    fetchCategories();
   };
 
   return (
@@ -109,18 +125,17 @@ const ListCategorie = () => {
                           </td>
                           <td className="">
                             <div className="d-flex align-items-center">
-                              <a
-                                href="{#}"
-                                className="btn btn-outline-info d-flex align-items-center"
-                              >
+                              <button className="btn btn-outline-info d-flex align-items-center">
                                 <i className="ti ti-pencil me-2"></i> Modifier
-                              </a>
-                              <a
-                                href="{#}"
+                              </button>
+                              <button
                                 className="btn btn-outline-danger d-flex align-items-center ms-2"
+                                onClick={() =>
+                                  handleDelete(categorie.id_categorie)
+                                }
                               >
                                 <i className="ti ti-trash me-2"></i> Supprimer
-                              </a>
+                              </button>
                             </div>
                           </td>
                         </tr>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "../../context/UrlContext";
 
-const dataModele = [
+var dataModele = [
   {
     id_modele: 1,
     nom_modele: "Toyota Corolla",
@@ -80,7 +80,9 @@ const ListModele = () => {
   }, [modeles]);
 
   const fetchModeles = () => {
-    // fetch(`${API_URL}/modeles`)
+    // fetch(`${API_URL}/modeles`, {
+    //   method: "GET",
+    // })
     //   .then((response) => response.json())
     //   .then((data) => {
     //     setModeles(data);
@@ -89,7 +91,9 @@ const ListModele = () => {
   };
 
   const fetchMarques = () => {
-    // fetch(`${API_URL}/marques`)
+    // fetch(`${API_URL}/marques`, {
+    //   method: "GET",
+    // })
     //   .then((response) => response.json())
     //   .then((data) => {
     //     setMarques(data);
@@ -106,6 +110,18 @@ const ListModele = () => {
       );
       setFilteredModeles(result);
     }
+  };
+
+  const handleDelete = (id) => {
+    // fetch(`${API_URL}/modeles/${id}`, {
+    //   method: "DELETE",
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     fetchModeles();
+    //   });
+    dataModele = dataModele.filter((modele) => modele.id_modele !== id);
+    fetchModeles();
   };
 
   return (
@@ -179,18 +195,15 @@ const ListModele = () => {
                           </td>
                           <td className="">
                             <div className="d-flex align-items-center">
-                              <a
-                                href="{#}"
-                                className="btn btn-outline-info d-flex align-items-center"
-                              >
+                              <button className="btn btn-outline-info d-flex align-items-center">
                                 <i className="ti ti-pencil me-2"></i> Modifier
-                              </a>
-                              <a
-                                href="{#}"
+                              </button>
+                              <button
                                 className="btn btn-outline-danger d-flex align-items-center ms-2"
+                                onClick={() => handleDelete(modele.id_modele)}
                               >
                                 <i className="ti ti-trash me-2"></i> Supprimer
-                              </a>
+                              </button>
                             </div>
                           </td>
                         </tr>

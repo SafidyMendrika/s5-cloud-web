@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../../context/UrlContext";
 
-const dataMarque = [
+var dataMarque = [
   {
     id_marque: 1,
     nom_marque: "Toyota",
@@ -35,18 +36,45 @@ const dataMarque = [
 
 const ListMarque = () => {
   const [marques, setMarques] = useState([]);
+  const [filteredMarques, setFilteredMarques] = useState([]);
 
   useEffect(() => {
     fetchMarques();
+    setFilteredMarques(marques);
   }, [marques]);
 
   const fetchMarques = () => {
-    // fetch(`${API_URL}/marques`)
+    // fetch(`${API_URL}/marques`, {
+    //   method: "GET",
+    // })
     //   .then((response) => response.json())
     //   .then((data) => {
     //     setMarques(data);
     //   });
     setMarques(dataMarque);
+  };
+
+  const handleSearch = ({ target: { value } }) => {
+    if (value === "") {
+      setFilteredMarques(marques);
+    } else {
+      const result = marques.filter((marque) =>
+        marque.nom_marque.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredMarques(result);
+    }
+  };
+
+  const handleDelete = (id) => {
+    // fetch(`${API_URL}/marques/${id}`, {
+    //   method: "DELETE",
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     fetchMarques();
+    //   });
+    dataMarque = dataMarque.filter((marque) => marque.id_marque !== id);
+    fetchMarques();
   };
 
   return (
@@ -64,6 +92,7 @@ const ListMarque = () => {
                       type="text"
                       className="form-control"
                       placeholder="Entrer un mot clé"
+                      onChange={handleSearch}
                     />
                   </div>
                 </form>
@@ -83,14 +112,14 @@ const ListMarque = () => {
         </div>
         <div className="col-12">
           <div className="row">
-            {marques &&
-              marques.map((marque) => (
-                <div className="col-sm-6 col-lg-4 col-xl-3">
+            {filteredMarques &&
+              filteredMarques.map((marque) => (
+                <div
+                  className="col-sm-6 col-lg-4 col-xl-3"
+                  key={marque.id_marque}
+                >
                   <div className="card overflow-hidden rounded-2">
-                    <div
-                      className="d-flex justify-content-center align-items-center bg-light"
-                      style={{ cursor: "pointer" }}
-                    >
+                    <div className="position-relative d-flex justify-content-center align-items-center bg-light">
                       <div
                         className="d-flex justify-content-center align-items-center overflow-hidden"
                         style={{ width: "220px", height: "200px" }}
@@ -101,6 +130,15 @@ const ListMarque = () => {
                           alt="..."
                         />
                       </div>
+                      <a
+                        href="{#}"
+                        className="bg-dark rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        data-bs-title="Info"
+                      >
+                        <i className="ti ti-eye fs-4"></i>
+                      </a>
                     </div>
                     <div className="card-body pt-3 p-4">
                       <h6 className="fw-semibold fs-4">{marque.nom_marque}</h6>
@@ -113,18 +151,15 @@ const ListMarque = () => {
                         className="d-flex justify-content-center align-items-center"
                         style={{ gap: "5px" }}
                       >
-                        <a
-                          href="{#}"
-                          className="btn btn-outline-primary d-flex align-items-center"
-                        >
+                        <button className="btn btn-outline-primary d-flex align-items-center">
                           <i className="ti ti-pencil me-2"></i> Modifier
-                        </a>
-                        <a
-                          href="{#}"
+                        </button>
+                        <button
                           className="btn btn-outline-danger d-flex align-items-center"
+                          onClick={() => handleDelete(marque.id_marque)}
                         >
                           <i className="ti ti-trash me-2"></i> Supprimer
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </div>
