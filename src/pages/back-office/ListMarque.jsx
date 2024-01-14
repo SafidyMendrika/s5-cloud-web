@@ -4,22 +4,32 @@ const dataMarque = [
   {
     id_marque: 1,
     nom_marque: "Toyota",
+    path_image: "/images/marques/toyota.png",
+    nombre_modeles: 23,
   },
   {
     id_marque: 2,
     nom_marque: "BMW",
+    path_image: "/images/marques/bmw.png",
+    nombre_modeles: 12,
   },
   {
     id_marque: 3,
     nom_marque: "Mercedes-Benz",
+    path_image: "/images/marques/mercedes-benz.png",
+    nombre_modeles: 31,
   },
   {
     id_marque: 4,
     nom_marque: "Honda",
+    path_image: "/images/marques/honda.png",
+    nombre_modeles: 4,
   },
   {
     id_marque: 5,
     nom_marque: "Ford",
+    path_image: "/images/marques/ford.png",
+    nombre_modeles: 10,
   },
 ];
 
@@ -72,65 +82,54 @@ const ListMarque = () => {
           </div>
         </div>
         <div className="col-12">
-          <div class="col-sm-6 col-xl-3">
-            <div class="card overflow-hidden rounded-2">
-              <div class="position-relative">
-                <a href="{#}">
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/products/s4.jpg`}
-                    class="card-img-top rounded-0"
-                    alt="..."
-                  />
-                </a>
-                <a
-                  href="{#}"
-                  class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  data-bs-title="Add To Cart"
-                >
-                  <i class="ti ti-basket fs-4"></i>
-                </a>
-              </div>
-              <div class="card-body pt-3 p-4">
-                <h6 class="fw-semibold fs-4">Boat Headphone</h6>
-                <div class="d-flex align-items-center justify-content-between">
-                  <h6 class="fw-semibold fs-4 mb-0">
-                    $50
-                    <span class="ms-2 fw-normal text-muted fs-3">
-                      <del>$65</del>
-                    </span>
-                  </h6>
-                  <ul class="list-unstyled d-flex align-items-center mb-0">
-                    <li>
-                      <a class="me-1" href="{#}">
-                        <i class="ti ti-star text-warning"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="me-1" href="{#}">
-                        <i class="ti ti-star text-warning"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="me-1" href="{#}">
-                        <i class="ti ti-star text-warning"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="me-1" href="{#}">
-                        <i class="ti ti-star text-warning"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="" href="{#}">
-                        <i class="ti ti-star text-warning"></i>
-                      </a>
-                    </li>
-                  </ul>
+          <div className="row">
+            {marques &&
+              marques.map((marque) => (
+                <div className="col-sm-6 col-lg-4 col-xl-3">
+                  <div className="card overflow-hidden rounded-2">
+                    <div
+                      className="d-flex justify-content-center align-items-center bg-light"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <div
+                        className="d-flex justify-content-center align-items-center overflow-hidden"
+                        style={{ width: "220px", height: "200px" }}
+                      >
+                        <img
+                          src={`${process.env.PUBLIC_URL + marque.path_image}`}
+                          className="card-img-top rounded-0"
+                          alt="..."
+                        />
+                      </div>
+                    </div>
+                    <div className="card-body pt-3 p-4">
+                      <h6 className="fw-semibold fs-4">{marque.nom_marque}</h6>
+                      <div className="d-flex align-items-center justify-content-between mb-4">
+                        <h6 className="fs-4 mb-0" style={{ color: "grey" }}>
+                          {marque.nombre_modeles} modeles
+                        </h6>
+                      </div>
+                      <div
+                        className="d-flex justify-content-center align-items-center"
+                        style={{ gap: "5px" }}
+                      >
+                        <a
+                          href="{#}"
+                          className="btn btn-outline-primary d-flex align-items-center"
+                        >
+                          <i className="ti ti-pencil me-2"></i> Modifier
+                        </a>
+                        <a
+                          href="{#}"
+                          className="btn btn-outline-danger d-flex align-items-center"
+                        >
+                          <i className="ti ti-trash me-2"></i> Supprimer
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              ))}
           </div>
         </div>
       </div>
