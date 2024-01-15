@@ -3,67 +3,67 @@ import { API_URL } from "../../context/UrlContext";
 
 var dataModele = [
   {
-    id_modele: 1,
-    nom_modele: "Toyota Corolla",
+    id: 1,
+    nom: "Toyota Corolla",
     marque: {
-      id_marque: 1,
-      nom_marque: "Toyota",
+      id: 1,
+      nom: "Toyota",
     },
   },
   {
-    id_modele: 2,
-    nom_modele: "BMW Serie 3",
+    id: 2,
+    nom: "BMW Serie 3",
     marque: {
-      id_marque: 2,
-      nom_marque: "BMW",
+      id: 2,
+      nom: "BMW",
     },
   },
   {
-    id_modele: 3,
-    nom_modele: "Mercedes Classe C",
+    id: 3,
+    nom: "Mercedes Classe C",
     marque: {
-      id_marque: 3,
-      nom_marque: "Mercedes-Benz",
+      id: 3,
+      nom: "Mercedes-Benz",
     },
   },
   {
-    id_modele: 4,
-    nom_modele: "Honda Civic",
+    id: 4,
+    nom: "Honda Civic",
     marque: {
-      id_marque: 4,
-      nom_marque: "Honda",
+      id: 4,
+      nom: "Honda",
     },
   },
   {
-    id_modele: 5,
-    nom_modele: "Ford Focus",
+    id: 5,
+    nom: "Ford Focus",
     marque: {
-      id_marque: 5,
-      nom_marque: "Ford",
+      id: 5,
+      nom: "Ford",
     },
   },
 ];
 
 const dataMarque = [
   {
-    id_marque: 1,
-    nom_marque: "Toyota",
+    id: 1,
+    nom: "Toyota",
   },
   {
-    id_marque: 2,
-    nom_marque: "BMW",
+    id: 2,
+    nom: "BMW",
   },
   {
-    id_marque: 3,
-    nom_marque: "Mercedes-Benz",
+    id: 3,
+    nom: "Mercedes-Benz",
   },
   {
-    id_marque: 4,
-    nom_marque: "Honda",
+    id: 4,
+    nom: "Honda",
   },
   {
-    id_marque: 5,
-    nom_marque: "Ford",
+    id: 5,
+    nom: "Ford",
   },
 ];
 
@@ -106,7 +106,7 @@ const ListModele = () => {
       setFilteredModeles(modeles);
     } else {
       const result = modeles.filter((modele) =>
-        modele.nom_modele.toLowerCase().includes(value.toLowerCase())
+        modele.nom.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredModeles(result);
     }
@@ -120,7 +120,7 @@ const ListModele = () => {
     //   .then((data) => {
     //     fetchModeles();
     //   });
-    dataModele = dataModele.filter((modele) => modele.id_modele !== id);
+    dataModele = dataModele.filter((modele) => modele.id !== id);
     fetchModeles();
   };
 
@@ -148,8 +148,8 @@ const ListModele = () => {
                         <option value="0">Trier par marque</option>
                         {marques &&
                           marques.map((marque) => (
-                            <option value={marque.id_marque}>
-                              {marque.nom_marque}
+                            <option value={marque.id} key={marque.id}>
+                              {marque.nom}
                             </option>
                           ))}
                       </select>
@@ -172,8 +172,8 @@ const ListModele = () => {
                   <thead className="text-dark fs-4 table-light">
                     <tr>
                       <th className="border-bottom-0">ID</th>
-                      <th className="border-bottom-0">Nom</th>
                       <th className="border-bottom-0">Marque</th>
+                      <th className="border-bottom-0">Modele</th>
                       <th
                         className="border-bottom-0"
                         style={{ width: "400px" }}
@@ -185,13 +185,13 @@ const ListModele = () => {
                   <tbody>
                     {filteredModeles &&
                       filteredModeles.map((modele) => (
-                        <tr key={modele.id_modele}>
-                          <td className="">{modele.id_modele}</td>
+                        <tr key={modele.id}>
+                          <td className="">{modele.id}</td>
                           <td className="text-dark fw-semibold">
-                            {modele.nom_modele}
+                            {modele.marque.nom}
                           </td>
                           <td className="text-dark fw-semibold">
-                            {modele.marque.nom_marque}
+                            {modele.nom}
                           </td>
                           <td className="">
                             <div className="d-flex align-items-center">
@@ -200,7 +200,7 @@ const ListModele = () => {
                               </button>
                               <button
                                 className="btn btn-outline-danger d-flex align-items-center ms-2"
-                                onClick={() => handleDelete(modele.id_modele)}
+                                onClick={() => handleDelete(modele.id)}
                               >
                                 <i className="ti ti-trash me-2"></i> Supprimer
                               </button>

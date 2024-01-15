@@ -3,24 +3,24 @@ import { API_URL } from "../../context/UrlContext";
 
 var dataCategorie = [
   {
-    id_categorie: 1,
-    nom_categorie: "Compacte",
+    id: 1,
+    nom: "Compacte",
   },
   {
-    id_categorie: 2,
-    nom_categorie: "Berline",
+    id: 2,
+    nom: "Berline",
   },
   {
-    id_categorie: 3,
-    nom_categorie: "SUV",
+    id: 3,
+    nom: "SUV",
   },
   {
-    id_categorie: 4,
-    nom_categorie: "Coupé",
+    id: 4,
+    nom: "Coupé",
   },
   {
-    id_categorie: 5,
-    nom_categorie: "Monospace",
+    id: 5,
+    nom: "Monospace",
   },
 ];
 
@@ -30,6 +30,9 @@ const ListCategorie = () => {
 
   useEffect(() => {
     fetchCategories();
+  }, []);
+
+  useEffect(() => {
     setFilteredCategories(categories);
   }, [categories]);
 
@@ -39,7 +42,8 @@ const ListCategorie = () => {
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     setCategories(data);
+    //     console.log(data.data);
+    //     setCategories(data.data);
     //   });
     setCategories(dataCategorie);
   };
@@ -49,7 +53,7 @@ const ListCategorie = () => {
       setFilteredCategories(categories);
     } else {
       const result = categories.filter((categorie) =>
-        categorie.nom_categorie.toLowerCase().includes(value.toLowerCase())
+        categorie.nom.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredCategories(result);
     }
@@ -61,11 +65,9 @@ const ListCategorie = () => {
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     fetchCategories();
+    //     setCategories(data.data);
     //   });
-    dataCategorie = dataCategorie.filter(
-      (categorie) => categorie.id_categorie !== id
-    );
+    dataCategorie = dataCategorie.filter((categorie) => categorie.id !== id);
     fetchCategories();
   };
 
@@ -118,10 +120,10 @@ const ListCategorie = () => {
                   <tbody>
                     {filteredCategories &&
                       filteredCategories.map((categorie) => (
-                        <tr key={categorie.id_categorie}>
-                          <td className="">{categorie.id_categorie}</td>
+                        <tr key={categorie.id}>
+                          <td className="">{categorie.id}</td>
                           <td className="text-dark fw-semibold">
-                            {categorie.nom_categorie}
+                            {categorie.nom}
                           </td>
                           <td className="">
                             <div className="d-flex align-items-center">
@@ -130,9 +132,7 @@ const ListCategorie = () => {
                               </button>
                               <button
                                 className="btn btn-outline-danger d-flex align-items-center ms-2"
-                                onClick={() =>
-                                  handleDelete(categorie.id_categorie)
-                                }
+                                onClick={() => handleDelete(categorie.id)}
                               >
                                 <i className="ti ti-trash me-2"></i> Supprimer
                               </button>

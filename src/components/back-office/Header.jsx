@@ -11,13 +11,12 @@ const Header = () => {
               <a
                 className="nav-link sidebartoggler nav-icon-hover"
                 id="headerCollapse"
-                href="javascript:void(0)"
               >
                 <i className="ti ti-menu-2"></i>
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link nav-icon-hover" href="javascript:void(0)">
+              <a className="nav-link nav-icon-hover">
                 <i className="ti ti-bell-ringing"></i>
                 <div className="notification bg-primary rounded-circle"></div>
               </a>
@@ -31,7 +30,6 @@ const Header = () => {
               <li className="nav-item dropdown">
                 <a
                   className="nav-link nav-icon-hover"
-                  href="javascript:void(0)"
                   id="drop2"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
