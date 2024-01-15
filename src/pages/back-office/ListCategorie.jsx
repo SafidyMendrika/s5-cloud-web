@@ -28,6 +28,8 @@ const ListCategorie = () => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
 
+  const [nom, setNom] = useState("");
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -65,10 +67,34 @@ const ListCategorie = () => {
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     setCategories(data.data);
+    //     let newData = categories.filter(
+    //       (categorie) => categorie.id !== data.data.id
+    //     );
+    //     setCategories(newData);
     //   });
-    dataCategorie = dataCategorie.filter((categorie) => categorie.id !== id);
-    fetchCategories();
+    setCategories(categories.filter((categorie) => categorie.id !== id));
+  };
+
+  const handleAdd = () => {
+    // fetch(`${API_URL}/categories`, {
+    //   method: "POST",
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     let newData = [...categories];
+    //     Array.prototype.push.apply(newData, [data.data]);
+    //     setCategories(newData);
+    //   });
+    Array.prototype.push.apply(dataCategorie, [
+      {
+        id: dataCategorie.length + 1,
+        nom: nom,
+      },
+    ]);
+    setCategories(dataCategorie);
+    setNom("");
+
+    document.querySelector("#modalAdd .btn-close").click();
   };
 
   return (
@@ -94,12 +120,64 @@ const ListCategorie = () => {
                 </form>
                 <div className="col-2">
                   <div className="d-flex align-items-center">
-                    <a
-                      href="{#}"
+                    <button
                       className="btn btn-outline-secondary d-flex align-items-center"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalAdd"
                     >
                       <i className="ti ti-plus me-2"></i> Nouveau
-                    </a>
+                    </button>
+
+                    <div
+                      className="modal fade"
+                      id="modalAdd"
+                      aria-labelledby="modalAddLabel"
+                      aria-hidden="true"
+                    >
+                      <div className="modal-dialog">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="modalAddLabel">
+                              Ajouter une categorie
+                            </h1>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            <form className="row">
+                              <div className="col-12">
+                                <div className="mb-3">
+                                  <label htmlFor="nom" className="form-label">
+                                    Nom
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    id="nom"
+                                    placeholder="Nom de la categorie"
+                                    value={nom}
+                                    onChange={(e) => setNom(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-12 mb-3">
+                                <button
+                                  type="button"
+                                  className="btn btn-primary w-100"
+                                  onClick={handleAdd}
+                                >
+                                  Valider
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
