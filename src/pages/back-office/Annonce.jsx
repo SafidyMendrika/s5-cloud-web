@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import CardAnnonce from "../../components/back-office/CardAnnonce";
 
 var dataAnnonce = [
   {
@@ -18,8 +19,9 @@ var dataAnnonce = [
         },
       },
     },
+    prix: 10000000,
     dateAnnonce: "2021-09-01",
-    status: "En attente",
+    status: 0,
     path_image: "/images/annonces/annonce1.png",
   },
   {
@@ -39,8 +41,9 @@ var dataAnnonce = [
         },
       },
     },
+    prix: 15000000,
     dateAnnonce: "2021-09-02",
-    status: "En attente",
+    status: 10,
     path_image: "/images/annonces/annonce2.png",
   },
   {
@@ -60,8 +63,9 @@ var dataAnnonce = [
         },
       },
     },
+    prix: 250000000,
     dateAnnonce: "2021-09-03",
-    status: "En attente",
+    status: 20,
     path_image: "/images/annonces/annonce3.png",
   },
   {
@@ -81,8 +85,9 @@ var dataAnnonce = [
         },
       },
     },
+    prix: 200000000,
     dateAnnonce: "2021-09-04",
-    status: "En attente",
+    status: 0,
     path_image: "/images/annonces/annonce4.png",
   },
   {
@@ -102,8 +107,9 @@ var dataAnnonce = [
         },
       },
     },
+    prix: 100000000,
     dateAnnonce: "2021-09-05",
-    status: "En attente",
+    status: 10,
     path_image: "/images/annonces/annonce5.png",
   },
 ];
@@ -142,25 +148,25 @@ const Annonce = () => {
                 Liste des annonces
               </h5>
               <div className="row mb-3">
-                <form className="col-sm-5 col-12 mb-sm-0 mb-3">
-                  <div className="">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Entrer un mot clé"
-                    />
+                <form className="col-sm-7 col-12 mb-sm-0 mb-3">
+                  <div className="row">
+                    <div className="col-6 pe-0">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Entrer un mot clé"
+                      />
+                    </div>
+                    <div className="col-6">
+                      <select className="form-select">
+                        <option value="">Trier par status</option>
+                        <option value="0">En attente</option>
+                        <option value="10">Validé</option>
+                        <option value="20">Vendu</option>
+                      </select>
+                    </div>
                   </div>
                 </form>
-                <div className="col-2">
-                  <div className="d-flex align-items-center">
-                    <a
-                      href="{#}"
-                      className="btn btn-outline-secondary d-flex align-items-center"
-                    >
-                      <i className="ti ti-plus me-2"></i> Nouveau
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -169,41 +175,7 @@ const Annonce = () => {
           <div className="row">
             {filteredAnnonces &&
               filteredAnnonces.map((annonce) => (
-                <div className="col-sm-6 col-lg-4 col-xl-3" key={annonce.id}>
-                  <div className="card overflow-hidden rounded-2">
-                    <div className="position-relative d-flex justify-content-center align-items-center bg-light">
-                      <div
-                        className="d-flex justify-content-center align-items-center overflow-hidden"
-                        style={{ height: "200px" }}
-                      >
-                        <img
-                          src={`${process.env.PUBLIC_URL + annonce.path_image}`}
-                          className="card-img-top rounded-0"
-                          alt="..."
-                        />
-                      </div>
-                    </div>
-                    <div className="card-body pt-3 p-4">
-                      <h6 className="fw-semibold fs-4">
-                        Par {annonce.utilisateur.nom}
-                      </h6>
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <h6 className="fs-4 mb-0" style={{ color: "grey" }}>
-                          {annonce.dateAnnonce}
-                        </h6>
-                      </div>
-                      <div className="d-flex justify-content-between flex-column">
-                        <h6 className="text-info mb-3 fw-semi-bold">
-                          {annonce.voiture.modele.nom}
-                        </h6>
-
-                        <button className="btn btn-outline-primary d-flex justify-content-center align-items-center">
-                          <i className="ti ti-info-circle me-2"></i> Detail
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <CardAnnonce annonce={annonce} key={annonce.id} />
               ))}
           </div>
         </div>
