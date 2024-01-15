@@ -29,6 +29,7 @@ const ListCategorie = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
 
   const [nom, setNom] = useState("");
+  const [updatedNom, setUpdatedNom] = useState("");
 
   useEffect(() => {
     fetchCategories();
@@ -44,7 +45,6 @@ const ListCategorie = () => {
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     console.log(data.data);
     //     setCategories(data.data);
     //   });
     setCategories(dataCategorie);
@@ -61,40 +61,72 @@ const ListCategorie = () => {
     }
   };
 
+  const handleAdd = () => {
+    // fetch(`${API_URL}/categories`, {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     nom: nom,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     Array.prototype.push.apply(categories, [data.data]);
+    //   });
+
+    setNom("");
+    Array.prototype.push.apply(categories, [
+      {
+        id: dataCategorie.length + 1,
+        nom: nom,
+      },
+    ]);
+    document.querySelector("#modalAdd .btn-close").click();
+  };
+
+  const handleUpdate = (id) => {
+    // fetch(`${API_URL}/categories/${id}`, {
+    //   method: "PUT",
+    //   body: JSON.stringify({
+    //     nom: updatedNom,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setCategories(
+    //       categories.map((categorie) =>
+    //         categorie.id === data.data.id ? data.data : categorie
+    //       )
+    //     );
+    //   });
+
+    setUpdatedNom("");
+    setCategories(
+      dataCategorie.map((categorie) =>
+        categorie.id === id ? { id: id, nom: updatedNom } : categorie
+      )
+    );
+    document.querySelector(`#modalUpdate-${id} .btn-close`).click();
+  };
+
   const handleDelete = (id) => {
     // fetch(`${API_URL}/categories/${id}`, {
     //   method: "DELETE",
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     let newData = categories.filter(
-    //       (categorie) => categorie.id !== data.data.id
+    //     setCategories(
+    //       categories.filter((categorie) => categorie.id !== data.data.id)
     //     );
-    //     setCategories(newData);
     //   });
+
     setCategories(categories.filter((categorie) => categorie.id !== id));
-  };
-
-  const handleAdd = () => {
-    // fetch(`${API_URL}/categories`, {
-    //   method: "POST",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     let newData = [...categories];
-    //     Array.prototype.push.apply(newData, [data.data]);
-    //     setCategories(newData);
-    //   });
-    Array.prototype.push.apply(dataCategorie, [
-      {
-        id: dataCategorie.length + 1,
-        nom: nom,
-      },
-    ]);
-    setCategories(dataCategorie);
-    setNom("");
-
-    document.querySelector("#modalAdd .btn-close").click();
+    document.querySelector(`#modalDelete-${id} .btn-close`).click();
   };
 
   return (
@@ -137,7 +169,7 @@ const ListCategorie = () => {
                       <div className="modal-dialog">
                         <div className="modal-content">
                           <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="modalAddLabel">
+                            <h1 className="modal-title fs-6" id="modalAddLabel">
                               Ajouter une categorie
                             </h1>
                             <button
@@ -205,12 +237,18 @@ const ListCategorie = () => {
                           </td>
                           <td className="">
                             <div className="d-flex align-items-center">
-                              <button className="btn btn-outline-info d-flex align-items-center">
+                              <button
+                                className="btn btn-outline-info d-flex align-items-center"
+                                data-bs-toggle="modal"
+                                data-bs-target={`#modalUpdate-${categorie.id}`}
+                                onClick={() => setUpdatedNom(categorie.nom)}
+                              >
                                 <i className="ti ti-pencil me-2"></i> Modifier
                               </button>
                               <button
                                 className="btn btn-outline-danger d-flex align-items-center ms-2"
-                                onClick={() => handleDelete(categorie.id)}
+                                data-bs-toggle="modal"
+                                data-bs-target={`#modalDelete-${categorie.id}`}
                               >
                                 <i className="ti ti-trash me-2"></i> Supprimer
                               </button>
@@ -225,6 +263,111 @@ const ListCategorie = () => {
           </div>
         </div>
       </div>
+
+      {filteredCategories &&
+        filteredCategories.map((categorie) => (
+          <div key={categorie.id}>
+            <div
+              className="modal fade"
+              id={`modalDelete-${categorie.id}`}
+              aria-labelledby={`modalDeleteLabel-${categorie.id}}`}
+              aria-hidden="true"
+              key={categorie.id}
+            >
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1
+                      className="modal-title fs-6"
+                      id={`modalDeleteLabel-${categorie.id}}`}
+                    >
+                      Supprimer une categorie
+                    </h1>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body text-center">
+                    <p className="fs-5">
+                      Voulez-vous vraiment supprimer cette categorie ?
+                    </p>
+                    <h5 className="fw-semibold text-primary mb-0">
+                      {categorie.nom}
+                    </h5>
+                  </div>
+                  <div className="modal-footer justify-content-center">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Annuler
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(categorie.id)}
+                    >
+                      Supprimer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="modal fade" id={`modalUpdate-${categorie.id}`}>
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1
+                      className="modal-title fs-6"
+                      id={`modalUpdateLabel-${categorie.id}`}
+                    >
+                      Modifier une categorie
+                    </h1>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <form className="row">
+                      <div className="col-12">
+                        <div className="mb-3">
+                          <label htmlFor="nom" className="form-label">
+                            Nom
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="nom"
+                            placeholder="Nom de la categorie"
+                            value={updatedNom}
+                            onChange={(e) => setUpdatedNom(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-12 mb-3">
+                        <button
+                          type="button"
+                          className="btn btn-primary w-100"
+                          onClick={() => handleUpdate(categorie.id)}
+                        >
+                          Valider
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
     </>
   );
 };
