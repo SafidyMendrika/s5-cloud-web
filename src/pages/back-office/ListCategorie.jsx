@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { dataCategorie } from "../../data/back-office";
 import { API_URL } from "../../context/UrlContext";
 
@@ -254,7 +254,7 @@ const ListCategorie = () => {
 
       {filteredCategories &&
         filteredCategories.map((categorie) => (
-          <div key={categorie.id}>
+          <Fragment key={categorie.id}>
             <div className="modal fade" id={`modalUpdate-${categorie.id}`}>
               <div className="modal-dialog">
                 <div className="modal-content">
@@ -316,7 +316,6 @@ const ListCategorie = () => {
               id={`modalDelete-${categorie.id}`}
               aria-labelledby={`modalDeleteLabel-${categorie.id}}`}
               aria-hidden="true"
-              key={categorie.id}
             >
               <div className="modal-dialog">
                 <div className="modal-content">
@@ -361,7 +360,7 @@ const ListCategorie = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Fragment>
         ))}
     </>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { dataModele, dataMarque, dataCategorie } from "../../data/back-office";
 import { API_URL } from "../../context/UrlContext";
 
@@ -399,10 +399,9 @@ const ListModele = () => {
           </div>
         </div>
       </div>
-
       {filteredModeles &&
         filteredModeles.map((modele) => (
-          <div key={modele.id}>
+          <Fragment key={modele.id}>
             <div className="modal fade" id={`modalUpdate-${modele.id}`}>
               <div className="modal-dialog">
                 <div className="modal-content">
@@ -524,13 +523,11 @@ const ListModele = () => {
                 </div>
               </div>
             </div>
-
             <div
               className="modal fade"
               id={`modalDelete-${modele.id}`}
               aria-labelledby={`modalDeleteLabel-${modele.id}`}
               aria-hidden="true"
-              key={modele.id}
             >
               <div className="modal-dialog">
                 <div className="modal-content">
@@ -575,7 +572,7 @@ const ListModele = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Fragment>
         ))}
     </>
   );

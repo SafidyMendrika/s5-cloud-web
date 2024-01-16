@@ -1,4 +1,4 @@
-const CardMarque = ({ marque, handleDelete }) => {
+const CardMarque = ({ marque, setUpdatedMarque }) => {
   return (
     <>
       <div className="col-sm-6 col-lg-4 col-xl-3" key={marque.id}>
@@ -9,7 +9,7 @@ const CardMarque = ({ marque, handleDelete }) => {
               style={{ height: "200px" }}
             >
               <img
-                src={`${process.env.PUBLIC_URL + marque.path_image}`}
+                src={`${process.env.PUBLIC_URL + marque.pathImage}`}
                 className="card-img-top rounded-0"
                 alt="..."
               />
@@ -28,19 +28,25 @@ const CardMarque = ({ marque, handleDelete }) => {
             <h6 className="fw-semibold fs-4">{marque.nom}</h6>
             <div className="d-flex align-items-center justify-content-between mb-4">
               <h6 className="fs-4 mb-0" style={{ color: "grey" }}>
-                {marque.nombre_modeles} modeles
+                {marque.nombreModele} modeles
               </h6>
             </div>
             <div
               className="d-flex justify-content-center align-items-center"
               style={{ gap: "5px" }}
             >
-              <button className="btn btn-outline-primary d-flex align-items-center">
+              <button
+                className="btn btn-outline-primary d-flex align-items-center"
+                data-bs-toggle="modal"
+                data-bs-target={`#modalUpdate-${marque.id}`}
+                onClick={() => setUpdatedMarque(marque)}
+              >
                 <i className="ti ti-pencil me-2"></i> Modifier
               </button>
               <button
                 className="btn btn-outline-danger d-flex align-items-center"
-                onClick={() => handleDelete(marque.id)}
+                data-bs-toggle="modal"
+                data-bs-target={`#modalDelete-${marque.id}`}
               >
                 <i className="ti ti-trash me-2"></i> Supprimer
               </button>

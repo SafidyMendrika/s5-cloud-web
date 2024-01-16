@@ -88,31 +88,144 @@ export var dataMarque = [
   {
     id: 1,
     nom: "Toyota",
-    path_image: "/images/marques/toyota.png",
-    nombre_modeles: 23,
+    pathImage: "/images/marques/toyota.png",
+    nombreModele: 23,
   },
   {
     id: 2,
     nom: "BMW",
-    path_image: "/images/marques/bmw.png",
-    nombre_modeles: 12,
+    pathImage: "/images/marques/bmw.png",
+    nombreModele: 12,
   },
   {
     id: 3,
     nom: "Mercedes-Benz",
-    path_image: "/images/marques/mercedes-benz.png",
-    nombre_modeles: 31,
+    pathImage: "/images/marques/mercedes-benz.png",
+    nombreModele: 31,
   },
   {
     id: 4,
     nom: "Honda",
-    path_image: "/images/marques/honda.png",
-    nombre_modeles: 4,
+    pathImage: "/images/marques/honda.png",
+    nombreModele: 4,
   },
   {
     id: 5,
     nom: "Ford",
-    path_image: "/images/marques/ford.png",
-    nombre_modeles: 10,
+    pathImage: "/images/marques/ford.png",
+    nombreModele: 10,
+  },
+];
+
+export var dataAnnonce = [
+  {
+    id: 1,
+    utilisateur: {
+      id: 1,
+      nom: "John",
+    },
+    voiture: {
+      id: 1,
+      modele: {
+        id: 1,
+        nom: "Toyota Corolla",
+        marque: {
+          id: 1,
+          nom: "Toyota",
+        },
+      },
+    },
+    prix: 10000000,
+    dateAnnonce: "2021-09-01",
+    status: 0,
+    path_image: "/images/annonces/annonce1.png",
+  },
+  {
+    id: 2,
+    utilisateur: {
+      id: 2,
+      nom: "Jane",
+    },
+    voiture: {
+      id: 2,
+      modele: {
+        id: 2,
+        nom: "BMW Serie 3",
+        marque: {
+          id: 2,
+          nom: "BMW",
+        },
+      },
+    },
+    prix: 15000000,
+    dateAnnonce: "2021-09-02",
+    status: 10,
+    path_image: "/images/annonces/annonce2.png",
+  },
+  {
+    id: 3,
+    utilisateur: {
+      id: 3,
+      nom: "Jack",
+    },
+    voiture: {
+      id: 3,
+      modele: {
+        id: 3,
+        nom: "Mercedes Classe C",
+        marque: {
+          id: 3,
+          nom: "Mercedes-Benz",
+        },
+      },
+    },
+    prix: 250000000,
+    dateAnnonce: "2021-09-03",
+    status: 20,
+    path_image: "/images/annonces/annonce3.png",
+  },
+  {
+    id: 4,
+    utilisateur: {
+      id: 4,
+      nom: "Jill",
+    },
+    voiture: {
+      id: 4,
+      modele: {
+        id: 4,
+        nom: "Honda Civic",
+        marque: {
+          id: 4,
+          nom: "Honda",
+        },
+      },
+    },
+    prix: 200000000,
+    dateAnnonce: "2021-09-04",
+    status: 0,
+    path_image: "/images/annonces/annonce4.png",
+  },
+  {
+    id: 5,
+    utilisateur: {
+      id: 5,
+      nom: "James",
+    },
+    voiture: {
+      id: 5,
+      modele: {
+        id: 5,
+        nom: "Ford Focus",
+        marque: {
+          id: 5,
+          nom: "Ford",
+        },
+      },
+    },
+    prix: 100000000,
+    dateAnnonce: "2021-09-05",
+    status: 10,
+    path_image: "/images/annonces/annonce5.png",
   },
 ];
