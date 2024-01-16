@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { dataAnnonce } from "../../data/back-office";
 import CardAnnonce from "../../components/back-office/CardAnnonce";
+import Pagination from "../../components/back-office/Pagination";
 
 const Annonce = () => {
   const [annonces, setAnnonces] = useState([]);
+  const [resultAnnonces, setResultAnnonces] = useState([]);
   const [filteredAnnonces, setFilteredAnnonces] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showPerPage, setShowPerPage] = useState(4);
+  const [totalPages, setTotalPages] = useState(null);
 
   useEffect(() => {
     fetchAnnonces();
@@ -13,6 +19,16 @@ const Annonce = () => {
   useEffect(() => {
     setFilteredAnnonces(annonces);
   }, [annonces]);
+
+  useEffect(() => {
+    setResultAnnonces(
+      filteredAnnonces.slice(
+        (currentPage - 1) * showPerPage,
+        currentPage * showPerPage
+      )
+    );
+    setTotalPages(Math.ceil(filteredAnnonces.length / showPerPage));
+  }, [filteredAnnonces, currentPage, showPerPage]);
 
   const fetchAnnonces = () => {
     // fetch(`${API_URL}/annonces`, {
@@ -23,6 +39,10 @@ const Annonce = () => {
     //     setAnnonces(data);
     //   });
     setAnnonces(dataAnnonce);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -61,11 +81,24 @@ const Annonce = () => {
         </div>
         <div className="col-12">
           <div className="row">
-            {filteredAnnonces &&
-              filteredAnnonces.map((annonce) => (
+            {resultAnnonces &&
+              resultAnnonces.map((annonce) => (
                 <CardAnnonce annonce={annonce} key={annonce.id} />
               ))}
           </div>
+          {totalPages > 1 && (
+            <div className="row">
+              <div className="col-12">
+                <div className="d-flex justify-content-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

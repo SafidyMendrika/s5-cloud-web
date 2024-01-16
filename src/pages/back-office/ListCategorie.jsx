@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { dataCategorie } from "../../data/back-office";
 import { API_URL } from "../../context/UrlContext";
+import Pagination from "../../components/back-office/Pagination";
 
 const EMPTY_CATEGORIE = {
   id: null,
@@ -10,8 +11,13 @@ const EMPTY_CATEGORIE = {
 const ListCategorie = () => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
+  const [resultCategories, setResultCategories] = useState([]);
   const [createdCategorie, setCreatedCategorie] = useState(EMPTY_CATEGORIE);
   const [updatedCategorie, setUpdatedCategorie] = useState(EMPTY_CATEGORIE);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showPerPage, setShowPerPage] = useState(4);
+  const [totalPages, setTotalPages] = useState(null);
 
   useEffect(() => {
     fetchCategories();
@@ -20,6 +26,17 @@ const ListCategorie = () => {
   useEffect(() => {
     setFilteredCategories(categories);
   }, [categories]);
+
+  useEffect(() => {
+    setResultCategories(
+      filteredCategories.slice(
+        (currentPage - 1) * showPerPage,
+        currentPage * showPerPage
+      )
+    );
+
+    setTotalPages(Math.ceil(filteredCategories.length / showPerPage));
+  }, [filteredCategories, currentPage, showPerPage]);
 
   const fetchCategories = () => {
     // fetch(`${API_URL}/categories`, {
@@ -30,6 +47,10 @@ const ListCategorie = () => {
     //     setCategories(data.data);
     //   });
     setCategories(dataCategorie);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const handleSearch = ({ target: { value } }) => {
@@ -201,7 +222,7 @@ const ListCategorie = () => {
                   </div>
                 </div>
               </div>
-              <div className="table-responsive">
+              <div className="table-responsive mb-4">
                 <table className="table text-nowrap mb-0 align-middle">
                   <thead className="text-dark fs-4 table-light">
                     <tr>
@@ -216,8 +237,8 @@ const ListCategorie = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredCategories &&
-                      filteredCategories.map((categorie) => (
+                    {resultCategories &&
+                      resultCategories.map((categorie) => (
                         <tr key={categorie.id}>
                           <td className="">{categorie.id}</td>
                           <td className="text-dark fw-semibold">
@@ -247,13 +268,26 @@ const ListCategorie = () => {
                   </tbody>
                 </table>
               </div>
+              {totalPages > 1 && (
+                <div className="row">
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center">
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {filteredCategories &&
-        filteredCategories.map((categorie) => (
+      {resultCategories &&
+        resultCategories.map((categorie) => (
           <Fragment key={categorie.id}>
             <div className="modal fade" id={`modalUpdate-${categorie.id}`}>
               <div className="modal-dialog">

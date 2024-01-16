@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { dataModele, dataMarque, dataCategorie } from "../../data/back-office";
 import { API_URL } from "../../context/UrlContext";
+import Pagination from "../../components/back-office/Pagination";
 
 const EMPTY_MODELE = {
   id: null,
@@ -14,8 +15,13 @@ const ListModele = () => {
   const [marques, setMarques] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filteredModeles, setFilteredModeles] = useState([]);
+  const [resultModeles, setResultModeles] = useState([]);
   const [createdModele, setCreatedModele] = useState(EMPTY_MODELE);
   const [updatedModele, setUpdatedModele] = useState(EMPTY_MODELE);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showPerPage, setShowPerPage] = useState(4);
+  const [totalPages, setTotalPages] = useState(null);
 
   useEffect(() => {
     fetchModeles();
@@ -26,6 +32,16 @@ const ListModele = () => {
   useEffect(() => {
     setFilteredModeles(modeles);
   }, [modeles]);
+
+  useEffect(() => {
+    setResultModeles(
+      filteredModeles.slice(
+        (currentPage - 1) * showPerPage,
+        currentPage * showPerPage
+      )
+    );
+    setTotalPages(Math.ceil(filteredModeles.length / showPerPage));
+  }, [filteredModeles, currentPage, showPerPage]);
 
   const fetchModeles = () => {
     // fetch(`${API_URL}/modeles`, {
@@ -58,6 +74,10 @@ const ListModele = () => {
     //     setCategories(data);
     //   });
     setCategories(dataCategorie);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const handleSearch = ({ target: { value } }) => {
@@ -339,7 +359,7 @@ const ListModele = () => {
                   </div>
                 </div>
               </div>
-              <div className="table-responsive">
+              <div className="table-responsive mb-4">
                 <table className="table text-nowrap mb-0 align-middle">
                   <thead className="text-dark fs-4 table-light">
                     <tr>
@@ -356,8 +376,8 @@ const ListModele = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredModeles &&
-                      filteredModeles.map((modele) => (
+                    {resultModeles &&
+                      resultModeles.map((modele) => (
                         <tr key={modele.id}>
                           <td className="">{modele.id}</td>
                           <td className="text-dark fw-semibold">
@@ -395,12 +415,25 @@ const ListModele = () => {
                   </tbody>
                 </table>
               </div>
+              {totalPages > 1 && (
+                <div className="row">
+                  <div className="col-12">
+                    <div className="d-flex justify-content-center">
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-      {filteredModeles &&
-        filteredModeles.map((modele) => (
+      {resultModeles &&
+        resultModeles.map((modele) => (
           <Fragment key={modele.id}>
             <div className="modal fade" id={`modalUpdate-${modele.id}`}>
               <div className="modal-dialog">

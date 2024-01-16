@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { dataMarque } from "../../data/back-office";
 import { API_URL } from "../../context/UrlContext";
 import CardMarque from "../../components/back-office/CardMarque";
+import Pagination from "../../components/back-office/Pagination";
 
 const EMPTY_MARQUE = {
   id: null,
@@ -11,8 +12,13 @@ const EMPTY_MARQUE = {
 const ListMarque = () => {
   const [marques, setMarques] = useState([]);
   const [filteredMarques, setFilteredMarques] = useState([]);
+  const [resultMarques, setResultMarques] = useState([]);
   const [createdMarque, setCreatedMarque] = useState(EMPTY_MARQUE);
   const [updatedMarque, setUpdatedMarque] = useState(EMPTY_MARQUE);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showPerPage, setShowPerPage] = useState(4);
+  const [totalPages, setTotalPages] = useState(null);
 
   useEffect(() => {
     fetchMarques();
@@ -21,6 +27,16 @@ const ListMarque = () => {
   useEffect(() => {
     setFilteredMarques(marques);
   }, [marques]);
+
+  useEffect(() => {
+    setResultMarques(
+      filteredMarques.slice(
+        (currentPage - 1) * showPerPage,
+        currentPage * showPerPage
+      )
+    );
+    setTotalPages(Math.ceil(filteredMarques.length / showPerPage));
+  }, [filteredMarques, currentPage, showPerPage]);
 
   const fetchMarques = () => {
     // fetch(`${API_URL}/marques`, {
@@ -31,6 +47,10 @@ const ListMarque = () => {
     //     setMarques(data);
     //   });
     setMarques(dataMarque);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const handleSearch = ({ target: { value } }) => {
@@ -201,9 +221,9 @@ const ListMarque = () => {
           </div>
         </div>
         <div className="col-12">
-          <div className="row">
-            {filteredMarques &&
-              filteredMarques.map((marque) => (
+          <div className="row mb-4">
+            {resultMarques &&
+              resultMarques.map((marque) => (
                 <Fragment key={marque.id}>
                   <CardMarque
                     marque={marque}
@@ -318,6 +338,20 @@ const ListMarque = () => {
                 </Fragment>
               ))}
           </div>
+
+          {totalPages > 1 && (
+            <div className="row">
+              <div className="col-12">
+                <div className="d-flex justify-content-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

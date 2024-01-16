@@ -16,13 +16,28 @@ const CardMarque = ({ marque, setUpdatedMarque }) => {
             </div>
             <a
               href="{#}"
+              type="button"
               className="bg-dark rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              data-bs-title="Info"
+              data-bs-toggle="modal"
+              data-bs-target={`#modalImage-${marque.id}`}
+              onClick={(e) => e.preventDefault()}
             >
               <i className="ti ti-eye fs-4"></i>
             </a>
+
+            <div className="modal fade" id={`modalImage-${marque.id}`}>
+              <div className="modal-dialog modal-md">
+                <div className="modal-content bg-light">
+                  <div className="modal-body">
+                    <img
+                      src={`${process.env.PUBLIC_URL + marque.pathImage}`}
+                      className="w-100"
+                      alt="..."
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="card-body pt-3 p-4">
             <h6 className="fw-semibold fs-4">{marque.nom}</h6>
