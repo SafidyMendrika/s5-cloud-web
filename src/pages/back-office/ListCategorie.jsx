@@ -1,35 +1,17 @@
 import { useEffect, useState } from "react";
+import { dataCategorie } from "../../data/back-office";
 import { API_URL } from "../../context/UrlContext";
 
-var dataCategorie = [
-  {
-    id: 1,
-    nom: "Compacte",
-  },
-  {
-    id: 2,
-    nom: "Berline",
-  },
-  {
-    id: 3,
-    nom: "SUV",
-  },
-  {
-    id: 4,
-    nom: "Coupé",
-  },
-  {
-    id: 5,
-    nom: "Monospace",
-  },
-];
+const EMPTY_CATEGORIE = {
+  id: null,
+  nom: "",
+};
 
 const ListCategorie = () => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
-
-  const [nom, setNom] = useState("");
-  const [updatedNom, setUpdatedNom] = useState("");
+  const [createdCategorie, setCreatedCategorie] = useState(EMPTY_CATEGORIE);
+  const [updatedCategorie, setUpdatedCategorie] = useState(EMPTY_CATEGORIE);
 
   useEffect(() => {
     fetchCategories();
@@ -54,14 +36,15 @@ const ListCategorie = () => {
     if (value === "") {
       setFilteredCategories(categories);
     } else {
-      const result = categories.filter((categorie) =>
-        categorie.nom.toLowerCase().includes(value.toLowerCase())
+      setFilteredCategories(
+        categories.filter((categorie) =>
+          categorie.nom.toLowerCase().includes(value.toLowerCase())
+        )
       );
-      setFilteredCategories(result);
     }
   };
 
-  const handleAdd = () => {
+  const handleCreate = () => {
     // fetch(`${API_URL}/categories`, {
     //   method: "POST",
     //   body: JSON.stringify({
@@ -73,24 +56,22 @@ const ListCategorie = () => {
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     Array.prototype.push.apply(categories, [data.data]);
+    //     setCategories([...categories, data.data]);
     //   });
-
-    setNom("");
-    Array.prototype.push.apply(categories, [
-      {
-        id: dataCategorie.length + 1,
-        nom: nom,
-      },
+    if (createdCategorie.nom === "") return;
+    setCreatedCategorie(EMPTY_CATEGORIE);
+    setCategories([
+      ...categories,
+      { ...createdCategorie, id: categories.length + 1 },
     ]);
-    document.querySelector("#modalAdd .btn-close").click();
+    document.querySelector("#modalCreate .btn-close").click();
   };
 
-  const handleUpdate = (id) => {
-    // fetch(`${API_URL}/categories/${id}`, {
+  const handleUpdate = () => {
+    // fetch(`${API_URL}/categories/${updatedCategorie.id}`, {
     //   method: "PUT",
     //   body: JSON.stringify({
-    //     nom: updatedNom,
+    //     nom: updatedCategorie.nom,
     //   }),
     //   headers: {
     //     "Content-Type": "application/json",
@@ -104,14 +85,14 @@ const ListCategorie = () => {
     //       )
     //     );
     //   });
-
-    setUpdatedNom("");
     setCategories(
-      dataCategorie.map((categorie) =>
-        categorie.id === id ? { id: id, nom: updatedNom } : categorie
+      categories.map((categorie) =>
+        categorie.id === updatedCategorie.id ? updatedCategorie : categorie
       )
     );
-    document.querySelector(`#modalUpdate-${id} .btn-close`).click();
+    document
+      .querySelector(`#modalUpdate-${updatedCategorie.id} .btn-close`)
+      .click();
   };
 
   const handleDelete = (id) => {
@@ -124,7 +105,6 @@ const ListCategorie = () => {
     //       categories.filter((categorie) => categorie.id !== data.data.id)
     //     );
     //   });
-
     setCategories(categories.filter((categorie) => categorie.id !== id));
     document.querySelector(`#modalDelete-${id} .btn-close`).click();
   };
@@ -155,21 +135,24 @@ const ListCategorie = () => {
                     <button
                       className="btn btn-outline-secondary d-flex align-items-center"
                       data-bs-toggle="modal"
-                      data-bs-target="#modalAdd"
+                      data-bs-target="#modalCreate"
                     >
                       <i className="ti ti-plus me-2"></i> Nouveau
                     </button>
 
                     <div
                       className="modal fade"
-                      id="modalAdd"
-                      aria-labelledby="modalAddLabel"
+                      id="modalCreate"
+                      aria-labelledby="modalCreateLabel"
                       aria-hidden="true"
                     >
                       <div className="modal-dialog">
                         <div className="modal-content">
                           <div className="modal-header">
-                            <h1 className="modal-title fs-6" id="modalAddLabel">
+                            <h1
+                              className="modal-title fs-6"
+                              id="modalCreateLabel"
+                            >
                               Ajouter une categorie
                             </h1>
                             <button
@@ -191,8 +174,13 @@ const ListCategorie = () => {
                                     className="form-control"
                                     id="nom"
                                     placeholder="Nom de la categorie"
-                                    value={nom}
-                                    onChange={(e) => setNom(e.target.value)}
+                                    value={createdCategorie.nom}
+                                    onChange={(e) =>
+                                      setCreatedCategorie({
+                                        ...createdCategorie,
+                                        nom: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
                               </div>
@@ -200,7 +188,7 @@ const ListCategorie = () => {
                                 <button
                                   type="button"
                                   className="btn btn-primary w-100"
-                                  onClick={handleAdd}
+                                  onClick={handleCreate}
                                 >
                                   Valider
                                 </button>
@@ -218,7 +206,7 @@ const ListCategorie = () => {
                   <thead className="text-dark fs-4 table-light">
                     <tr>
                       <th className="border-bottom-0">ID</th>
-                      <th className="border-bottom-0">Nom</th>
+                      <th className="border-bottom-0">Nom de la categorie</th>
                       <th
                         className="border-bottom-0"
                         style={{ width: "400px" }}
@@ -241,7 +229,7 @@ const ListCategorie = () => {
                                 className="btn btn-outline-info d-flex align-items-center"
                                 data-bs-toggle="modal"
                                 data-bs-target={`#modalUpdate-${categorie.id}`}
-                                onClick={() => setUpdatedNom(categorie.nom)}
+                                onClick={() => setUpdatedCategorie(categorie)}
                               >
                                 <i className="ti ti-pencil me-2"></i> Modifier
                               </button>
@@ -267,6 +255,62 @@ const ListCategorie = () => {
       {filteredCategories &&
         filteredCategories.map((categorie) => (
           <div key={categorie.id}>
+            <div className="modal fade" id={`modalUpdate-${categorie.id}`}>
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1
+                      className="modal-title fs-6"
+                      id={`modalUpdateLabel-${categorie.id}`}
+                    >
+                      Modifier une categorie
+                    </h1>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    {updatedCategorie && (
+                      <form className="row">
+                        <div className="col-12">
+                          <div className="mb-3">
+                            <label htmlFor="nom" className="form-label">
+                              Nom
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="nom"
+                              placeholder="Nom de la categorie"
+                              value={updatedCategorie.nom}
+                              onChange={(e) =>
+                                setUpdatedCategorie({
+                                  ...updatedCategorie,
+                                  nom: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div className="col-12 mb-3">
+                          <button
+                            type="button"
+                            className="btn btn-primary w-100"
+                            onClick={handleUpdate}
+                          >
+                            Valider
+                          </button>
+                        </div>
+                      </form>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div
               className="modal fade"
               id={`modalDelete-${categorie.id}`}
@@ -313,55 +357,6 @@ const ListCategorie = () => {
                     >
                       Supprimer
                     </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="modal fade" id={`modalUpdate-${categorie.id}`}>
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h1
-                      className="modal-title fs-6"
-                      id={`modalUpdateLabel-${categorie.id}`}
-                    >
-                      Modifier une categorie
-                    </h1>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div className="modal-body">
-                    <form className="row">
-                      <div className="col-12">
-                        <div className="mb-3">
-                          <label htmlFor="nom" className="form-label">
-                            Nom
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="nom"
-                            placeholder="Nom de la categorie"
-                            value={updatedNom}
-                            onChange={(e) => setUpdatedNom(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-12 mb-3">
-                        <button
-                          type="button"
-                          className="btn btn-primary w-100"
-                          onClick={() => handleUpdate(categorie.id)}
-                        >
-                          Valider
-                        </button>
-                      </div>
-                    </form>
                   </div>
                 </div>
               </div>
