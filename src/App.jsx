@@ -7,6 +7,7 @@ import ListMarque from "./pages/back-office/ListMarque";
 import ListModele from "./pages/back-office/ListModele";
 import Annonce from "./pages/back-office/Annonce";
 import Commission from "./pages/back-office/Commission";
+import SignIn from "./pages/back-office/SignIn";
 
 const BackOfficeRoutes = () => (
   <Routes>
@@ -29,6 +30,7 @@ const FrontOfficeRoutes = () => (
 const App = () => (
   <BrowserRouter>
     <Routes>
+      <Route path="/back-office/sign-in" element={<SignIn />} />
       <Route
         path="/back-office/*"
         element={

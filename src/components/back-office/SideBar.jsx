@@ -2,11 +2,11 @@ const SideBar = () => {
   return (
     <>
       <aside className="left-sidebar">
-        <div>
+        <div className="pt-3">
           <div className="brand-logo d-flex align-items-center justify-content-between">
             <a href="./index.html" className="text-nowrap logo-img">
               <img
-                src={`${process.env.PUBLIC_URL}/images/logos/dark-logo.svg`}
+                src={`${process.env.PUBLIC_URL}/images/logos/logo.png`}
                 width="180"
                 alt=""
               />
