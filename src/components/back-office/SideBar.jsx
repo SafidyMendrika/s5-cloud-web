@@ -76,6 +76,30 @@ const SideBar = () => {
                   <span className="hide-menu">Modeles</span>
                 </a>
               </li>
+              <li className="sidebar-item">
+                <a
+                  className="sidebar-link"
+                  href="/back-office/moteurs"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-3d-cube-sphere"></i>
+                  </span>
+                  <span className="hide-menu">Moteurs</span>
+                </a>
+              </li>
+              <li className="sidebar-item">
+                <a
+                  className="sidebar-link"
+                  href="/back-office/vitesses"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-adjustments-horizontal"></i>
+                  </span>
+                  <span className="hide-menu">Vitesses</span>
+                </a>
+              </li>
 
               <li className="nav-small-cap">
                 <i className="ti ti-dots nav-small-cap-icon fs-4"></i>

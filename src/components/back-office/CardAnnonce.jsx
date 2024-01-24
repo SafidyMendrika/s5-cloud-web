@@ -58,17 +58,18 @@ const CardAnnonce = ({ annonce }) => {
 
       <div className="modal fade" id={`modalDetail-${annonce.id}`}>
         <div className="modal-dialog modal-xl">
-          <div className="modal-content bg-light">
-            <div className="modal-body">
-              <div className="row ps-lg-3 ps-0 py-3">
-                <div className="col-lg-5 col-12 mb-lg-0 mb-3">
+          <div className="modal-content overflow-hidden">
+            <div className="modal-body p-0">
+              <div className="row">
+                <div className="col-lg-5 col-12 mb-lg-0 mb-3 p-0 bg-light">
                   <img
                     src={`${process.env.PUBLIC_URL + annonce.pathImage}`}
-                    className="w-100"
+                    className="w-100 h-100"
+                    style={{ objectFit: "contain" }}
                     alt="..."
                   />
                 </div>
-                <div className="col-lg-7 col-12 ps-4">
+                <div className="col-lg-7 col-12 p-7 pt-lg-7 pt-0">
                   <h1 className="fw-bold">
                     Annonce de {annonce.utilisateur.nom}
                   </h1>
@@ -126,7 +127,7 @@ const CardAnnonce = ({ annonce }) => {
                         <span className="fw-bold text-decoration-underline text-dark">
                           Description
                         </span>{" "}
-                        &nbsp; : {annonce.description}
+                        &nbsp; : &nbsp; <br /> {annonce.description}
                       </p>
                     </div>
                     <div className="col-lg-6">
@@ -141,13 +142,20 @@ const CardAnnonce = ({ annonce }) => {
                         <span className="fw-bold">Categorie : </span>
                         {annonce.voiture.modele.categorie.nom}
                       </p>
-                      <p className="fs-4">
+                      <p className="fs-4 mb-0">
                         <span className="fw-bold">Modele : </span>
                         {annonce.voiture.modele.nom}
                       </p>
+                      <p className="fs-4 mb-0">
+                        <span className="fw-bold">Moteur : </span>
+                        Lorem ipsum
+                      </p>
+                      <p className="fs-4 mb-0">
+                        <span className="fw-bold">Vitesse : </span>
+                        In laudantium
+                      </p>
                     </div>
                   </div>
-
                   <div>
                     {annonce.status === 0 ? (
                       <div className="d-flex">

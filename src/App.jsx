@@ -12,6 +12,7 @@ import SignIn from "./pages/back-office/SignIn";
 const BackOfficeRoutes = () => (
   <Routes>
     <Route path="/" element={<Statistique />} />
+    <Route path="/sign-in" element={<SignIn />} />
     <Route path="/statistiques" element={<Statistique />} />
     <Route path="/categories" element={<ListCategorie />} />
     <Route path="/marques" element={<ListMarque />} />
@@ -30,7 +31,6 @@ const FrontOfficeRoutes = () => (
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/back-office/sign-in" element={<SignIn />} />
       <Route
         path="/back-office/*"
         element={
