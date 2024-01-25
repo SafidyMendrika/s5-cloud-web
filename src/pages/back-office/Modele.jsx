@@ -23,6 +23,17 @@ const Modele = () => {
   const [showPerPage, setShowPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(null);
 
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const [filters, setFilters] = useState({
+    motCle: "",
+    idMarque: "0",
+    idCategorie: "0",
+  });
+
   useEffect(() => {
     fetchModeles();
     fetchMarques();
@@ -40,131 +51,211 @@ const Modele = () => {
         currentPage * showPerPage
       )
     );
+    if (filteredModeles.length <= showPerPage) {
+      setResultModeles(filteredModeles);
+    }
+
     setTotalPages(Math.ceil(filteredModeles.length / showPerPage));
   }, [filteredModeles, currentPage, showPerPage]);
 
+  useEffect(() => {
+    const filteredModeles = modeles.filter((modele) => {
+      const isMatchingMotCle = modele.nom
+        .toLowerCase()
+        .includes(filters.motCle.toLowerCase());
+
+      const isMatchingMarque = true;
+      // const isMatchingMarque =
+      //   filters.idMarque === "0" ||
+      //   modele.marque.id === parseInt(filters.idMarque);
+
+      const isMatchingCategorie =
+        filters.idCategorie === "0" ||
+        modele.categorie.id === parseInt(filters.idCategorie);
+
+      return isMatchingMotCle && isMatchingMarque && isMatchingCategorie;
+    });
+
+    setFilteredModeles(filteredModeles);
+  }, [filters, modeles]);
+
   const fetchModeles = () => {
-    // fetch(`${API_URL}/modeles`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setModeles(data);
-    //   });
-    setModeles(dataModele);
+    fetch(`${API_URL}/modeles`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setModeles(data.data);
+            setLoadingFetch(false);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setModeles(dataModele);
+    // setLoadingFetch(false);
   };
 
   const fetchMarques = () => {
-    // fetch(`${API_URL}/marques`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setMarques(data);
-    //   });
-    setMarques(dataMarque);
+    fetch(`${API_URL}/marques`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setMarques(data.data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setMarques(dataMarque);
   };
 
   const fetchCategories = () => {
-    // fetch(`${API_URL}/categories`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setCategories(data);
-    //   });
-    setCategories(dataCategorie);
+    fetch(`${API_URL}/categories`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setCategories(data.data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setCategories(dataCategorie);
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const handleSearch = ({ target: { value } }) => {
-    if (value === "") {
-      setFilteredModeles(modeles);
-    } else {
-      setFilteredModeles(
-        modeles.filter((modele) =>
-          modele.nom.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    }
+  // const handleSearch = ({ target: { value } }) => {
+  //   setFilteredModeles(
+  //     modeles
+  //       .filter((modele) =>
+  //         modele.nom.toLowerCase().includes(value.toLowerCase())
+  //       )
+  //       .filter((modele) =>
+  //         modele.categorie.nom.toLowerCase().includes(value.toLowerCase())
+  //       )
+  //   );
+  // };
+
+  const handleCreate = (e) => {
+    e.preventDefault();
+    setLoadingCreate(true);
+
+    fetch(`${API_URL}/modeles`, {
+      method: "POST",
+      body: JSON.stringify({
+        nom: createdModele.nom,
+        idmarque: createdModele.marque.id,
+        idcategorie: createdModele.categorie.id,
+      }),
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setModeles([...modeles, data.data]);
+            setLoadingCreate(false);
+            setCreatedModele(EMPTY_MODELE);
+            document.querySelector("#modalCreate .btn-close").click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setModeles([...modeles, { ...createdModele, id: modeles.length + 1 }]);
+    // setLoadingCreate(false);
+    // setCreatedModele(EMPTY_MODELE);
+    // document.querySelector("#modalCreate .btn-close").click();
   };
 
-  const handleCreate = () => {
-    // fetch(`${API_URL}/modeles`, {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     nom: createdModele.nom,
-    //     idmarque: createdModele.marque.id,
-    //     idcategorie: createdModele.categorie.id,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setModeles([...modeles, data.data]);
-    //   });
-    if (
-      createdModele.nom === "" ||
-      createdModele.marque.id === null ||
-      createdModele.categorie.id === null
-    )
-      return;
-    setCreatedModele(EMPTY_MODELE);
-    setModeles([...modeles, { ...createdModele, id: modeles.length + 1 }]);
-    document.querySelector("#modalCreate .btn-close").click();
-  };
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    setLoadingUpdate(true);
 
-  const handleUpdate = () => {
-    // fetch(`${API_URL}/modeles/${updatedModele.id}`, {
-    //   method: "PUT",
-    //   body: JSON.stringify({
-    //     nom: updatedModele.nom,
-    //     idmarque: updatedModele.marque.id,
-    //     idcategorie: updatedModele.categorie.id,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setModeles(
-    //       modeles.map((modele) =>
-    //         modele.id === data.data.id ? data.data : modele
-    //       )
-    //     );
-    //   });
-    if (
-      updatedModele.nom === "" ||
-      updatedModele.marque.id === null ||
-      updatedModele.categorie.id === null
-    )
-      return;
-    setModeles(
-      modeles.map((modele) =>
-        modele.id === updatedModele.id ? updatedModele : modele
-      )
-    );
-    document
-      .querySelector(`#modalUpdate-${updatedModele.id} .btn-close`)
-      .click();
+    fetch(`${API_URL}/modeles/${updatedModele.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        nom: updatedModele.nom,
+        idmarque: updatedModele.marque.id,
+        idcategorie: updatedModele.categorie.id,
+      }),
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setModeles(
+              modeles.map((modele) =>
+                modele.id === data.data.id ? data.data : modele
+              )
+            );
+            setLoadingUpdate(false);
+            document
+              .querySelector(`#modalUpdate-${updatedModele.id} .btn-close`)
+              .click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setModeles(
+    //   modeles.map((modele) =>
+    //     modele.id === updatedModele.id ? updatedModele : modele
+    //   )
+    // );
+    // setLoadingUpdate(false);
+    // document
+    //   .querySelector(`#modalUpdate-${updatedModele.id} .btn-close`)
+    //   .click();
   };
 
   const handleDelete = (id) => {
-    // fetch(`${API_URL}/modeles/${id}`, {
-    //   method: "DELETE",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setModeles(modeles.filter((modele) => modele.id !== data.data.id));
-    //   });
-    setModeles(modeles.filter((modele) => modele.id !== id));
-    document.querySelector(`#modalDelete-${id} .btn-close`).click();
+    setLoadingDelete(true);
+
+    fetch(`${API_URL}/modeles/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setModeles(modeles.filter((modele) => modele.id !== data.data.id));
+            setLoadingDelete(false);
+            document.querySelector(`#modalDelete-${id} .btn-close`).click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setModeles(modeles.filter((modele) => modele.id !== id));
+    // setLoadingDelete(false);
+    // document.querySelector(`#modalDelete-${id} .btn-close`).click();
   };
 
   return (
@@ -183,11 +274,28 @@ const Modele = () => {
                         type="text"
                         className="form-control"
                         placeholder="Entrer un mot clé"
-                        onChange={handleSearch}
+                        name="motCle"
+                        value={filters.motCle}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
                     </div>
                     <div className="col-4 pe-0">
-                      <select className="form-select">
+                      <select
+                        className="form-select"
+                        name="idMarque"
+                        value={filters.idMarque}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
+                      >
                         <option value="0">Trier par marque</option>
                         {marques &&
                           marques.map((marque) => (
@@ -198,7 +306,17 @@ const Modele = () => {
                       </select>
                     </div>
                     <div className="col-4">
-                      <select className="form-select">
+                      <select
+                        className="form-select"
+                        name="idCategorie"
+                        value={filters.idCategorie}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
+                      >
                         <option value="0">Trier par categorie</option>
                         {categories &&
                           categories.map((categorie) => (
@@ -243,7 +361,10 @@ const Modele = () => {
                             ></button>
                           </div>
                           <div className="modal-body">
-                            <form className="row">
+                            <form
+                              className="row"
+                              onSubmit={(e) => handleCreate(e)}
+                            >
                               <div className="col-12">
                                 <div className="mb-3">
                                   <label htmlFor="nom" className="form-label">
@@ -261,6 +382,7 @@ const Modele = () => {
                                         nom: e.target.value,
                                       })
                                     }
+                                    required
                                   />
                                 </div>
                                 <div className="mb-3">
@@ -288,6 +410,7 @@ const Modele = () => {
                                         },
                                       })
                                     }
+                                    required
                                   >
                                     <option value="">Choisir une marque</option>
                                     {marques &&
@@ -326,6 +449,7 @@ const Modele = () => {
                                         },
                                       })
                                     }
+                                    required
                                   >
                                     <option value="">
                                       Choisir une categorie
@@ -344,11 +468,21 @@ const Modele = () => {
                               </div>
                               <div className="col-12 mb-3">
                                 <button
-                                  type="button"
+                                  type="submit"
                                   className="btn btn-primary w-100"
-                                  onClick={handleCreate}
                                 >
-                                  Valider
+                                  {loadingCreate ? (
+                                    <div
+                                      className="spinner-border spinner-border-sm"
+                                      role="status"
+                                    >
+                                      <span className="visually-hidden">
+                                        Loading...
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    "Valider"
+                                  )}
                                 </button>
                               </div>
                             </form>
@@ -384,7 +518,8 @@ const Modele = () => {
                             {modele.nom}
                           </td>
                           <td className="text-dark fw-semibold">
-                            {modele.marque.nom}
+                            {/* {modele.marque.nom} */}
+                            Marque
                           </td>
                           <td className="text-dark fw-semibold">
                             {modele.categorie.nom}
@@ -414,6 +549,26 @@ const Modele = () => {
                       ))}
                   </tbody>
                 </table>
+                <h5
+                  className="text-center fw-semibold mt-5"
+                  style={{ color: "var(--bs-muted)" }}
+                >
+                  {loadingFetch ? (
+                    <div className="spinner-border" role="status">
+                      <span
+                        className="visually-hidden"
+                        style={{
+                          "--bs-spinner-width": "1.25rem",
+                          "--bs-spinner-height": "1.25rem",
+                        }}
+                      >
+                        Loading...
+                      </span>
+                    </div>
+                  ) : (
+                    resultModeles.length === 0 && "Aucun modele"
+                  )}
+                </h5>
               </div>
               {totalPages > 1 && (
                 <div className="row">
@@ -454,7 +609,7 @@ const Modele = () => {
                   </div>
                   <div className="modal-body">
                     {updatedModele && (
-                      <form className="row">
+                      <form className="row" onSubmit={(e) => handleUpdate(e)}>
                         <div className="col-12">
                           <div className="mb-3">
                             <label htmlFor="nom" className="form-label">
@@ -543,11 +698,21 @@ const Modele = () => {
                         </div>
                         <div className="col-12 mb-3">
                           <button
-                            type="button"
+                            type="submit"
                             className="btn btn-primary w-100"
-                            onClick={handleUpdate}
                           >
-                            Valider
+                            {loadingUpdate ? (
+                              <div
+                                className="spinner-border spinner-border-sm"
+                                role="status"
+                              >
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
+                              </div>
+                            ) : (
+                              "Valider"
+                            )}
                           </button>
                         </div>
                       </form>
@@ -599,7 +764,16 @@ const Modele = () => {
                       className="btn btn-danger"
                       onClick={() => handleDelete(modele.id)}
                     >
-                      Supprimer
+                      {loadingDelete ? (
+                        <div
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      ) : (
+                        "Supprimer"
+                      )}
                     </button>
                   </div>
                 </div>

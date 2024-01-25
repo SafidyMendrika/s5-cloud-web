@@ -24,6 +24,10 @@ const Categorie = () => {
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
 
+  const [filters, setFilters] = useState({
+    motCle: "",
+  });
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -45,6 +49,14 @@ const Categorie = () => {
 
     setTotalPages(Math.ceil(filteredCategories.length / showPerPage));
   }, [filteredCategories, currentPage, showPerPage]);
+
+  useEffect(() => {
+    const filteredCategories = categories.filter((categorie) =>
+      categorie.nom.toLowerCase().includes(filters.motCle.toLowerCase())
+    );
+
+    setFilteredCategories(filteredCategories);
+  }, [filters, categories]);
 
   const fetchCategories = () => {
     fetch(`${API_URL}/categories`, {
@@ -69,14 +81,6 @@ const Categorie = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-  };
-
-  const handleSearch = ({ target: { value } }) => {
-    setFilteredCategories(
-      categories.filter((categorie) =>
-        categorie.nom.toLowerCase().includes(value.toLowerCase())
-      )
-    );
   };
 
   const handleCreate = (e) => {
@@ -201,7 +205,13 @@ const Categorie = () => {
                       type="text"
                       className="form-control"
                       placeholder="Entrer un mot clé"
-                      onChange={handleSearch}
+                      name="motCle"
+                      onChange={(e) =>
+                        setFilters({
+                          ...filters,
+                          [e.target.name]: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </form>
@@ -240,9 +250,7 @@ const Categorie = () => {
                           <div className="modal-body">
                             <form
                               className="row"
-                              onSubmit={(e) => {
-                                handleCreate(e);
-                              }}
+                              onSubmit={(e) => handleCreate(e)}
                             >
                               <div className="col-12">
                                 <div className="mb-3">
@@ -398,12 +406,7 @@ const Categorie = () => {
                   </div>
                   <div className="modal-body">
                     {updatedCategorie && (
-                      <form
-                        className="row"
-                        onSubmit={(e) => {
-                          handleUpdate(e);
-                        }}
-                      >
+                      <form className="row" onSubmit={(e) => handleUpdate(e)}>
                         <div className="col-12">
                           <div className="mb-3">
                             <label htmlFor="nom" className="form-label">
@@ -421,6 +424,7 @@ const Categorie = () => {
                                   nom: e.target.value,
                                 })
                               }
+                              required
                             />
                           </div>
                         </div>
