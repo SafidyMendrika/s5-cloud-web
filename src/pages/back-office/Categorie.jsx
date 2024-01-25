@@ -64,6 +64,7 @@ const Categorie = () => {
       .catch((err) => console.error(err));
 
     // setCategories(dataCategorie);
+    // setLoadingFetch(false);
   };
 
   const handlePageChange = (page) => {
@@ -104,12 +105,13 @@ const Categorie = () => {
       })
       .catch((err) => console.error(err));
 
-    // setCreatedCategorie(EMPTY_CATEGORIE);
-    // document.querySelector("#modalCreate .btn-close").click();
     // setCategories([
     //   ...categories,
     //   { ...createdCategorie, id: categories.length + 1 },
     // ]);
+    // setLoadingCreate(false);
+    // setCreatedCategorie(EMPTY_CATEGORIE);
+    // document.querySelector("#modalCreate .btn-close").click();
   };
 
   const handleUpdate = (e) => {
@@ -143,14 +145,15 @@ const Categorie = () => {
       })
       .catch((err) => console.error(err));
 
-    // document
-    //   .querySelector(`#modalUpdate-${updatedCategorie.id} .btn-close`)
-    //   .click();
     // setCategories(
     //   categories.map((categorie) =>
     //     categorie.id === updatedCategorie.id ? updatedCategorie : categorie
     //   )
     // );
+    // setLoadingUpdate(false);
+    // document
+    //   .querySelector(`#modalUpdate-${updatedCategorie.id} .btn-close`)
+    //   .click();
   };
 
   const handleDelete = (id) => {
@@ -176,8 +179,9 @@ const Categorie = () => {
       })
       .catch((err) => console.error(err));
 
-    // document.querySelector(`#modalDelete-${id} .btn-close`).click();
     // setCategories(categories.filter((categorie) => categorie.id !== id));
+    // setLoadingDelete(false);
+    // document.querySelector(`#modalDelete-${id} .btn-close`).click();
   };
 
   return (
