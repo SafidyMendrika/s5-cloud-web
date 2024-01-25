@@ -263,6 +263,40 @@ export var dataAnnonce = [
 export var dataMoteur = [
   {
     id: 1,
+    nom: "Moteur 2 temps",
+  },
+  {
+    id: 2,
+    nom: "Motorisation hybride",
+  },
+  {
+    id: 3,
+    nom: "Moteur 4 temps",
+  },
+  {
+    id: 4,
+    nom: "Motorisation électrique",
+  },
+  {
+    id: 5,
+    nom: "Moteur à explosion",
+  },
+];
+
+export var dataVitesse = [
+  {
+    id: 1,
+    nom: "Manuelle",
+  },
+  {
+    id: 2,
+    nom: "Automatique",
+  },
+];
+
+export var dataEnergie = [
+  {
+    id: 1,
     nom: "Essence",
   },
   {

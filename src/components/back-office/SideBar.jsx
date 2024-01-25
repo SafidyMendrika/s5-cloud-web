@@ -95,9 +95,21 @@ const SideBar = () => {
                   aria-expanded="false"
                 >
                   <span>
-                    <i class="ti ti-adjustments-horizontal"></i>
+                    <i class="ti ti-needle"></i>
                   </span>
                   <span className="hide-menu">Vitesses</span>
+                </a>
+              </li>
+              <li className="sidebar-item">
+                <a
+                  className="sidebar-link"
+                  href="/back-office/energies"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-windmill"></i>
+                  </span>
+                  <span className="hide-menu">Energies</span>
                 </a>
               </li>
 

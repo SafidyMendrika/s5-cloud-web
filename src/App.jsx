@@ -10,6 +10,7 @@ import Commission from "./pages/back-office/Commission";
 import SignIn from "./pages/back-office/SignIn";
 import Moteur from "./pages/back-office/Moteur";
 import Vitesse from "./pages/back-office/Vitesse";
+import Energie from "./pages/back-office/Energie";
 
 const BackOfficeRoutes = () => (
   <Routes>
@@ -21,6 +22,7 @@ const BackOfficeRoutes = () => (
     <Route path="/modeles" element={<Modele />} />
     <Route path="/moteurs" element={<Moteur />} />
     <Route path="/vitesses" element={<Vitesse />} />
+    <Route path="/energies" element={<Energie />} />
     <Route path="/annonces" element={<Annonce />} />
     <Route path="/commissions" element={<Commission />} />
   </Routes>

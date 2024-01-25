@@ -1,52 +1,52 @@
 import { Fragment, useEffect, useState } from "react";
-import { dataVitesse } from "../../data/back-office";
+import { dataEnergie } from "../../data/back-office";
 import { API_URL } from "../../context/UrlContext";
 import Pagination from "../../components/back-office/Pagination";
 
-const EMPTY_VITESSE = {
+const EMPTY_ENERGIE = {
   id: null,
   nom: "",
 };
 
-const Vitesse = () => {
-  const [vitesses, setVitesses] = useState([]);
-  const [filteredVitesses, setFilteredVitesses] = useState([]);
-  const [resultVitesses, setResultVitesses] = useState([]);
-  const [createdVitesse, setCreatedVitesse] = useState(EMPTY_VITESSE);
-  const [updatedVitesse, setUpdatedVitesse] = useState(EMPTY_VITESSE);
+const Energie = () => {
+  const [energies, setEnergies] = useState([]);
+  const [filteredEnergies, setFilteredEnergies] = useState([]);
+  const [resultEnergies, setResultEnergies] = useState([]);
+  const [createdEnergie, setCreatedEnergie] = useState(EMPTY_ENERGIE);
+  const [updatedEnergie, setUpdatedEnergie] = useState(EMPTY_ENERGIE);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [showPerPage, setShowPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(null);
 
   useEffect(() => {
-    fetchVitesses();
+    fetchEnergies();
   }, []);
 
   useEffect(() => {
-    setFilteredVitesses(vitesses);
-  }, [vitesses]);
+    setFilteredEnergies(energies);
+  }, [energies]);
 
   useEffect(() => {
-    setResultVitesses(
-      filteredVitesses.slice(
+    setResultEnergies(
+      filteredEnergies.slice(
         (currentPage - 1) * showPerPage,
         currentPage * showPerPage
       )
     );
 
-    setTotalPages(Math.ceil(filteredVitesses.length / showPerPage));
-  }, [filteredVitesses, currentPage, showPerPage]);
+    setTotalPages(Math.ceil(filteredEnergies.length / showPerPage));
+  }, [filteredEnergies, currentPage, showPerPage]);
 
-  const fetchVitesses = () => {
-    // fetch(`${API_URL}/vitesses`, {
+  const fetchEnergies = () => {
+    // fetch(`${API_URL}/energies`, {
     //   method: "GET",
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     setVitesses(data.data);
+    //     setEnergies(data.data);
     //   });
-    setVitesses(dataVitesse);
+    setEnergies(dataEnergie);
   };
 
   const handlePageChange = (page) => {
@@ -55,18 +55,18 @@ const Vitesse = () => {
 
   const handleSearch = ({ target: { value } }) => {
     if (value === "") {
-      setFilteredVitesses(vitesses);
+      setFilteredEnergies(energies);
     } else {
-      setFilteredVitesses(
-        vitesses.filter((vitesse) =>
-          vitesse.nom.toLowerCase().includes(value.toLowerCase())
+      setFilteredEnergies(
+        energies.filter((energie) =>
+          energie.nom.toLowerCase().includes(value.toLowerCase())
         )
       );
     }
   };
 
   const handleCreate = () => {
-    // fetch(`${API_URL}/vitesses`, {
+    // fetch(`${API_URL}/energies`, {
     //   method: "POST",
     //   body: JSON.stringify({
     //     nom: nom,
@@ -77,19 +77,19 @@ const Vitesse = () => {
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     setVitesses([...vitesses, data.data]);
+    //     setEnergies([...energies, data.data]);
     //   });
-    if (createdVitesse.nom === "") return;
-    setCreatedVitesse(EMPTY_VITESSE);
-    setVitesses([...vitesses, { ...createdVitesse, id: vitesses.length + 1 }]);
+    if (createdEnergie.nom === "") return;
+    setCreatedEnergie(EMPTY_ENERGIE);
+    setEnergies([...energies, { ...createdEnergie, id: energies.length + 1 }]);
     document.querySelector("#modalCreate .btn-close").click();
   };
 
   const handleUpdate = () => {
-    // fetch(`${API_URL}/vitesses/${updatedVitesse.id}`, {
+    // fetch(`${API_URL}/energies/${updatedEnergie.id}`, {
     //   method: "PUT",
     //   body: JSON.stringify({
-    //     nom: updatedVitesse.nom,
+    //     nom: updatedEnergie.nom,
     //   }),
     //   headers: {
     //     "Content-Type": "application/json",
@@ -97,45 +97,45 @@ const Vitesse = () => {
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     setVitesses(
-    //       vitesses.map((vitesse) =>
-    //         vitesse.id === data.data.id ? data.data : vitesse
+    //     setEnergies(
+    //       energies.map((energie) =>
+    //         energie.id === data.data.id ? data.data : energie
     //       )
     //     );
     //   });
-    setVitesses(
-      vitesses.map((vitesse) =>
-        vitesse.id === updatedVitesse.id ? updatedVitesse : vitesse
+    setEnergies(
+      energies.map((energie) =>
+        energie.id === updatedEnergie.id ? updatedEnergie : energie
       )
     );
     document
-      .querySelector(`#modalUpdate-${updatedVitesse.id} .btn-close`)
+      .querySelector(`#modalUpdate-${updatedEnergie.id} .btn-close`)
       .click();
   };
 
   const handleDelete = (id) => {
-    // fetch(`${API_URL}/vitesses/${id}`, {
+    // fetch(`${API_URL}/energies/${id}`, {
     //   method: "DELETE",
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     setVitesses(
-    //       vitesses.filter((vitesse) => vitesse.id !== data.data.id)
+    //     setEnergies(
+    //       energies.filter((energie) => energie.id !== data.data.id)
     //     );
     //   });
-    setVitesses(vitesses.filter((vitesse) => vitesse.id !== id));
+    setEnergies(energies.filter((energie) => energie.id !== id));
     document.querySelector(`#modalDelete-${id} .btn-close`).click();
   };
 
   return (
     <>
-      <h3 className="mb-4 text-gray">Vitesses</h3>
+      <h3 className="mb-4 text-gray">Energies</h3>
       <div className="row">
         <div className="col-12">
           <div className="card w-100">
             <div className="card-body p-4">
               <h5 className="card-title fw-semibold mb-4">
-                Liste des vitesses
+                Liste des energies
               </h5>
               <div className="row mb-4">
                 <form className="col-sm-5 col-12 mb-sm-0 mb-3">
@@ -171,7 +171,7 @@ const Vitesse = () => {
                               className="modal-title fs-6"
                               id="modalCreateLabel"
                             >
-                              Ajouter une vitesse
+                              Ajouter une energie
                             </h1>
                             <button
                               type="button"
@@ -191,11 +191,11 @@ const Vitesse = () => {
                                     type="text"
                                     className="form-control"
                                     id="nom"
-                                    placeholder="Nom de la vitesse"
-                                    value={createdVitesse.nom}
+                                    placeholder="Nom de l'energie"
+                                    value={createdEnergie.nom}
                                     onChange={(e) =>
-                                      setCreatedVitesse({
-                                        ...createdVitesse,
+                                      setCreatedEnergie({
+                                        ...createdEnergie,
                                         nom: e.target.value,
                                       })
                                     }
@@ -224,7 +224,7 @@ const Vitesse = () => {
                   <thead className="text-dark fs-4 table-light">
                     <tr>
                       <th className="border-bottom-0">ID</th>
-                      <th className="border-bottom-0">Nom de la vitesse</th>
+                      <th className="border-bottom-0">Nom de l'energie</th>
                       <th
                         className="border-bottom-0"
                         style={{ width: "400px" }}
@@ -234,27 +234,27 @@ const Vitesse = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {resultVitesses &&
-                      resultVitesses.map((vitesse) => (
-                        <tr key={vitesse.id}>
-                          <td className="">{vitesse.id}</td>
+                    {resultEnergies &&
+                      resultEnergies.map((energie) => (
+                        <tr key={energie.id}>
+                          <td className="">{energie.id}</td>
                           <td className="text-dark fw-semibold">
-                            {vitesse.nom}
+                            {energie.nom}
                           </td>
                           <td className="">
                             <div className="d-flex align-items-center">
                               <button
                                 className="btn btn-outline-info d-flex align-items-center"
                                 data-bs-toggle="modal"
-                                data-bs-target={`#modalUpdate-${vitesse.id}`}
-                                onClick={() => setUpdatedVitesse(vitesse)}
+                                data-bs-target={`#modalUpdate-${energie.id}`}
+                                onClick={() => setUpdatedEnergie(energie)}
                               >
                                 <i className="ti ti-pencil me-2"></i> Modifier
                               </button>
                               <button
                                 className="btn btn-outline-danger d-flex align-items-center ms-2"
                                 data-bs-toggle="modal"
-                                data-bs-target={`#modalDelete-${vitesse.id}`}
+                                data-bs-target={`#modalDelete-${energie.id}`}
                               >
                                 <i className="ti ti-trash me-2"></i> Supprimer
                               </button>
@@ -283,18 +283,18 @@ const Vitesse = () => {
         </div>
       </div>
 
-      {resultVitesses &&
-        resultVitesses.map((vitesse) => (
-          <Fragment key={vitesse.id}>
-            <div className="modal fade" id={`modalUpdate-${vitesse.id}`}>
+      {resultEnergies &&
+        resultEnergies.map((energie) => (
+          <Fragment key={energie.id}>
+            <div className="modal fade" id={`modalUpdate-${energie.id}`}>
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">
                     <h1
                       className="modal-title fs-6"
-                      id={`modalUpdateLabel-${vitesse.id}`}
+                      id={`modalUpdateLabel-${energie.id}`}
                     >
-                      Modifier une vitesse
+                      Modifier une energie
                     </h1>
                     <button
                       type="button"
@@ -304,7 +304,7 @@ const Vitesse = () => {
                     ></button>
                   </div>
                   <div className="modal-body">
-                    {updatedVitesse && (
+                    {updatedEnergie && (
                       <form className="row">
                         <div className="col-12">
                           <div className="mb-3">
@@ -315,11 +315,11 @@ const Vitesse = () => {
                               type="text"
                               className="form-control"
                               id="nom"
-                              placeholder="Nom de la vitesse"
-                              value={updatedVitesse.nom}
+                              placeholder="Nom de l'energie"
+                              value={updatedEnergie.nom}
                               onChange={(e) =>
-                                setUpdatedVitesse({
-                                  ...updatedVitesse,
+                                setUpdatedEnergie({
+                                  ...updatedEnergie,
                                   nom: e.target.value,
                                 })
                               }
@@ -344,8 +344,8 @@ const Vitesse = () => {
 
             <div
               className="modal fade"
-              id={`modalDelete-${vitesse.id}`}
-              aria-labelledby={`modalDeleteLabel-${vitesse.id}}`}
+              id={`modalDelete-${energie.id}`}
+              aria-labelledby={`modalDeleteLabel-${energie.id}}`}
               aria-hidden="true"
             >
               <div className="modal-dialog">
@@ -353,9 +353,9 @@ const Vitesse = () => {
                   <div className="modal-header">
                     <h1
                       className="modal-title fs-6"
-                      id={`modalDeleteLabel-${vitesse.id}}`}
+                      id={`modalDeleteLabel-${energie.id}}`}
                     >
-                      Supprimer une vitesse
+                      Supprimer une energie
                     </h1>
                     <button
                       type="button"
@@ -366,10 +366,10 @@ const Vitesse = () => {
                   </div>
                   <div className="modal-body text-center">
                     <p className="fs-5">
-                      Voulez-vous vraiment supprimer cette vitesse ?
+                      Voulez-vous vraiment supprimer cette energie ?
                     </p>
                     <h5 className="fw-semibold text-primary mb-0">
-                      {vitesse.nom}
+                      {energie.nom}
                     </h5>
                   </div>
                   <div className="modal-footer justify-content-center">
@@ -383,7 +383,7 @@ const Vitesse = () => {
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={() => handleDelete(vitesse.id)}
+                      onClick={() => handleDelete(energie.id)}
                     >
                       Supprimer
                     </button>
@@ -397,4 +397,4 @@ const Vitesse = () => {
   );
 };
 
-export default Vitesse;
+export default Energie;

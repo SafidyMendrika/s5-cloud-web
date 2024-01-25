@@ -189,7 +189,7 @@ const Moteur = () => {
                                     type="text"
                                     className="form-control"
                                     id="nom"
-                                    placeholder="Nom de la categorie"
+                                    placeholder="Nom du moteur"
                                     value={createdMoteur.nom}
                                     onChange={(e) =>
                                       setCreatedMoteur({
@@ -292,7 +292,7 @@ const Moteur = () => {
                       className="modal-title fs-6"
                       id={`modalUpdateLabel-${moteur.id}`}
                     >
-                      Modifier une moteur
+                      Modifier un moteur
                     </h1>
                     <button
                       type="button"
@@ -313,7 +313,7 @@ const Moteur = () => {
                               type="text"
                               className="form-control"
                               id="nom"
-                              placeholder="Nom de la categorie"
+                              placeholder="Nom du moteur"
                               value={updatedMoteur.nom}
                               onChange={(e) =>
                                 setUpdatedMoteur({
