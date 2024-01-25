@@ -8,6 +8,8 @@ import Modele from "./pages/back-office/Modele";
 import Annonce from "./pages/back-office/Annonce";
 import Commission from "./pages/back-office/Commission";
 import SignIn from "./pages/back-office/SignIn";
+import Moteur from "./pages/back-office/Moteur";
+import Vitesse from "./pages/back-office/Vitesse";
 
 const BackOfficeRoutes = () => (
   <Routes>
@@ -17,6 +19,8 @@ const BackOfficeRoutes = () => (
     <Route path="/categories" element={<Categorie />} />
     <Route path="/marques" element={<Marque />} />
     <Route path="/modeles" element={<Modele />} />
+    <Route path="/moteurs" element={<Moteur />} />
+    <Route path="/vitesses" element={<Vitesse />} />
     <Route path="/annonces" element={<Annonce />} />
     <Route path="/commissions" element={<Commission />} />
   </Routes>

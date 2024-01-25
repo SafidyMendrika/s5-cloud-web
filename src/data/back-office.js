@@ -259,3 +259,22 @@ export var dataAnnonce = [
     pathImage: "/images/annonces/annonce5.png",
   },
 ];
+
+export var dataMoteur = [
+  {
+    id: 1,
+    nom: "Essence",
+  },
+  {
+    id: 2,
+    nom: "Diesel",
+  },
+  {
+    id: 3,
+    nom: "Hybride",
+  },
+  {
+    id: 4,
+    nom: "Electrique",
+  },
+];
