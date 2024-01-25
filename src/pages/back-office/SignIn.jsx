@@ -1,4 +1,48 @@
+import { useEffect, useState } from "react";
+import { API_URL } from "../../context/UrlContext";
+
 const SignIn = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    mdp: "",
+  });
+  const [message, setMessage] = useState("");
+  const [isOnload, setIsOnload] = useState(false);
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsOnload(true);
+
+    fetch(`${API_URL}/utilisateurs/login`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            if (data.code === 200) {
+              localStorage.setItem("authUserAdmin", data.data.token);
+              window.location.href = "/back-office/statistiques";
+            } else if (data.code === 100) {
+              setMessage(data.message);
+            }
+          });
+        }
+        setIsOnload(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsOnload(false);
+      });
+  };
+
   return (
     <>
       <div
@@ -29,35 +73,57 @@ const SignIn = () => {
                     <p className="text-center">
                       Connectez-vous pour continuer à Gascar Admin.
                     </p>
-                    <form>
+                    <form onSubmit={(e) => handleSubmit(e)}>
                       <div className="mb-3">
-                        <label for="email" className="form-label">
+                        <label htmlFor="email" className="form-label">
                           Email
                         </label>
                         <input
                           type="email"
                           className="form-control"
                           placeholder="example@example.com"
+                          value={formData.email}
+                          onChange={(e) => {
+                            setFormData({ ...formData, email: e.target.value });
+                          }}
                           id="email"
                         />
                       </div>
                       <div className="mb-4">
-                        <label for="motdepasse" className="form-label">
+                        <label htmlFor="motdepasse" className="form-label">
                           Mot de passe
                         </label>
                         <input
                           type="password"
                           className="form-control"
                           placeholder="********"
+                          value={formData.mdp}
+                          onChange={(e) => {
+                            setFormData({ ...formData, mdp: e.target.value });
+                          }}
                           id="motdepasse"
                         />
                       </div>
-                      <a
-                        href="/back-office"
+                      <p className="text-danger">{message}</p>
+                      <button
+                        type="submit"
                         className="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2"
                       >
-                        Se connecter
-                      </a>
+                        {isOnload ? (
+                          <div
+                            className="spinner-border spinner-border-sm text-light"
+                            style={{
+                              "--bs-spinner-width": "1.25rem",
+                              "--bs-spinner-height": "1.25rem",
+                            }}
+                            role="status"
+                          >
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        ) : (
+                          <> Se connecter </>
+                        )}
+                      </button>
                     </form>
                   </div>
                 </div>

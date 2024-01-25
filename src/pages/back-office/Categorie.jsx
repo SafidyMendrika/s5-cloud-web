@@ -16,7 +16,7 @@ const Categorie = () => {
   const [updatedCategorie, setUpdatedCategorie] = useState(EMPTY_CATEGORIE);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [showPerPage, setShowPerPage] = useState(4);
+  const [showPerPage, setShowPerPage] = useState(5);
   const [totalPages, setTotalPages] = useState(null);
 
   useEffect(() => {
@@ -39,14 +39,21 @@ const Categorie = () => {
   }, [filteredCategories, currentPage, showPerPage]);
 
   const fetchCategories = () => {
-    // fetch(`${API_URL}/categories`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setCategories(data.data);
-    //   });
-    setCategories(dataCategorie);
+    fetch(`${API_URL}/categories`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setCategories(data.data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+    // setCategories(dataCategorie);
   };
 
   const handlePageChange = (page) => {
@@ -65,27 +72,35 @@ const Categorie = () => {
     }
   };
 
-  const handleCreate = () => {
-    // fetch(`${API_URL}/categories`, {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     nom: nom,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setCategories([...categories, data.data]);
-    //   });
+  const handleCreate = (e) => {
+    e.preventDefault();
+
+    fetch(`${API_URL}/categories`, {
+      method: "POST",
+      body: JSON.stringify({
+        nom: createdCategorie.nom,
+      }),
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setCategories([...categories, data.data]);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
     if (createdCategorie.nom === "") return;
     setCreatedCategorie(EMPTY_CATEGORIE);
-    setCategories([
-      ...categories,
-      { ...createdCategorie, id: categories.length + 1 },
-    ]);
     document.querySelector("#modalCreate .btn-close").click();
+    // setCategories([
+    //   ...categories,
+    //   { ...createdCategorie, id: categories.length + 1 },
+    // ]);
   };
 
   const handleUpdate = () => {
@@ -184,7 +199,12 @@ const Categorie = () => {
                             ></button>
                           </div>
                           <div className="modal-body">
-                            <form className="row">
+                            <form
+                              className="row"
+                              onSubmit={(e) => {
+                                handleCreate(e);
+                              }}
+                            >
                               <div className="col-12">
                                 <div className="mb-3">
                                   <label htmlFor="nom" className="form-label">
@@ -207,9 +227,8 @@ const Categorie = () => {
                               </div>
                               <div className="col-12 mb-3">
                                 <button
-                                  type="button"
+                                  type="submit"
                                   className="btn btn-primary w-100"
-                                  onClick={handleCreate}
                                 >
                                   Valider
                                 </button>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { API_URL } from "../../context/UrlContext";
 
 const Statistique = () => {
   const [chart, setChart] = useState({

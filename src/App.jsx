@@ -14,45 +14,42 @@ import Energie from "./pages/back-office/Energie";
 
 const BackOfficeRoutes = () => (
   <Routes>
-    <Route path="/" element={<Statistique />} />
     <Route path="/sign-in" element={<SignIn />} />
-    <Route path="/statistiques" element={<Statistique />} />
-    <Route path="/categories" element={<Categorie />} />
-    <Route path="/marques" element={<Marque />} />
-    <Route path="/modeles" element={<Modele />} />
-    <Route path="/moteurs" element={<Moteur />} />
-    <Route path="/vitesses" element={<Vitesse />} />
-    <Route path="/energies" element={<Energie />} />
-    <Route path="/annonces" element={<Annonce />} />
-    <Route path="/commissions" element={<Commission />} />
+    <Route
+      path="/*"
+      element={
+        <BackOfficeLayout>
+          <Routes>
+            <Route path="/" element={<Statistique />} />
+            <Route path="/statistiques" element={<Statistique />} />
+            <Route path="/categories" element={<Categorie />} />
+            <Route path="/marques" element={<Marque />} />
+            <Route path="/modeles" element={<Modele />} />
+            <Route path="/moteurs" element={<Moteur />} />
+            <Route path="/vitesses" element={<Vitesse />} />
+            <Route path="/energies" element={<Energie />} />
+            <Route path="/annonces" element={<Annonce />} />
+            <Route path="/commissions" element={<Commission />} />
+          </Routes>
+        </BackOfficeLayout>
+      }
+    />
   </Routes>
 );
 
 const FrontOfficeRoutes = () => (
-  <Routes>
-    <Route path="/home" element={<h1>Home</h1>} />
-  </Routes>
+  <FrontOfficeLayout>
+    <Routes>
+      <Route path="/home" element={<h1>Home</h1>} />
+    </Routes>
+  </FrontOfficeLayout>
 );
 
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route
-        path="/back-office/*"
-        element={
-          <BackOfficeLayout>
-            <BackOfficeRoutes />
-          </BackOfficeLayout>
-        }
-      />
-      <Route
-        path="/front-office/*"
-        element={
-          <FrontOfficeLayout>
-            <FrontOfficeRoutes />
-          </FrontOfficeLayout>
-        }
-      />
+      <Route path="/back-office/*" element={<BackOfficeRoutes />} />
+      <Route path="/front-office/*" element={<FrontOfficeRoutes />} />
       <Route path="*" element={<h1>Not Found</h1>} />
     </Routes>
   </BrowserRouter>
