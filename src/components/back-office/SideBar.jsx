@@ -83,7 +83,7 @@ const SideBar = () => {
                   aria-expanded="false"
                 >
                   <span>
-                    <i class="ti ti-3d-cube-sphere"></i>
+                    <i className="ti ti-3d-cube-sphere"></i>
                   </span>
                   <span className="hide-menu">Moteurs</span>
                 </a>
@@ -95,7 +95,7 @@ const SideBar = () => {
                   aria-expanded="false"
                 >
                   <span>
-                    <i class="ti ti-needle"></i>
+                    <i className="ti ti-needle"></i>
                   </span>
                   <span className="hide-menu">Vitesses</span>
                 </a>
@@ -107,7 +107,7 @@ const SideBar = () => {
                   aria-expanded="false"
                 >
                   <span>
-                    <i class="ti ti-windmill"></i>
+                    <i className="ti ti-windmill"></i>
                   </span>
                   <span className="hide-menu">Energies</span>
                 </a>

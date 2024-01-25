@@ -148,11 +148,15 @@ const CardAnnonce = ({ annonce }) => {
                       </p>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Moteur : </span>
-                        Lorem ipsum
+                        Moteur 2 temps
                       </p>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Vitesse : </span>
-                        In laudantium
+                        Automatique
+                      </p>
+                      <p className="fs-4 mb-0">
+                        <span className="fw-bold">Energie : </span>
+                        Essence
                       </p>
                     </div>
                   </div>

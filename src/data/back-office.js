@@ -312,3 +312,29 @@ export var dataEnergie = [
     nom: "Electrique",
   },
 ];
+
+export var dataCommisson = {
+  commissionActuelle: 10,
+  historique: [
+    {
+      date: "2021-09-01",
+      commission: 13,
+    },
+    {
+      date: "2021-09-02",
+      commission: 12,
+    },
+    {
+      date: "2021-09-03",
+      commission: 11,
+    },
+    {
+      date: "2021-09-04",
+      commission: 15,
+    },
+    {
+      date: "2021-09-05",
+      commission: 14,
+    },
+  ],
+};
