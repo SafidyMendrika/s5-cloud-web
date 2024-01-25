@@ -38,7 +38,7 @@ const SignIn = () => {
         setIsOnload(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setIsOnload(false);
       });
   };
@@ -73,9 +73,12 @@ const SignIn = () => {
                     <p className="text-center">
                       Connectez-vous pour continuer à Gascar Admin.
                     </p>
-                    <form onSubmit={(e) => handleSubmit(e)}>
+                    <form
+                      className="needs-validation"
+                      onSubmit={(e) => handleSubmit(e)}
+                    >
                       <div className="mb-3">
-                        <label htmlFor="email" className="form-label">
+                        <label htmlFor="inputEmail" className="form-label">
                           Email
                         </label>
                         <input
@@ -86,11 +89,12 @@ const SignIn = () => {
                           onChange={(e) => {
                             setFormData({ ...formData, email: e.target.value });
                           }}
-                          id="email"
+                          id="inputEmail"
+                          required
                         />
                       </div>
                       <div className="mb-4">
-                        <label htmlFor="motdepasse" className="form-label">
+                        <label htmlFor="inputMdp" className="form-label">
                           Mot de passe
                         </label>
                         <input
@@ -101,7 +105,8 @@ const SignIn = () => {
                           onChange={(e) => {
                             setFormData({ ...formData, mdp: e.target.value });
                           }}
-                          id="motdepasse"
+                          id="inputMdp"
+                          required
                         />
                       </div>
                       <p className="text-danger">{message}</p>
@@ -121,7 +126,7 @@ const SignIn = () => {
                             <span className="visually-hidden">Loading...</span>
                           </div>
                         ) : (
-                          <> Se connecter </>
+                          "Se connecter"
                         )}
                       </button>
                     </form>

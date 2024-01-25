@@ -19,6 +19,11 @@ const Categorie = () => {
   const [showPerPage, setShowPerPage] = useState(5);
   const [totalPages, setTotalPages] = useState(null);
 
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -34,6 +39,9 @@ const Categorie = () => {
         currentPage * showPerPage
       )
     );
+    if (filteredCategories.length <= showPerPage) {
+      setResultCategories(filteredCategories);
+    }
 
     setTotalPages(Math.ceil(filteredCategories.length / showPerPage));
   }, [filteredCategories, currentPage, showPerPage]);
@@ -49,10 +57,12 @@ const Categorie = () => {
         if (response.status === 200) {
           response.json().then((data) => {
             setCategories(data.data);
+            setLoadingFetch(false);
           });
         }
       })
       .catch((err) => console.error(err));
+
     // setCategories(dataCategorie);
   };
 
@@ -61,19 +71,16 @@ const Categorie = () => {
   };
 
   const handleSearch = ({ target: { value } }) => {
-    if (value === "") {
-      setFilteredCategories(categories);
-    } else {
-      setFilteredCategories(
-        categories.filter((categorie) =>
-          categorie.nom.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    }
+    setFilteredCategories(
+      categories.filter((categorie) =>
+        categorie.nom.toLowerCase().includes(value.toLowerCase())
+      )
+    );
   };
 
   const handleCreate = (e) => {
     e.preventDefault();
+    setLoadingCreate(true);
 
     fetch(`${API_URL}/categories`, {
       method: "POST",
@@ -89,60 +96,88 @@ const Categorie = () => {
         if (response.status === 200) {
           response.json().then((data) => {
             setCategories([...categories, data.data]);
+            setLoadingCreate(false);
+            setCreatedCategorie(EMPTY_CATEGORIE);
+            document.querySelector("#modalCreate .btn-close").click();
           });
         }
       })
       .catch((err) => console.error(err));
 
-    if (createdCategorie.nom === "") return;
-    setCreatedCategorie(EMPTY_CATEGORIE);
-    document.querySelector("#modalCreate .btn-close").click();
+    // setCreatedCategorie(EMPTY_CATEGORIE);
+    // document.querySelector("#modalCreate .btn-close").click();
     // setCategories([
     //   ...categories,
     //   { ...createdCategorie, id: categories.length + 1 },
     // ]);
   };
 
-  const handleUpdate = () => {
-    // fetch(`${API_URL}/categories/${updatedCategorie.id}`, {
-    //   method: "PUT",
-    //   body: JSON.stringify({
-    //     nom: updatedCategorie.nom,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setCategories(
-    //       categories.map((categorie) =>
-    //         categorie.id === data.data.id ? data.data : categorie
-    //       )
-    //     );
-    //   });
-    setCategories(
-      categories.map((categorie) =>
-        categorie.id === updatedCategorie.id ? updatedCategorie : categorie
-      )
-    );
-    document
-      .querySelector(`#modalUpdate-${updatedCategorie.id} .btn-close`)
-      .click();
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    setLoadingUpdate(true);
+
+    fetch(`${API_URL}/categories/${updatedCategorie.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        nom: updatedCategorie.nom,
+      }),
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setCategories(
+              categories.map((categorie) =>
+                categorie.id === data.data.id ? data.data : categorie
+              )
+            );
+            setLoadingUpdate(false);
+            document
+              .querySelector(`#modalUpdate-${updatedCategorie.id} .btn-close`)
+              .click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // document
+    //   .querySelector(`#modalUpdate-${updatedCategorie.id} .btn-close`)
+    //   .click();
+    // setCategories(
+    //   categories.map((categorie) =>
+    //     categorie.id === updatedCategorie.id ? updatedCategorie : categorie
+    //   )
+    // );
   };
 
   const handleDelete = (id) => {
-    // fetch(`${API_URL}/categories/${id}`, {
-    //   method: "DELETE",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setCategories(
-    //       categories.filter((categorie) => categorie.id !== data.data.id)
-    //     );
-    //   });
-    setCategories(categories.filter((categorie) => categorie.id !== id));
-    document.querySelector(`#modalDelete-${id} .btn-close`).click();
+    setLoadingDelete(true);
+
+    fetch(`${API_URL}/categories/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setCategories(
+              categories.filter((categorie) => categorie.id !== data.data.id)
+            );
+            setLoadingDelete(false);
+            document.querySelector(`#modalDelete-${id} .btn-close`).click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // document.querySelector(`#modalDelete-${id} .btn-close`).click();
+    // setCategories(categories.filter((categorie) => categorie.id !== id));
   };
 
   return (
@@ -222,6 +257,7 @@ const Categorie = () => {
                                         nom: e.target.value,
                                       })
                                     }
+                                    required
                                   />
                                 </div>
                               </div>
@@ -230,7 +266,18 @@ const Categorie = () => {
                                   type="submit"
                                   className="btn btn-primary w-100"
                                 >
-                                  Valider
+                                  {loadingCreate ? (
+                                    <div
+                                      className="spinner-border spinner-border-sm"
+                                      role="status"
+                                    >
+                                      <span className="visually-hidden">
+                                        Loading...
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    "Valider"
+                                  )}
                                 </button>
                               </div>
                             </form>
@@ -286,6 +333,26 @@ const Categorie = () => {
                       ))}
                   </tbody>
                 </table>
+                <h5
+                  className="text-center fw-semibold mt-5"
+                  style={{ color: "var(--bs-muted)" }}
+                >
+                  {loadingFetch ? (
+                    <div className="spinner-border" role="status">
+                      <span
+                        className="visually-hidden"
+                        style={{
+                          "--bs-spinner-width": "1.25rem",
+                          "--bs-spinner-height": "1.25rem",
+                        }}
+                      >
+                        Loading...
+                      </span>
+                    </div>
+                  ) : (
+                    resultCategories.length === 0 && "Aucune categorie"
+                  )}
+                </h5>
               </div>
               {totalPages > 1 && (
                 <div className="row">
@@ -327,7 +394,12 @@ const Categorie = () => {
                   </div>
                   <div className="modal-body">
                     {updatedCategorie && (
-                      <form className="row">
+                      <form
+                        className="row"
+                        onSubmit={(e) => {
+                          handleUpdate(e);
+                        }}
+                      >
                         <div className="col-12">
                           <div className="mb-3">
                             <label htmlFor="nom" className="form-label">
@@ -350,11 +422,21 @@ const Categorie = () => {
                         </div>
                         <div className="col-12 mb-3">
                           <button
-                            type="button"
+                            type="submit"
                             className="btn btn-primary w-100"
-                            onClick={handleUpdate}
                           >
-                            Valider
+                            {loadingUpdate ? (
+                              <div
+                                className="spinner-border spinner-border-sm"
+                                role="status"
+                              >
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
+                              </div>
+                            ) : (
+                              "Valider"
+                            )}
                           </button>
                         </div>
                       </form>
@@ -407,7 +489,16 @@ const Categorie = () => {
                       className="btn btn-danger"
                       onClick={() => handleDelete(categorie.id)}
                     >
-                      Supprimer
+                      {loadingDelete ? (
+                        <div
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      ) : (
+                        "Supprimer"
+                      )}
                     </button>
                   </div>
                 </div>
