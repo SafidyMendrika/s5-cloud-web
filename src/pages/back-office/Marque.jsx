@@ -9,7 +9,7 @@ const EMPTY_MARQUE = {
   nom: "",
 };
 
-const ListMarque = () => {
+const Marque = () => {
   const [marques, setMarques] = useState([]);
   const [filteredMarques, setFilteredMarques] = useState([]);
   const [resultMarques, setResultMarques] = useState([]);
@@ -358,4 +358,4 @@ const ListMarque = () => {
   );
 };
 
-export default ListMarque;
+export default Marque;

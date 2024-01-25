@@ -10,7 +10,7 @@ const EMPTY_MODELE = {
   categorie: { id: null, nom: "" },
 };
 
-const ListModele = () => {
+const Modele = () => {
   const [modeles, setModeles] = useState([]);
   const [marques, setMarques] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -611,4 +611,4 @@ const ListModele = () => {
   );
 };
 
-export default ListModele;
+export default Modele;

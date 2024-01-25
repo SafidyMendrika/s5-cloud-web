@@ -2,9 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BackOfficeLayout from "./layouts/BackOfficeLayout";
 import FrontOfficeLayout from "./layouts/FrontOfficeLayout";
 import Statistique from "./pages/back-office/Statistique";
-import ListCategorie from "./pages/back-office/ListCategorie";
-import ListMarque from "./pages/back-office/ListMarque";
-import ListModele from "./pages/back-office/ListModele";
+import Categorie from "./pages/back-office/Categorie";
+import Marque from "./pages/back-office/Marque";
+import Modele from "./pages/back-office/Modele";
 import Annonce from "./pages/back-office/Annonce";
 import Commission from "./pages/back-office/Commission";
 import SignIn from "./pages/back-office/SignIn";
@@ -14,9 +14,9 @@ const BackOfficeRoutes = () => (
     <Route path="/" element={<Statistique />} />
     <Route path="/sign-in" element={<SignIn />} />
     <Route path="/statistiques" element={<Statistique />} />
-    <Route path="/categories" element={<ListCategorie />} />
-    <Route path="/marques" element={<ListMarque />} />
-    <Route path="/modeles" element={<ListModele />} />
+    <Route path="/categories" element={<Categorie />} />
+    <Route path="/marques" element={<Marque />} />
+    <Route path="/modeles" element={<Modele />} />
     <Route path="/annonces" element={<Annonce />} />
     <Route path="/commissions" element={<Commission />} />
   </Routes>

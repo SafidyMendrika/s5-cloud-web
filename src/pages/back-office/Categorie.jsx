@@ -8,7 +8,7 @@ const EMPTY_CATEGORIE = {
   nom: "",
 };
 
-const ListCategorie = () => {
+const Categorie = () => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [resultCategories, setResultCategories] = useState([]);
@@ -400,4 +400,4 @@ const ListCategorie = () => {
   );
 };
 
-export default ListCategorie;
+export default Categorie;
