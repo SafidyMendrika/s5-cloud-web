@@ -9,7 +9,7 @@ const CardMarque = ({ marque, setUpdatedMarque }) => {
               style={{ height: "200px" }}
             >
               <img
-                src={`${process.env.PUBLIC_URL + marque.pathImage}`}
+                src={`${process.env.PUBLIC_URL + marque.lien}`}
                 className="card-img-top rounded-0"
                 alt="..."
               />
@@ -30,7 +30,7 @@ const CardMarque = ({ marque, setUpdatedMarque }) => {
                 <div className="modal-content bg-light">
                   <div className="modal-body">
                     <img
-                      src={`${process.env.PUBLIC_URL + marque.pathImage}`}
+                      src={`${process.env.PUBLIC_URL + marque.lien}`}
                       className="w-100"
                       alt="..."
                     />
@@ -43,7 +43,7 @@ const CardMarque = ({ marque, setUpdatedMarque }) => {
             <h6 className="fw-semibold fs-4">{marque.nom}</h6>
             <div className="d-flex align-items-center justify-content-between mb-4">
               <h6 className="fs-4 mb-0" style={{ color: "grey" }}>
-                {marque.nombreModele} modeles
+                {marque.nombreModele} {parseInt(marque.nombreModele) === 1 || parseInt(marque.nombreModele) === 0 ? "modele" : "modeles"}
               </h6>
             </div>
             <div

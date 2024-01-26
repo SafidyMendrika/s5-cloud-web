@@ -60,14 +60,19 @@ const Modele = () => {
 
   useEffect(() => {
     const filteredModeles = modeles.filter((modele) => {
-      const isMatchingMotCle = modele.nom
-        .toLowerCase()
-        .includes(filters.motCle.toLowerCase());
+      const isMatchingMotCle =
+        modele.id.toString().includes(filters.motCle) ||
+        modele.nom.toLowerCase().includes(filters.motCle.toLowerCase()) ||
+        modele.marque.nom
+          .toLowerCase()
+          .includes(filters.motCle.toLowerCase()) ||
+        modele.categorie.nom
+          .toLowerCase()
+          .includes(filters.motCle.toLowerCase());
 
-      const isMatchingMarque = true;
-      // const isMatchingMarque =
-      //   filters.idMarque === "0" ||
-      //   modele.marque.id === parseInt(filters.idMarque);
+      const isMatchingMarque =
+        filters.idMarque === "0" ||
+        modele.marque.id === parseInt(filters.idMarque);
 
       const isMatchingCategorie =
         filters.idCategorie === "0" ||
@@ -83,7 +88,7 @@ const Modele = () => {
     fetch(`${API_URL}/modeles`, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
       },
     })
       .then((response) => {
@@ -104,7 +109,7 @@ const Modele = () => {
     fetch(`${API_URL}/marques`, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
       },
     })
       .then((response) => {
@@ -123,7 +128,7 @@ const Modele = () => {
     fetch(`${API_URL}/categories`, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
       },
     })
       .then((response) => {
@@ -142,18 +147,6 @@ const Modele = () => {
     setCurrentPage(page);
   };
 
-  // const handleSearch = ({ target: { value } }) => {
-  //   setFilteredModeles(
-  //     modeles
-  //       .filter((modele) =>
-  //         modele.nom.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //       .filter((modele) =>
-  //         modele.categorie.nom.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //   );
-  // };
-
   const handleCreate = (e) => {
     e.preventDefault();
     setLoadingCreate(true);
@@ -166,7 +159,7 @@ const Modele = () => {
         idcategorie: createdModele.categorie.id,
       }),
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
         "Content-Type": "application/json",
       },
     })
@@ -200,7 +193,7 @@ const Modele = () => {
         idcategorie: updatedModele.categorie.id,
       }),
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
         "Content-Type": "application/json",
       },
     })
@@ -238,7 +231,7 @@ const Modele = () => {
     fetch(`${API_URL}/modeles/${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
         "Content-Type": "application/json",
       },
     })
@@ -266,10 +259,13 @@ const Modele = () => {
           <div className="card w-100">
             <div className="card-body p-4">
               <h5 className="card-title fw-semibold mb-4">Liste des modeles</h5>
-              <div className="row mb-4">
-                <form className="col-sm-8 col-12 mb-sm-0 mb-3">
+              <div className="row mb-4 align-items-end">
+                <form className="col-md-8 col-12 mb-md-0 mb-3">
                   <div className="row">
-                    <div className="col-4 pe-0">
+                    <div className="col-md-4 pe-md-0 mb-md-0 mb-3">
+                      <label htmlFor="inputMotCle" className="form-label">
+                        Mot clé
+                      </label>
                       <input
                         type="text"
                         className="form-control"
@@ -282,9 +278,13 @@ const Modele = () => {
                             [e.target.name]: e.target.value,
                           })
                         }
+                        id="inputMotCle"
                       />
                     </div>
-                    <div className="col-4 pe-0">
+                    <div className="col-md-4 pe-md-0 mb-md-0 mb-3">
+                      <label htmlFor="selectMarque" className="form-label">
+                        Trier par marque
+                      </label>
                       <select
                         className="form-select"
                         name="idMarque"
@@ -295,8 +295,9 @@ const Modele = () => {
                             [e.target.name]: e.target.value,
                           })
                         }
+                        id="selectMarque"
                       >
-                        <option value="0">Trier par marque</option>
+                        <option value="0">Tous</option>
                         {marques &&
                           marques.map((marque) => (
                             <option value={marque.id} key={marque.id}>
@@ -305,7 +306,10 @@ const Modele = () => {
                           ))}
                       </select>
                     </div>
-                    <div className="col-4">
+                    <div className="col-md-4 mb-md-0 mb-2">
+                      <label htmlFor="selectCategorie" className="form-label">
+                        Trier par categorie
+                      </label>
                       <select
                         className="form-select"
                         name="idCategorie"
@@ -316,8 +320,9 @@ const Modele = () => {
                             [e.target.name]: e.target.value,
                           })
                         }
+                        id="selectCategorie"
                       >
-                        <option value="0">Trier par categorie</option>
+                        <option value="0">Tous</option>
                         {categories &&
                           categories.map((categorie) => (
                             <option value={categorie.id} key={categorie.id}>
@@ -518,8 +523,7 @@ const Modele = () => {
                             {modele.nom}
                           </td>
                           <td className="text-dark fw-semibold">
-                            {/* {modele.marque.nom} */}
-                            Marque
+                            {/*{modele.marque.nom}*/}
                           </td>
                           <td className="text-dark fw-semibold">
                             {modele.categorie.nom}
@@ -550,11 +554,11 @@ const Modele = () => {
                   </tbody>
                 </table>
                 <h5
-                  className="text-center fw-semibold mt-5"
+                  className="text-center fw-semibold"
                   style={{ color: "var(--bs-muted)" }}
                 >
                   {loadingFetch ? (
-                    <div className="spinner-border" role="status">
+                    <div className="spinner-border mt-5" role="status">
                       <span
                         className="visually-hidden"
                         style={{
@@ -566,7 +570,9 @@ const Modele = () => {
                       </span>
                     </div>
                   ) : (
-                    resultModeles.length === 0 && "Aucun modele"
+                    resultModeles.length === 0 && (
+                      <div className="mt-5">Aucun modele</div>
+                    )
                   )}
                 </h5>
               </div>
@@ -627,6 +633,7 @@ const Modele = () => {
                                   nom: e.target.value,
                                 });
                               }}
+                              required
                             />
                           </div>
                           <div className="mb-3">
@@ -650,6 +657,7 @@ const Modele = () => {
                                   },
                                 })
                               }
+                              required
                             >
                               <option value="">Choisir une marque</option>
                               {marques &&
@@ -682,6 +690,7 @@ const Modele = () => {
                                   },
                                 })
                               }
+                              required
                             >
                               <option value="">Choisir une categorie</option>
                               {categories &&

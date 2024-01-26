@@ -27,11 +27,11 @@ const CardAnnonce = ({ annonce }) => {
               <h6 className="fs-4 mb-2" style={{ color: "grey" }}>
                 {annonce.dateAnnonce}
               </h6>
-              {annonce.status === 0 ? (
+              {annonce.etat === 0 ? (
                 <span className="badge bg-danger rounded-3 fw-semibold mb-2">
                   En attente
                 </span>
-              ) : annonce.status === 10 ? (
+              ) : annonce.etat === 10 ? (
                 <span className="badge bg-success rounded-3 fw-semibold mb-2">
                   Validé
                 </span>
@@ -42,7 +42,7 @@ const CardAnnonce = ({ annonce }) => {
               )}
             </div>
             <h6 className="text-info mb-3 fw-semi-bold">
-              {annonce.voiture.modele.nom}
+              {annonce.modele.nom}
             </h6>
             <button
               className="btn btn-outline-primary d-flex justify-content-center align-items-center w-100"
@@ -77,7 +77,7 @@ const CardAnnonce = ({ annonce }) => {
                     className="mb-4 fw-semi-bold d-flex align-items-center"
                     style={{ color: "var(--bs-muted)" }}
                   >
-                    <span>{annonce.voiture.modele.nom}</span>
+                    <span>{annonce.modele.nom}</span>
                     <span
                       style={{
                         borderRadius: "50%",
@@ -111,12 +111,12 @@ const CardAnnonce = ({ annonce }) => {
 
                       <p className="fs-4 mt-3 mb-0">
                         <span className="fw-bold text-decoration-underline text-dark">
-                          Status
+                          Etat
                         </span>{" "}
                         &nbsp; : &nbsp;
-                        {annonce.status === 0 ? (
+                        {annonce.etat === 0 ? (
                           <>En attente</>
-                        ) : annonce.status === 10 ? (
+                        ) : annonce.etat === 10 ? (
                           <>Validé</>
                         ) : (
                           <>Vendu</>
@@ -136,15 +136,15 @@ const CardAnnonce = ({ annonce }) => {
                       </h5>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Marque : </span>
-                        {annonce.voiture.modele.marque.nom}
+                        {annonce.modele.marque.nom}
                       </p>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Categorie : </span>
-                        {annonce.voiture.modele.categorie.nom}
+                        {annonce.modele.categorie.nom}
                       </p>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Modele : </span>
-                        {annonce.voiture.modele.nom}
+                        {annonce.modele.nom}
                       </p>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Moteur : </span>
@@ -161,32 +161,23 @@ const CardAnnonce = ({ annonce }) => {
                     </div>
                   </div>
                   <div>
-                    {annonce.status === 0 ? (
-                      <div className="d-flex">
+                    <div className="d-flex">
+                      {annonce.etat === 0 && (
                         <button
-                          className="btn btn-success d-flex justify-content-center align-items-center"
+                          className="btn btn-success d-flex justify-content-center align-items-center me-2"
                           onClick={(e) => e.preventDefault()}
                         >
                           {" "}
                           Valider
                         </button>
-                        <button
-                          className="btn btn-danger d-flex justify-content-center align-items-center ms-2"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Supprimer
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="d-flex">
-                        <button
-                          className="btn btn-danger d-flex justify-content-center align-items-center"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Supprimer
-                        </button>
-                      </div>
-                    )}
+                      )}
+                      <button
+                        className="btn btn-danger d-flex justify-content-center align-items-center"
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        Supprimer
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

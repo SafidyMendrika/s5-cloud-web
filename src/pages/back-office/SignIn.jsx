@@ -28,7 +28,7 @@ const SignIn = () => {
         if (response.status === 200) {
           response.json().then((data) => {
             if (data.code === 200) {
-              localStorage.setItem("authUserAdmin", data.data.token);
+              sessionStorage.setItem("authUserAdmin", data.data.token);
               window.location.href = "/back-office/statistiques";
             } else if (data.code === 100) {
               setMessage(data.message);

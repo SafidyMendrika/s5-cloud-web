@@ -88,31 +88,31 @@ export var dataMarque = [
   {
     id: 1,
     nom: "Toyota",
-    pathImage: "/images/marques/toyota.png",
+    lien: "/images/marques/toyota.png",
     nombreModele: 23,
   },
   {
     id: 2,
     nom: "BMW",
-    pathImage: "/images/marques/bmw.png",
+    lien: "/images/marques/bmw.png",
     nombreModele: 12,
   },
   {
     id: 3,
     nom: "Mercedes-Benz",
-    pathImage: "/images/marques/mercedes-benz.png",
+    lien: "/images/marques/mercedes-benz.png",
     nombreModele: 31,
   },
   {
     id: 4,
     nom: "Honda",
-    pathImage: "/images/marques/honda.png",
+    lien: "/images/marques/honda.png",
     nombreModele: 4,
   },
   {
     id: 5,
     nom: "Ford",
-    pathImage: "/images/marques/ford.png",
+    lien: "/images/marques/ford.png",
     nombreModele: 10,
   },
 ];
@@ -124,26 +124,23 @@ export var dataAnnonce = [
       id: 1,
       nom: "John",
     },
-    voiture: {
+    modele: {
       id: 1,
-      modele: {
+      nom: "Toyota Corolla",
+      marque: {
         id: 1,
-        nom: "Toyota Corolla",
-        marque: {
-          id: 1,
-          nom: "Toyota",
-        },
-        categorie: {
-          id: 1,
-          nom: "Compacte",
-        },
+        nom: "Toyota",
+      },
+      categorie: {
+        id: 1,
+        nom: "Compacte",
       },
     },
     description: "Voiture en bon état",
     prix: 10000000,
     dateAnnonce: "2021-09-01",
     dateValidation: null,
-    status: 0,
+    etat: 0,
     pathImage: "/images/annonces/annonce1.png",
   },
   {
@@ -152,26 +149,23 @@ export var dataAnnonce = [
       id: 2,
       nom: "Jane",
     },
-    voiture: {
+    modele: {
       id: 2,
-      modele: {
+      nom: "BMW Serie 3",
+      marque: {
         id: 2,
-        nom: "BMW Serie 3",
-        marque: {
-          id: 2,
-          nom: "BMW",
-        },
-        categorie: {
-          id: 2,
-          nom: "Berline",
-        },
+        nom: "BMW",
+      },
+      categorie: {
+        id: 2,
+        nom: "Berline",
       },
     },
     description: "Voiture en bon état",
     prix: 15000000,
     dateAnnonce: "2021-09-02",
     dateValidation: "2021-09-02",
-    status: 10,
+    etat: 10,
     pathImage: "/images/annonces/annonce2.png",
   },
   {
@@ -180,26 +174,23 @@ export var dataAnnonce = [
       id: 3,
       nom: "Jack",
     },
-    voiture: {
+    modele: {
       id: 3,
-      modele: {
+      nom: "Mercedes Classe C",
+      marque: {
         id: 3,
-        nom: "Mercedes Classe C",
-        marque: {
-          id: 3,
-          nom: "Mercedes-Benz",
-        },
-        categorie: {
-          id: 2,
-          nom: "Berline",
-        },
+        nom: "Mercedes-Benz",
+      },
+      categorie: {
+        id: 2,
+        nom: "Berline",
       },
     },
     description: "Voiture en bon état",
     prix: 250000000,
     dateAnnonce: "2021-09-03",
     dateValidation: "2021-09-03",
-    status: 20,
+    etat: 20,
     pathImage: "/images/annonces/annonce3.png",
   },
   {
@@ -208,26 +199,23 @@ export var dataAnnonce = [
       id: 4,
       nom: "Jill",
     },
-    voiture: {
+    modele: {
       id: 4,
-      modele: {
+      nom: "Honda Civic",
+      marque: {
         id: 4,
-        nom: "Honda Civic",
-        marque: {
-          id: 4,
-          nom: "Honda",
-        },
-        categorie: {
-          id: 1,
-          nom: "Compacte",
-        },
+        nom: "Honda",
+      },
+      categorie: {
+        id: 1,
+        nom: "Compacte",
       },
     },
     description: "Voiture en bon état",
     prix: 200000000,
     dateAnnonce: "2021-09-04",
     dateValidation: null,
-    status: 0,
+    etat: 0,
     pathImage: "/images/annonces/annonce4.png",
   },
   {
@@ -236,26 +224,23 @@ export var dataAnnonce = [
       id: 5,
       nom: "James",
     },
-    voiture: {
+    modele: {
       id: 5,
-      modele: {
+      nom: "Ford Focus",
+      marque: {
         id: 5,
-        nom: "Ford Focus",
-        marque: {
-          id: 5,
-          nom: "Ford",
-        },
-        categorie: {
-          id: 1,
-          nom: "Compacte",
-        },
+        nom: "Ford",
+      },
+      categorie: {
+        id: 1,
+        nom: "Compacte",
       },
     },
     description: "Voiture en bon état",
     prix: 100000000,
     dateAnnonce: "2021-09-05",
     dateValidation: "2021-09-06",
-    status: 10,
+    etat: 10,
     pathImage: "/images/annonces/annonce5.png",
   },
 ];

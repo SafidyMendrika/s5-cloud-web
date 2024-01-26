@@ -33,7 +33,7 @@ const BackOfficeLayout = ({ children }) => {
   }, []);
 
   const checkAuthUserAdmin = () => {
-    const authUserAdminToken = localStorage.getItem("authUserAdmin");
+    const authUserAdminToken = sessionStorage.getItem("authUserAdmin");
 
     if (!authUserAdminToken) {
       redirectToLogin();
@@ -46,10 +46,10 @@ const BackOfficeLayout = ({ children }) => {
 
       if (currentTime > decodedToken.exp) {
         // Le jeton a expiré, rediriger vers la page de connexion
-        localStorage.removeItem("authUserAdmin");
+        sessionStorage.removeItem("authUserAdmin");
       }
     } catch (error) {
-      localStorage.removeItem("authUserAdmin");
+      sessionStorage.removeItem("authUserAdmin");
     }
   };
 

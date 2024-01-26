@@ -13,6 +13,16 @@ const Annonce = () => {
   const [showPerPage, setShowPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(null);
 
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const [filters, setFilters] = useState({
+    motCle: "",
+    etat: "100", // Tous
+  });
+
   useEffect(() => {
     fetchAnnonces();
   }, []);
@@ -28,18 +38,58 @@ const Annonce = () => {
         currentPage * showPerPage
       )
     );
+    if (filteredAnnonces.length <= showPerPage) {
+      setResultAnnonces(filteredAnnonces);
+    }
+
     setTotalPages(Math.ceil(filteredAnnonces.length / showPerPage));
   }, [filteredAnnonces, currentPage, showPerPage]);
 
+  useEffect(() => {
+    const filteredAnnonces = annonces.filter((annonce) => {
+      const isMatchingMotCle =
+        annonce.utilisateur.nom
+          .toLowerCase()
+          .includes(filters.motCle.toLowerCase()) ||
+        annonce.modele.nom
+          .toLowerCase()
+          .includes(filters.motCle.toLowerCase()) ||
+        annonce.modele.marque.nom
+          .toLowerCase()
+          .includes(filters.motCle.toLowerCase()) ||
+        annonce.modele.categorie.nom
+          .toLowerCase()
+          .includes(filters.motCle.toLowerCase());
+
+      const isMatchingEtat =
+        filters.etat === "100" || annonce.etat === parseInt(filters.etat);
+
+      return isMatchingMotCle && isMatchingEtat;
+    });
+
+    setFilteredAnnonces(filteredAnnonces);
+  }, [filters, annonces]);
+
   const fetchAnnonces = () => {
-    // fetch(`${API_URL}/annonces`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setAnnonces(data);
-    //   });
+    fetch(`${API_URL}/annonces`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            console.log(data);
+            // setAnnonces(data.data);
+            setLoadingFetch(false);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
     setAnnonces(dataAnnonce);
+    setLoadingFetch(false);
   };
 
   const handlePageChange = (page) => {
@@ -56,19 +106,45 @@ const Annonce = () => {
               <h5 className="card-title fw-semibold mb-4">
                 Liste des annonces
               </h5>
-              <div className="row mb-3">
-                <form className="col-sm-7 col-12 mb-sm-0 mb-3">
+              <div className="row mb-3 align-items-end">
+                <form className="col-md-7 col-12 mb-md-0 mb-3">
                   <div className="row">
-                    <div className="col-6 pe-0">
+                    <div className="col-md-6 pe-md-0 mb-md-0 mb-3">
+                      <label htmlFor="inputMotCle" className="form-label">
+                        Mot clé
+                      </label>
                       <input
                         type="text"
                         className="form-control"
                         placeholder="Entrer un mot clé"
+                        name="motCle"
+                        value={filters.motCle}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
+                        id="inputMotCle"
                       />
                     </div>
-                    <div className="col-6">
-                      <select className="form-select">
-                        <option value="">Trier par status</option>
+                    <div className="col-md-6 mb-md-0 mb-3">
+                      <label htmlFor="selectEtat" className="form-label">
+                        Trier par etat
+                      </label>
+                      <select
+                        className="form-select"
+                        name="etat"
+                        value={filters.etat}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
+                        id="selectEtat"
+                      >
+                        <option value="100">Tous</option>
                         <option value="0">En attente</option>
                         <option value="10">Validé</option>
                         <option value="20">Vendu</option>
@@ -87,6 +163,28 @@ const Annonce = () => {
                 <CardAnnonce annonce={annonce} key={annonce.id} />
               ))}
           </div>
+          <h5
+            className="text-center fw-semibold"
+            style={{ color: "var(--bs-muted)" }}
+          >
+            {loadingFetch ? (
+              <div className="spinner-border mt-5" role="status">
+                <span
+                  className="visually-hidden"
+                  style={{
+                    "--bs-spinner-width": "1.25rem",
+                    "--bs-spinner-height": "1.25rem",
+                  }}
+                >
+                  Loading...
+                </span>
+              </div>
+            ) : (
+              resultAnnonces.length === 0 && (
+                <div className="mt-5">Aucune annonce</div>
+              )
+            )}
+          </h5>
           {totalPages > 1 && (
             <div className="row">
               <div className="col-12">

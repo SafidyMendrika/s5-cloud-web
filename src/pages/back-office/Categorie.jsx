@@ -51,8 +51,10 @@ const Categorie = () => {
   }, [filteredCategories, currentPage, showPerPage]);
 
   useEffect(() => {
-    const filteredCategories = categories.filter((categorie) =>
-      categorie.nom.toLowerCase().includes(filters.motCle.toLowerCase())
+    const filteredCategories = categories.filter(
+      (categorie) =>
+        categorie.id.toString().includes(filters.motCle) ||
+        categorie.nom.toLowerCase().includes(filters.motCle.toLowerCase())
     );
 
     setFilteredCategories(filteredCategories);
@@ -62,7 +64,7 @@ const Categorie = () => {
     fetch(`${API_URL}/categories`, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
       },
     })
       .then((response) => {
@@ -93,7 +95,7 @@ const Categorie = () => {
         nom: createdCategorie.nom,
       }),
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
         "Content-Type": "application/json",
       },
     })
@@ -128,7 +130,7 @@ const Categorie = () => {
         nom: updatedCategorie.nom,
       }),
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
         "Content-Type": "application/json",
       },
     })
@@ -166,7 +168,7 @@ const Categorie = () => {
     fetch(`${API_URL}/categories/${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("authUserAdmin"),
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
         "Content-Type": "application/json",
       },
     })
@@ -198,20 +200,25 @@ const Categorie = () => {
               <h5 className="card-title fw-semibold mb-4">
                 Liste des categories
               </h5>
-              <div className="row mb-4">
+              <div className="row mb-4 align-items-end">
                 <form className="col-sm-5 col-12 mb-sm-0 mb-3">
                   <div className="">
+                    <label htmlFor="inputMotCle" className="form-label">
+                      Mot clé
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="Entrer un mot clé"
                       name="motCle"
+                      value={filters.motCle}
                       onChange={(e) =>
                         setFilters({
                           ...filters,
                           [e.target.name]: e.target.value,
                         })
                       }
+                      id="inputMotCle"
                     />
                   </div>
                 </form>
@@ -346,11 +353,11 @@ const Categorie = () => {
                   </tbody>
                 </table>
                 <h5
-                  className="text-center fw-semibold mt-5"
+                  className="text-center fw-semibold"
                   style={{ color: "var(--bs-muted)" }}
                 >
                   {loadingFetch ? (
-                    <div className="spinner-border" role="status">
+                    <div className="spinner-border mt-5" role="status">
                       <span
                         className="visually-hidden"
                         style={{
@@ -362,7 +369,9 @@ const Categorie = () => {
                       </span>
                     </div>
                   ) : (
-                    resultCategories.length === 0 && "Aucune categorie"
+                    resultCategories.length === 0 && (
+                      <div className="mt-5">Aucune categorie</div>
+                    )
                   )}
                 </h5>
               </div>

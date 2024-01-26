@@ -20,6 +20,15 @@ const Marque = () => {
   const [showPerPage, setShowPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(null);
 
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const [filters, setFilters] = useState({
+    motCle: "",
+  });
+
   useEffect(() => {
     fetchMarques();
   }, []);
@@ -35,96 +44,149 @@ const Marque = () => {
         currentPage * showPerPage
       )
     );
+    if (filteredMarques.length <= showPerPage) {
+      setResultMarques(filteredMarques);
+    }
+
     setTotalPages(Math.ceil(filteredMarques.length / showPerPage));
   }, [filteredMarques, currentPage, showPerPage]);
 
+  useEffect(() => {
+    const filteredMarques = marques.filter(
+      (marque) =>
+        marque.nombreModele.toString().includes(filters.motCle) ||
+        marque.nom.toLowerCase().includes(filters.motCle.toLowerCase())
+    );
+
+    setFilteredMarques(filteredMarques);
+  }, [filters, marques]);
+
   const fetchMarques = () => {
-    // fetch(`${API_URL}/marques`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setMarques(data);
-    //   });
-    setMarques(dataMarque);
+    fetch(`${API_URL}/marques`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setMarques(data.data);
+            setLoadingFetch(false);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setMarques(dataMarque);
+    // setLoadingFetch(false);
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const handleSearch = ({ target: { value } }) => {
-    if (value === "") {
-      setFilteredMarques(marques);
-    } else {
-      const result = marques.filter((marque) =>
-        marque.nom.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredMarques(result);
-    }
-  };
+  const handleCreate = (e) => {
+    e.preventDefault();
+    setLoadingCreate(true);
 
-  const handleCreate = () => {
     // fetch(`${API_URL}/marques`, {
     //   method: "POST",
     //   body: JSON.stringify({
     //     nom: createdMarque.nom,
     //   }),
     //   headers: {
+    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
     //     "Content-Type": "application/json",
     //   },
     // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setMarques([...marques, data.data]);
-    //   });
-    if (createdMarque.nom === "") return;
-    setCreatedMarque(EMPTY_MARQUE);
+    //     .then((response) => {
+    //       if (response.status === 200) {
+    //         response.json().then((data) => {
+    //           setMarques([...marques, data.data]);
+    //           setLoadingCreate(false);
+    //           setCreatedMarque(EMPTY_MARQUE);
+    //           document.querySelector("#modalCreate .btn-close").click();
+    //         });
+    //       }
+    //     })
+    //     .catch((err) => console.error(err));
+
     setMarques([
       ...marques,
       { ...createdMarque, id: marques.length + 1, nombreModele: 0 },
     ]);
+    setLoadingCreate(false);
+    setCreatedMarque(EMPTY_MARQUE);
     document.querySelector("#modalCreate .btn-close").click();
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    setLoadingUpdate(true);
+
     // fetch(`${API_URL}/marques/${updatedMarque.id}`, {
     //   method: "PUT",
     //   body: JSON.stringify({
     //     nom: updatedMarque.nom,
     //   }),
     //   headers: {
+    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
     //     "Content-Type": "application/json",
     //   },
     // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setMarques(
-    //       marques.map((marque) =>
-    //         marque.id === data.data.id ? data.data : marque
-    //       )
-    //     );
-    //   });
+    //     .then((response) => {
+    //       if (response.status === 200) {
+    //         response.json().then((data) => {
+    //           setMarques(
+    //               marques.map((marque) =>
+    //                   marque.id === data.data.id ? data.data : marque
+    //               )
+    //           );
+    //           setLoadingUpdate(false);
+    //           document
+    //               .querySelector(`#modalUpdate-${updatedMarque.id} .btn-close`)
+    //               .click();
+    //         });
+    //       }
+    //     })
+    //     .catch((err) => console.error(err));
+
     setMarques(
       marques.map((marque) =>
         marque.id === updatedMarque.id ? updatedMarque : marque
       )
     );
+    setLoadingUpdate(false);
     document
       .querySelector(`#modalUpdate-${updatedMarque.id} .btn-close`)
       .click();
   };
 
   const handleDelete = (id) => {
-    // fetch(`${API_URL}/marques/${id}`, {
-    //   method: "DELETE",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setMarques(marques.filter((marque) => marque.id !== data.data.id));
-    //   });
-    setMarques(marques.filter((marque) => marque.id !== id));
-    document.querySelector(`#modalDelete-${id} .btn-close`).click();
+    setLoadingDelete(true);
+
+    fetch(`${API_URL}/marques/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setMarques(marques.filter((marque) => marque.id !== data.data.id));
+            setLoadingDelete(false);
+            document.querySelector(`#modalDelete-${id} .btn-close`).click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setMarques(marques.filter((marque) => marque.id !== id));
+    // setLoadingDelete(false);
+    // document.querySelector(`#modalDelete-${id} .btn-close`).click();
   };
 
   return (
@@ -135,14 +197,24 @@ const Marque = () => {
           <div className="card w-100">
             <div className="card-body p-4">
               <h5 className="card-title fw-semibold mb-4">Liste des marques</h5>
-              <div className="row mb-3">
+              <div className="row mb-3 align-items-end">
                 <form className="col-sm-5 col-12 mb-sm-0 mb-3">
                   <div className="">
+                    <label htmlFor="inputMotCle" className="form-label">
+                      Mot clé
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="Entrer un mot clé"
-                      onChange={handleSearch}
+                      name="motCle"
+                      value={filters.motCle}
+                      onChange={(e) =>
+                        setFilters({
+                          ...filters,
+                          [e.target.name]: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </form>
@@ -179,7 +251,10 @@ const Marque = () => {
                             ></button>
                           </div>
                           <div className="modal-body">
-                            <form className="row">
+                            <form
+                              className="row"
+                              onSubmit={(e) => handleCreate(e)}
+                            >
                               <div className="col-12">
                                 <div className="mb-3">
                                   <label htmlFor="nom" className="form-label">
@@ -197,16 +272,27 @@ const Marque = () => {
                                         nom: e.target.value,
                                       })
                                     }
+                                    required
                                   />
                                 </div>
                               </div>
                               <div className="col-12 mb-3">
                                 <button
-                                  type="button"
+                                  type="submit"
                                   className="btn btn-primary w-100"
-                                  onClick={handleCreate}
                                 >
-                                  Valider
+                                  {loadingCreate ? (
+                                    <div
+                                      className="spinner-border spinner-border-sm"
+                                      role="status"
+                                    >
+                                      <span className="visually-hidden">
+                                        Loading...
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    "Valider"
+                                  )}
                                 </button>
                               </div>
                             </form>
@@ -249,7 +335,10 @@ const Marque = () => {
                         </div>
                         <div className="modal-body">
                           {updatedMarque && (
-                            <form className="row">
+                            <form
+                              className="row"
+                              onSubmit={(e) => handleUpdate(e)}
+                            >
                               <div className="col-12">
                                 <div className="mb-3">
                                   <label htmlFor="nom" className="form-label">
@@ -267,16 +356,28 @@ const Marque = () => {
                                         nom: e.target.value,
                                       })
                                     }
+                                    required
                                   />
                                 </div>
                               </div>
                               <div className="col-12 mb-3">
                                 <button
-                                  type="button"
+                                  type="submit"
                                   className="btn btn-primary w-100"
-                                  onClick={handleUpdate}
                                 >
                                   Valider
+                                  {loadingUpdate ? (
+                                    <div
+                                      className="spinner-border spinner-border-sm"
+                                      role="status"
+                                    >
+                                      <span className="visually-hidden">
+                                        Loading...
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    "Valider"
+                                  )}
                                 </button>
                               </div>
                             </form>
@@ -329,7 +430,18 @@ const Marque = () => {
                             className="btn btn-danger"
                             onClick={() => handleDelete(marque.id)}
                           >
-                            Supprimer
+                            {loadingDelete ? (
+                              <div
+                                className="spinner-border spinner-border-sm"
+                                role="status"
+                              >
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
+                              </div>
+                            ) : (
+                              "Supprimer"
+                            )}
                           </button>
                         </div>
                       </div>
@@ -338,6 +450,29 @@ const Marque = () => {
                 </Fragment>
               ))}
           </div>
+
+          <h5
+            className="text-center fw-semibold"
+            style={{ color: "var(--bs-muted)" }}
+          >
+            {loadingFetch ? (
+              <div className="spinner-border mt-5" role="status">
+                <span
+                  className="visually-hidden"
+                  style={{
+                    "--bs-spinner-width": "1.25rem",
+                    "--bs-spinner-height": "1.25rem",
+                  }}
+                >
+                  Loading...
+                </span>
+              </div>
+            ) : (
+              resultMarques.length === 0 && (
+                <div className="mt-5">Aucune marque</div>
+              )
+            )}
+          </h5>
 
           {totalPages > 1 && (
             <div className="row">
