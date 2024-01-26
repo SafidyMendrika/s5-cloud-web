@@ -19,6 +19,15 @@ const Vitesse = () => {
   const [showPerPage, setShowPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(null);
 
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const [filters, setFilters] = useState({
+    motCle: "",
+  });
+
   useEffect(() => {
     fetchVitesses();
   }, []);
@@ -34,97 +43,148 @@ const Vitesse = () => {
         currentPage * showPerPage
       )
     );
+    if (filteredVitesses.length <= showPerPage) {
+      setFilteredVitesses(filteredVitesses);
+    }
 
     setTotalPages(Math.ceil(filteredVitesses.length / showPerPage));
   }, [filteredVitesses, currentPage, showPerPage]);
 
+  useEffect(() => {
+    const filteredVitesses = vitesses.filter(
+      (vitesse) =>
+        vitesse.id.toString().includes(filters.motCle) ||
+        vitesse.nom.toLowerCase().includes(filters.motCle.toLowerCase())
+    );
+
+    setFilteredVitesses(filteredVitesses);
+  }, [filters, vitesses]);
+
   const fetchVitesses = () => {
-    // fetch(`${API_URL}/vitesses`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setVitesses(data.data);
-    //   });
-    setVitesses(dataVitesse);
+    fetch(`${API_URL}/vitesses`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setVitesses(data.data);
+            setLoadingFetch(false);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setVitesses(dataVitesse);
+    // setLoadingFetch(false);
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const handleSearch = ({ target: { value } }) => {
-    if (value === "") {
-      setFilteredVitesses(vitesses);
-    } else {
-      setFilteredVitesses(
-        vitesses.filter((vitesse) =>
-          vitesse.nom.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    }
+  const handleCreate = (e) => {
+    e.preventDefault();
+    setLoadingCreate(true);
+
+    fetch(`${API_URL}/vitesses`, {
+      method: "POST",
+      body: JSON.stringify({
+        nom: createdVitesse.nom,
+      }),
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setVitesses([...vitesses, data.data]);
+            setLoadingCreate(false);
+            setCreatedVitesse(EMPTY_VITESSE);
+            document.querySelector("#modalCreate .btn-close").click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setVitesses([...vitesses, { ...createdVitesse, id: vitesses.length + 1 }]);
+    // setLoadingCreate(false);
+    // setCreatedVitesse(EMPTY_VITESSE);
+    // document.querySelector("#modalCreate .btn-close").click();
   };
 
-  const handleCreate = () => {
-    // fetch(`${API_URL}/vitesses`, {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     nom: nom,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setVitesses([...vitesses, data.data]);
-    //   });
-    if (createdVitesse.nom === "") return;
-    setCreatedVitesse(EMPTY_VITESSE);
-    setVitesses([...vitesses, { ...createdVitesse, id: vitesses.length + 1 }]);
-    document.querySelector("#modalCreate .btn-close").click();
-  };
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    setLoadingUpdate(true);
 
-  const handleUpdate = () => {
-    // fetch(`${API_URL}/vitesses/${updatedVitesse.id}`, {
-    //   method: "PUT",
-    //   body: JSON.stringify({
-    //     nom: updatedVitesse.nom,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setVitesses(
-    //       vitesses.map((vitesse) =>
-    //         vitesse.id === data.data.id ? data.data : vitesse
-    //       )
-    //     );
-    //   });
-    setVitesses(
-      vitesses.map((vitesse) =>
-        vitesse.id === updatedVitesse.id ? updatedVitesse : vitesse
-      )
-    );
-    document
-      .querySelector(`#modalUpdate-${updatedVitesse.id} .btn-close`)
-      .click();
+    fetch(`${API_URL}/vitesses/${updatedVitesse.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        nom: updatedVitesse.nom,
+      }),
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setVitesses(
+              vitesses.map((vitesse) =>
+                vitesse.id === data.data.id ? data.data : vitesse
+              )
+            );
+            setLoadingUpdate(false);
+            document
+              .querySelector(`#modalUpdate-${updatedVitesse.id} .btn-close`)
+              .click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setVitesses(
+    //   vitesses.map((vitesse) =>
+    //     vitesse.id === updatedVitesse.id ? updatedVitesse : vitesse
+    //   )
+    // );
+    // setLoadingUpdate(false);
+    // document
+    //   .querySelector(`#modalUpdate-${updatedVitesse.id} .btn-close`)
+    //   .click();
   };
 
   const handleDelete = (id) => {
-    // fetch(`${API_URL}/vitesses/${id}`, {
-    //   method: "DELETE",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setVitesses(
-    //       vitesses.filter((vitesse) => vitesse.id !== data.data.id)
-    //     );
-    //   });
-    setVitesses(vitesses.filter((vitesse) => vitesse.id !== id));
-    document.querySelector(`#modalDelete-${id} .btn-close`).click();
+    setLoadingDelete(true);
+
+    fetch(`${API_URL}/vitesses/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setVitesses(
+              vitesses.filter((vitesse) => vitesse.id !== data.data.id)
+            );
+            setLoadingDelete(false);
+            document.querySelector(`#modalDelete-${id} .btn-close`).click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setVitesses(vitesses.filter((vitesse) => vitesse.id !== id));
+    // setLoadingDelete(false);
+    // document.querySelector(`#modalDelete-${id} .btn-close`).click();
   };
 
   return (
@@ -137,14 +197,25 @@ const Vitesse = () => {
               <h5 className="card-title fw-semibold mb-4">
                 Liste des vitesses
               </h5>
-              <div className="row mb-4">
+              <div className="row mb-4 align-items-end">
                 <form className="col-sm-5 col-12 mb-sm-0 mb-3">
                   <div className="">
+                    <label htmlFor="inputMotCle" className="form-label">
+                      Mot clé
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="Entrer un mot clé"
-                      onChange={handleSearch}
+                      name="motCle"
+                      value={filters.motCle}
+                      onChange={(e) =>
+                        setFilters({
+                          ...filters,
+                          [e.target.name]: e.target.value,
+                        })
+                      }
+                      id="inputMotCle"
                     />
                   </div>
                 </form>
@@ -181,7 +252,10 @@ const Vitesse = () => {
                             ></button>
                           </div>
                           <div className="modal-body">
-                            <form className="row">
+                            <form
+                              className="row"
+                              onSubmit={(e) => handleCreate(e)}
+                            >
                               <div className="col-12">
                                 <div className="mb-3">
                                   <label htmlFor="nom" className="form-label">
@@ -199,16 +273,27 @@ const Vitesse = () => {
                                         nom: e.target.value,
                                       })
                                     }
+                                    required
                                   />
                                 </div>
                               </div>
                               <div className="col-12 mb-3">
                                 <button
-                                  type="button"
+                                  type="submit"
                                   className="btn btn-primary w-100"
-                                  onClick={handleCreate}
                                 >
-                                  Valider
+                                  {loadingCreate ? (
+                                    <div
+                                      className="spinner-border spinner-border-sm"
+                                      role="status"
+                                    >
+                                      <span className="visually-hidden">
+                                        Loading...
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    "Valider"
+                                  )}
                                 </button>
                               </div>
                             </form>
@@ -264,6 +349,28 @@ const Vitesse = () => {
                       ))}
                   </tbody>
                 </table>
+                <h5
+                  className="text-center fw-semibold"
+                  style={{ color: "var(--bs-muted)" }}
+                >
+                  {loadingFetch ? (
+                    <div className="spinner-border mt-5" role="status">
+                      <span
+                        className="visually-hidden"
+                        style={{
+                          "--bs-spinner-width": "1.25rem",
+                          "--bs-spinner-height": "1.25rem",
+                        }}
+                      >
+                        Loading...
+                      </span>
+                    </div>
+                  ) : (
+                    resultVitesses.length === 0 && (
+                      <div className="mt-5">Aucune vitesse</div>
+                    )
+                  )}
+                </h5>
               </div>
               {totalPages > 1 && (
                 <div className="row">
@@ -305,7 +412,7 @@ const Vitesse = () => {
                   </div>
                   <div className="modal-body">
                     {updatedVitesse && (
-                      <form className="row">
+                      <form className="row" onSubmit={(e) => handleUpdate(e)}>
                         <div className="col-12">
                           <div className="mb-3">
                             <label htmlFor="nom" className="form-label">
@@ -323,16 +430,27 @@ const Vitesse = () => {
                                   nom: e.target.value,
                                 })
                               }
+                              required
                             />
                           </div>
                         </div>
                         <div className="col-12 mb-3">
                           <button
-                            type="button"
+                            type="submit"
                             className="btn btn-primary w-100"
-                            onClick={handleUpdate}
                           >
-                            Valider
+                            {loadingUpdate ? (
+                              <div
+                                className="spinner-border spinner-border-sm"
+                                role="status"
+                              >
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
+                              </div>
+                            ) : (
+                              "Valider"
+                            )}
                           </button>
                         </div>
                       </form>
@@ -385,7 +503,16 @@ const Vitesse = () => {
                       className="btn btn-danger"
                       onClick={() => handleDelete(vitesse.id)}
                     >
-                      Supprimer
+                      {loadingDelete ? (
+                        <div
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      ) : (
+                        "Supprimer"
+                      )}
                     </button>
                   </div>
                 </div>

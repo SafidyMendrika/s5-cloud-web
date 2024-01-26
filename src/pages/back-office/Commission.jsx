@@ -53,58 +53,59 @@ const Commission = () => {
   }, [commissions]);
 
   const fetchCommission = () => {
-    // fetch(`${API_URL}/commissions/history`, {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setCommissions(data.data);
-    //         setLoadingFetch(false);
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+    fetch(`${API_URL}/commissions/history`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setCommissions(data.data);
+            setLoadingFetch(false);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
 
-    setCommissions(dataCommissions);
-    setLoadingFetch(false);
+    // setCommissions(dataCommissions);
+    // setLoadingFetch(false);
   };
 
   const handleUpdateCommission = (e) => {
     e.preventDefault();
     setLoadingUpdate(true);
 
-    // fetch(`${API_URL}/commissions`, {
-    //   method: "POST",
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setCommissions([...commissions, data.data]);
-    //         setLoadingUpdate(false);
-    //         setFormData({ commission: "" });
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
-
-    setCommissions([
-      ...commissions,
-      {
-        id: commissions.length + 1,
-        commission: parseFloat(formData.commission),
-        dateInsertion: new Date(),
+    fetch(`${API_URL}/commissions`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
       },
-    ]);
-    setLoadingUpdate(false);
-    setFormData({ commission: "" });
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setCommissions([...commissions, data.data]);
+            setLoadingUpdate(false);
+            setFormData({ commission: "" });
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setCommissions([
+    //   ...commissions,
+    //   {
+    //     id: commissions.length + 1,
+    //     commission: parseFloat(formData.commission),
+    //     dateInsertion: new Date(),
+    //   },
+    // ]);
+    // setLoadingUpdate(false);
+    // setFormData({ commission: "" });
   };
 
   return (
@@ -125,16 +126,8 @@ const Commission = () => {
                       style={{ color: "var(--bs-muted)" }}
                     >
                       {loadingFetch ? (
-                        <div className="spinner-border" role="status">
-                          <span
-                            className="visually-hidden"
-                            style={{
-                              "--bs-spinner-width": "1.25rem",
-                              "--bs-spinner-height": "1.25rem",
-                            }}
-                          >
-                            Loading...
-                          </span>
+                        <div className="spinner-border fs-4" role="status">
+                          <span className="visually-hidden">Loading...</span>
                         </div>
                       ) : commissionActuelle === null ? (
                         "Non définie"
@@ -205,7 +198,7 @@ const Commission = () => {
               <h5 className="card-title mb-9 fw-semibold">
                 5 dernières modifications
               </h5>
-              <div className="table-responsive">
+              <div className="table-responsive mb-4">
                 <table className="table text-nowrap align-middle">
                   <thead className="text-dark fs-4 table-light">
                     <tr>

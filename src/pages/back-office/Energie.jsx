@@ -19,6 +19,15 @@ const Energie = () => {
   const [showPerPage, setShowPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState(null);
 
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const [filters, setFilters] = useState({
+    motCle: "",
+  });
+
   useEffect(() => {
     fetchEnergies();
   }, []);
@@ -34,97 +43,148 @@ const Energie = () => {
         currentPage * showPerPage
       )
     );
+    if (filteredEnergies.length <= showPerPage) {
+      setResultEnergies(filteredEnergies);
+    }
 
     setTotalPages(Math.ceil(filteredEnergies.length / showPerPage));
   }, [filteredEnergies, currentPage, showPerPage]);
 
+  useEffect(() => {
+    const filteredEnergies = energies.filter(
+      (energie) =>
+        energie.id.toString().includes(filters.motCle) ||
+        energie.nom.toLowerCase().includes(filters.motCle.toLowerCase())
+    );
+
+    setFilteredEnergies(filteredEnergies);
+  }, [filters, energies]);
+
   const fetchEnergies = () => {
-    // fetch(`${API_URL}/energies`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setEnergies(data.data);
-    //   });
-    setEnergies(dataEnergie);
+    fetch(`${API_URL}/energies`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setEnergies(data.data);
+            setLoadingFetch(false);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setEnergies(dataEnergie);
+    // setLoadingFetch(false);
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const handleSearch = ({ target: { value } }) => {
-    if (value === "") {
-      setFilteredEnergies(energies);
-    } else {
-      setFilteredEnergies(
-        energies.filter((energie) =>
-          energie.nom.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    }
+  const handleCreate = (e) => {
+    e.preventDefault();
+    setLoadingCreate(true);
+
+    fetch(`${API_URL}/energies`, {
+      method: "POST",
+      body: JSON.stringify({
+        nom: createdEnergie.nom,
+      }),
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setEnergies([...energies, data.data]);
+            setLoadingCreate(false);
+            setCreatedEnergie(EMPTY_ENERGIE);
+            document.querySelector("#modalCreate .btn-close").click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setEnergies([...energies, { ...createdEnergie, id: energies.length + 1 }]);
+    // setLoadingCreate(false);
+    // setCreatedEnergie(EMPTY_ENERGIE);
+    // document.querySelector("#modalCreate .btn-close").click();
   };
 
-  const handleCreate = () => {
-    // fetch(`${API_URL}/energies`, {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     nom: nom,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setEnergies([...energies, data.data]);
-    //   });
-    if (createdEnergie.nom === "") return;
-    setCreatedEnergie(EMPTY_ENERGIE);
-    setEnergies([...energies, { ...createdEnergie, id: energies.length + 1 }]);
-    document.querySelector("#modalCreate .btn-close").click();
-  };
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    setLoadingUpdate(true);
 
-  const handleUpdate = () => {
-    // fetch(`${API_URL}/energies/${updatedEnergie.id}`, {
-    //   method: "PUT",
-    //   body: JSON.stringify({
-    //     nom: updatedEnergie.nom,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setEnergies(
-    //       energies.map((energie) =>
-    //         energie.id === data.data.id ? data.data : energie
-    //       )
-    //     );
-    //   });
-    setEnergies(
-      energies.map((energie) =>
-        energie.id === updatedEnergie.id ? updatedEnergie : energie
-      )
-    );
-    document
-      .querySelector(`#modalUpdate-${updatedEnergie.id} .btn-close`)
-      .click();
+    fetch(`${API_URL}/energies/${updatedEnergie.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        nom: updatedEnergie.nom,
+      }),
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setEnergies(
+              energies.map((energie) =>
+                energie.id === data.data.id ? data.data : energie
+              )
+            );
+            setLoadingUpdate(false);
+            document
+              .querySelector(`#modalUpdate-${updatedEnergie.id} .btn-close`)
+              .click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setEnergies(
+    //   energies.map((energie) =>
+    //     energie.id === updatedEnergie.id ? updatedEnergie : energie
+    //   )
+    // );
+    // setLoadingUpdate(false);
+    // document
+    //   .querySelector(`#modalUpdate-${updatedEnergie.id} .btn-close`)
+    //   .click();
   };
 
   const handleDelete = (id) => {
-    // fetch(`${API_URL}/energies/${id}`, {
-    //   method: "DELETE",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setEnergies(
-    //       energies.filter((energie) => energie.id !== data.data.id)
-    //     );
-    //   });
-    setEnergies(energies.filter((energie) => energie.id !== id));
-    document.querySelector(`#modalDelete-${id} .btn-close`).click();
+    setLoadingDelete(true);
+
+    fetch(`${API_URL}/energies/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setEnergies(
+              energies.filter((energie) => energie.id !== data.data.id)
+            );
+            setLoadingDelete(false);
+            document.querySelector(`#modalDelete-${id} .btn-close`).click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setEnergies(energies.filter((energie) => energie.id !== id));
+    // setLoadingDelete(false);
+    // document.querySelector(`#modalDelete-${id} .btn-close`).click();
   };
 
   return (
@@ -137,14 +197,25 @@ const Energie = () => {
               <h5 className="card-title fw-semibold mb-4">
                 Liste des energies
               </h5>
-              <div className="row mb-4">
+              <div className="row mb-4 align-items-end">
                 <form className="col-sm-5 col-12 mb-sm-0 mb-3">
                   <div className="">
+                    <label htmlFor="inputMotCle" className="form-label">
+                      Mot clé
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="Entrer un mot clé"
-                      onChange={handleSearch}
+                      name="motCle"
+                      value={filters.motCle}
+                      onChange={(e) =>
+                        setFilters({
+                          ...filters,
+                          [e.target.name]: e.target.value,
+                        })
+                      }
+                      id="inputMotCle"
                     />
                   </div>
                 </form>
@@ -181,7 +252,10 @@ const Energie = () => {
                             ></button>
                           </div>
                           <div className="modal-body">
-                            <form className="row">
+                            <form
+                              className="row"
+                              onSubmit={(e) => handleCreate(e)}
+                            >
                               <div className="col-12">
                                 <div className="mb-3">
                                   <label htmlFor="nom" className="form-label">
@@ -199,16 +273,27 @@ const Energie = () => {
                                         nom: e.target.value,
                                       })
                                     }
+                                    required
                                   />
                                 </div>
                               </div>
                               <div className="col-12 mb-3">
                                 <button
-                                  type="button"
+                                  type="submit"
                                   className="btn btn-primary w-100"
-                                  onClick={handleCreate}
                                 >
-                                  Valider
+                                  {loadingCreate ? (
+                                    <div
+                                      className="spinner-border spinner-border-sm"
+                                      role="status"
+                                    >
+                                      <span className="visually-hidden">
+                                        Loading...
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    "Valider"
+                                  )}
                                 </button>
                               </div>
                             </form>
@@ -264,6 +349,28 @@ const Energie = () => {
                       ))}
                   </tbody>
                 </table>
+                <h5
+                  className="text-center fw-semibold"
+                  style={{ color: "var(--bs-muted)" }}
+                >
+                  {loadingFetch ? (
+                    <div className="spinner-border mt-5" role="status">
+                      <span
+                        className="visually-hidden"
+                        style={{
+                          "--bs-spinner-width": "1.25rem",
+                          "--bs-spinner-height": "1.25rem",
+                        }}
+                      >
+                        Loading...
+                      </span>
+                    </div>
+                  ) : (
+                    resultEnergies.length === 0 && (
+                      <div className="mt-5">Aucune energie</div>
+                    )
+                  )}
+                </h5>
               </div>
               {totalPages > 1 && (
                 <div className="row">
@@ -305,7 +412,7 @@ const Energie = () => {
                   </div>
                   <div className="modal-body">
                     {updatedEnergie && (
-                      <form className="row">
+                      <form className="row" onSubmit={(e) => handleUpdate(e)}>
                         <div className="col-12">
                           <div className="mb-3">
                             <label htmlFor="nom" className="form-label">
@@ -323,16 +430,27 @@ const Energie = () => {
                                   nom: e.target.value,
                                 })
                               }
+                              required
                             />
                           </div>
                         </div>
                         <div className="col-12 mb-3">
                           <button
-                            type="button"
+                            type="submit"
                             className="btn btn-primary w-100"
-                            onClick={handleUpdate}
                           >
-                            Valider
+                            {loadingUpdate ? (
+                              <div
+                                className="spinner-border spinner-border-sm"
+                                role="status"
+                              >
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
+                              </div>
+                            ) : (
+                              "Valider"
+                            )}
                           </button>
                         </div>
                       </form>
@@ -385,7 +503,16 @@ const Energie = () => {
                       className="btn btn-danger"
                       onClick={() => handleDelete(energie.id)}
                     >
-                      Supprimer
+                      {loadingDelete ? (
+                        <div
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      ) : (
+                        "Supprimer"
+                      )}
                     </button>
                   </div>
                 </div>

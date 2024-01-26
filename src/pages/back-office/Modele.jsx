@@ -523,7 +523,7 @@ const Modele = () => {
                             {modele.nom}
                           </td>
                           <td className="text-dark fw-semibold">
-                            {/*{modele.marque.nom}*/}
+                            {modele.marque.nom}
                           </td>
                           <td className="text-dark fw-semibold">
                             {modele.categorie.nom}
