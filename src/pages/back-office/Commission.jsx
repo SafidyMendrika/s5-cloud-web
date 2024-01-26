@@ -1,23 +1,110 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "../../context/UrlContext";
-import { dataCommisson } from "../../data/back-office";
+import { dataCommissions } from "../../data/back-office";
+import { format } from "date-fns";
 
 const Commission = () => {
-  const [commission, setCommission] = useState(null);
+  const [commissions, setCommissions] = useState([]);
+  const [resultCommissions, setResultCommissions] = useState([]);
+  const [commissionActuelle, setCommissionActuelle] = useState(null);
+
+  const [formData, setFormData] = useState({
+    commission: "",
+  });
+
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
 
   useEffect(() => {
     fetchCommission();
-  });
+  }, []);
+
+  useEffect(() => {
+    const resultCommissions = commissions
+      .sort((a, b) => new Date(b.dateInsertion) - new Date(a.dateInsertion))
+      .map((commission, index, array) => {
+        const date = new Date(commission.dateInsertion);
+        const previousCommission = array[index + 1];
+
+        let variation = 0;
+        if (previousCommission) {
+          if (commission.commission > previousCommission.commission) {
+            variation = 1;
+          } else if (commission.commission < previousCommission.commission) {
+            variation = -1;
+          } else {
+            variation = 0;
+          }
+        }
+
+        return {
+          ...commission,
+          date: format(date, "d MMMM yyyy"),
+          heure: format(date, "HH:mm"),
+          variation,
+        };
+      });
+
+    setResultCommissions(resultCommissions.slice(0, 5));
+
+    setCommissionActuelle(
+      resultCommissions[0] ? resultCommissions[0].commission : null
+    );
+  }, [commissions]);
 
   const fetchCommission = () => {
-    // fetch(`${API_URL}/commissions`, {
+    // fetch(`${API_URL}/commissions/history`, {
     //   method: "GET",
+    //   headers: {
+    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+    //   },
     // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setCommission(data.data);
-    //   });
-    setCommission(dataCommisson);
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       response.json().then((data) => {
+    //         setCommissions(data.data);
+    //         setLoadingFetch(false);
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => console.error(err));
+
+    setCommissions(dataCommissions);
+    setLoadingFetch(false);
+  };
+
+  const handleUpdateCommission = (e) => {
+    e.preventDefault();
+    setLoadingUpdate(true);
+
+    // fetch(`${API_URL}/commissions`, {
+    //   method: "POST",
+    //   headers: {
+    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+    //   },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       response.json().then((data) => {
+    //         setCommissions([...commissions, data.data]);
+    //         setLoadingUpdate(false);
+    //         setFormData({ commission: "" });
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => console.error(err));
+
+    setCommissions([
+      ...commissions,
+      {
+        id: commissions.length + 1,
+        commission: parseFloat(formData.commission),
+        dateInsertion: new Date(),
+      },
+    ]);
+    setLoadingUpdate(false);
+    setFormData({ commission: "" });
   };
 
   return (
@@ -37,7 +124,23 @@ const Commission = () => {
                       className="fw-semibold"
                       style={{ color: "var(--bs-muted)" }}
                     >
-                      {commission && commission.commissionActuelle}%
+                      {loadingFetch ? (
+                        <div className="spinner-border" role="status">
+                          <span
+                            className="visually-hidden"
+                            style={{
+                              "--bs-spinner-width": "1.25rem",
+                              "--bs-spinner-height": "1.25rem",
+                            }}
+                          >
+                            Loading...
+                          </span>
+                        </div>
+                      ) : commissionActuelle === null ? (
+                        "Non définie"
+                      ) : (
+                        `${commissionActuelle}%`
+                      )}
                     </h4>
                   </div>
                   <div className="col-4">
@@ -56,17 +159,39 @@ const Commission = () => {
                 <h5 className="card-title fw-semibold mb-4">
                   Modifier la commission
                 </h5>
-                <form className="row">
+                <form
+                  className="row"
+                  onSubmit={(e) => handleUpdateCommission(e)}
+                >
                   <div className="col-12 mb-3">
                     <input
                       type="number"
                       className="form-control"
                       placeholder="Entrer la nouvelle commission"
+                      value={formData.commission}
+                      onChange={(e) =>
+                        setFormData({ commission: e.target.value })
+                      }
+                      min={0}
+                      max={100}
+                      required
                     />
                   </div>
                   <div className="col-12">
-                    <button className="btn btn-primary w-100 py-8 fs-4 rounded-2">
-                      Modifier
+                    <button
+                      type="submit"
+                      className="btn btn-primary w-100 py-8 fs-4 rounded-2"
+                    >
+                      {loadingUpdate ? (
+                        <div
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      ) : (
+                        "Valider"
+                      )}
                     </button>
                   </div>
                 </form>
@@ -84,22 +209,66 @@ const Commission = () => {
                 <table className="table text-nowrap align-middle">
                   <thead className="text-dark fs-4 table-light">
                     <tr>
-                      <th className="border-bottom-0">Date</th>
+                      <th className="border-bottom-0" style={{ width: "0px" }}>
+                        Date
+                      </th>
+                      <th className="border-bottom-0">Heure</th>
                       <th className="border-bottom-0">Commission</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {commission &&
-                      commission.historique.map((item, index) => (
+                    {resultCommissions &&
+                      resultCommissions.map((commission, index) => (
                         <tr key={index}>
-                          <td>{item.date}</td>
-                          <td className="text-dark fw-semibold">
-                            {item.commission}%
+                          <td style={{ width: "0px" }}>{commission.date}</td>
+                          <td>{commission.heure}</td>
+                          <td className="text-dark fw-semibold d-flex">
+                            {commission.variation === 1 && (
+                              <span className="me-3 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                <i className="ti ti-arrow-up-left text-success"></i>
+                              </span>
+                            )}
+                            {commission.variation === -1 && (
+                              <span className="me-3 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                <i className="ti ti-arrow-down-right text-danger"></i>
+                              </span>
+                            )}
+                            {commission.variation === 0 && (
+                              <span className="me-3 rounded-circle bg-light-secondary round-20 d-flex align-items-center justify-content-center">
+                                <span
+                                  className="bg-secondary rounded-circle d-inline-block"
+                                  style={{ width: "6px", height: "6px" }}
+                                ></span>
+                              </span>
+                            )}
+                            {commission.commission}%
                           </td>
                         </tr>
                       ))}
                   </tbody>
                 </table>
+                <h5
+                  className="text-center fw-semibold"
+                  style={{ color: "var(--bs-muted)" }}
+                >
+                  {loadingFetch ? (
+                    <div className="spinner-border mt-5" role="status">
+                      <span
+                        className="visually-hidden"
+                        style={{
+                          "--bs-spinner-width": "1.25rem",
+                          "--bs-spinner-height": "1.25rem",
+                        }}
+                      >
+                        Loading...
+                      </span>
+                    </div>
+                  ) : (
+                    resultCommissions.length === 0 && (
+                      <div className="mt-5">Aucune historique</div>
+                    )
+                  )}
+                </h5>
               </div>
             </div>
           </div>

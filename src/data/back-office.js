@@ -298,28 +298,30 @@ export var dataEnergie = [
   },
 ];
 
-export var dataCommisson = {
-  commissionActuelle: 10,
-  historique: [
-    {
-      date: "2021-09-01",
-      commission: 13,
-    },
-    {
-      date: "2021-09-02",
-      commission: 12,
-    },
-    {
-      date: "2021-09-03",
-      commission: 11,
-    },
-    {
-      date: "2021-09-04",
-      commission: 15,
-    },
-    {
-      date: "2021-09-05",
-      commission: 14,
-    },
-  ],
-};
+export var dataCommissions = [
+  {
+    id: 1,
+    commission: 12,
+    dateInsertion: "2021-09-02T17:30:14",
+  },
+  {
+    id: 2,
+    commission: 11,
+    dateInsertion: "2021-09-03T17:30:14",
+  },
+  {
+    id: 3,
+    commission: 11,
+    dateInsertion: "2021-09-04T17:30:14",
+  },
+  {
+    id: 4,
+    commission: 14,
+    dateInsertion: "2021-09-05T17:30:14",
+  },
+  {
+    id: 5,
+    commission: 13,
+    dateInsertion: "2024-01-25T17:30:14",
+  },
+];
