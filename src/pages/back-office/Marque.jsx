@@ -7,6 +7,7 @@ import Pagination from "../../components/back-office/Pagination";
 const EMPTY_MARQUE = {
   id: null,
   nom: "",
+  file: null,
 };
 
 const Marque = () => {
@@ -90,35 +91,37 @@ const Marque = () => {
     e.preventDefault();
     setLoadingCreate(true);
 
-    // fetch(`${API_URL}/marques`, {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     nom: createdMarque.nom,
-    //   }),
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //     .then((response) => {
-    //       if (response.status === 200) {
-    //         response.json().then((data) => {
-    //           setMarques([...marques, data.data]);
-    //           setLoadingCreate(false);
-    //           setCreatedMarque(EMPTY_MARQUE);
-    //           document.querySelector("#modalCreate .btn-close").click();
-    //         });
-    //       }
-    //     })
-    //     .catch((err) => console.error(err));
+    const formData = new FormData();
+    formData.append("nom", createdMarque.nom);
+    formData.append("file", createdMarque.file);
 
-    setMarques([
-      ...marques,
-      { ...createdMarque, id: marques.length + 1, nombreModele: 0 },
-    ]);
-    setLoadingCreate(false);
-    setCreatedMarque(EMPTY_MARQUE);
-    document.querySelector("#modalCreate .btn-close").click();
+    fetch(`${API_URL}/marques`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setMarques([...marques, data.data]);
+            setLoadingCreate(false);
+            setCreatedMarque(EMPTY_MARQUE);
+            document.querySelector("#modalCreate .btn-close").click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setMarques([
+    //   ...marques,
+    //   { ...createdMarque, id: marques.length + 1, nombreModele: 0 },
+    // ]);
+    // setLoadingCreate(false);
+    // setCreatedMarque(EMPTY_MARQUE);
+    // document.querySelector("#modalCreate .btn-close").click();
   };
 
   const handleUpdate = (e) => {
@@ -265,11 +268,31 @@ const Marque = () => {
                                     className="form-control"
                                     id="nom"
                                     placeholder="Nom de la marque"
+                                    name="nom"
                                     value={createdMarque.nom}
                                     onChange={(e) =>
                                       setCreatedMarque({
                                         ...createdMarque,
-                                        nom: e.target.value,
+                                        [e.target.name]: e.target.value,
+                                      })
+                                    }
+                                    required
+                                  />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="photo" className="form-label">
+                                    Photo
+                                  </label>
+                                  <input
+                                    type="file"
+                                    className="form-control"
+                                    id="photo"
+                                    name="file"
+                                    value={createdMarque.file}
+                                    onChange={(e) =>
+                                      setCreatedMarque({
+                                        ...createdMarque,
+                                        [e.target.name]: e.target.files[0],
                                       })
                                     }
                                     required
