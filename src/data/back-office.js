@@ -121,127 +121,152 @@ export var dataAnnonce = [
   {
     id: 1,
     utilisateur: {
-      id: 1,
       nom: "John",
     },
     modele: {
-      id: 1,
       nom: "Toyota Corolla",
       marque: {
-        id: 1,
         nom: "Toyota",
       },
       categorie: {
-        id: 1,
         nom: "Compacte",
       },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
     },
     description: "Voiture en bon état",
     prix: 10000000,
     dateAnnonce: "2021-09-01",
     dateValidation: null,
     etat: 0,
-    pathImage: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png`,
+    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce1.png`],
   },
   {
     id: 2,
     utilisateur: {
-      id: 2,
       nom: "Jane",
     },
     modele: {
-      id: 2,
       nom: "BMW Serie 3",
       marque: {
-        id: 2,
         nom: "BMW",
       },
       categorie: {
-        id: 2,
         nom: "Berline",
       },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
     },
     description: "Voiture en bon état",
     prix: 15000000,
     dateAnnonce: "2021-09-02",
     dateValidation: "2021-09-02",
     etat: 10,
-    pathImage: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png`,
+    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce2.png`],
   },
   {
     id: 3,
     utilisateur: {
-      id: 3,
       nom: "Jack",
     },
     modele: {
-      id: 3,
       nom: "Mercedes Classe C",
       marque: {
-        id: 3,
         nom: "Mercedes-Benz",
       },
       categorie: {
-        id: 2,
         nom: "Berline",
       },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
     },
     description: "Voiture en bon état",
     prix: 250000000,
     dateAnnonce: "2021-09-03",
     dateValidation: "2021-09-03",
     etat: 20,
-    pathImage: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png`,
+    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce3.png`],
   },
   {
     id: 4,
     utilisateur: {
-      id: 4,
       nom: "Jill",
     },
     modele: {
-      id: 4,
       nom: "Honda Civic",
       marque: {
-        id: 4,
         nom: "Honda",
       },
       categorie: {
-        id: 1,
         nom: "Compacte",
       },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
     },
     description: "Voiture en bon état",
     prix: 200000000,
     dateAnnonce: "2021-09-04",
     dateValidation: null,
     etat: 0,
-    pathImage: `${process.env.PUBLIC_URL}/images/annonces/annonce4.png`,
+    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce4.png`],
   },
   {
     id: 5,
     utilisateur: {
-      id: 5,
       nom: "James",
     },
     modele: {
-      id: 5,
       nom: "Ford Focus",
       marque: {
-        id: 5,
         nom: "Ford",
       },
       categorie: {
-        id: 1,
         nom: "Compacte",
       },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
     },
     description: "Voiture en bon état",
     prix: 100000000,
     dateAnnonce: "2021-09-05",
     dateValidation: "2021-09-06",
     etat: 10,
-    pathImage: `${process.env.PUBLIC_URL}/images/annonces/annonce5.png`,
+    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce5.png`],
   },
 ];
 

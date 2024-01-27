@@ -1,4 +1,10 @@
-const CardAnnonce = ({ annonce }) => {
+const CardAnnonce = ({
+  annonce,
+  handleValidate,
+  loadingValidate,
+  handleDelete,
+  loadingDelete,
+}) => {
   return (
     <>
       <div className="col-sm-6 col-xl-4">
@@ -9,7 +15,7 @@ const CardAnnonce = ({ annonce }) => {
               style={{ height: "200px" }}
             >
               <img
-                src={annonce.pathImage}
+                src={annonce.photoAnnonces}
                 className="card-img-top rounded-0"
                 alt="..."
               />
@@ -60,10 +66,16 @@ const CardAnnonce = ({ annonce }) => {
         <div className="modal-dialog modal-xl">
           <div className="modal-content overflow-hidden">
             <div className="modal-body p-0">
+              <button
+                type="button"
+                className="btn-close d-none"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
               <div className="row">
                 <div className="col-lg-5 col-12 mb-lg-0 mb-3 p-0 bg-light">
                   <img
-                    src={annonce.pathImage}
+                    src={annonce.photoAnnonces}
                     className="w-100 h-100"
                     style={{ objectFit: "contain" }}
                     alt="..."
@@ -148,15 +160,15 @@ const CardAnnonce = ({ annonce }) => {
                       </p>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Moteur : </span>
-                        Moteur 2 temps
+                        {annonce.moteur.nom}
                       </p>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Vitesse : </span>
-                        Automatique
+                        {annonce.vitesse.nom}
                       </p>
                       <p className="fs-4 mb-0">
                         <span className="fw-bold">Energie : </span>
-                        Essence
+                        {annonce.energie.nom}
                       </p>
                     </div>
                   </div>
@@ -165,17 +177,36 @@ const CardAnnonce = ({ annonce }) => {
                       {annonce.etat === 0 && (
                         <button
                           className="btn btn-success d-flex justify-content-center align-items-center me-2"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={() => handleValidate(annonce.id)}
                         >
-                          {" "}
-                          Valider
+                          {loadingValidate ? (
+                            <div
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                            >
+                              <span className="visually-hidden">
+                                Loading...
+                              </span>
+                            </div>
+                          ) : (
+                            "Valider"
+                          )}
                         </button>
                       )}
                       <button
                         className="btn btn-danger d-flex justify-content-center align-items-center"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={(e) => handleDelete(annonce.id)}
                       >
-                        Supprimer
+                        {loadingDelete ? (
+                          <div
+                            className="spinner-border spinner-border-sm"
+                            role="status"
+                          >
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        ) : (
+                          "Supprimer"
+                        )}
                       </button>
                     </div>
                   </div>
