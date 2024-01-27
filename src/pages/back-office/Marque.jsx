@@ -18,7 +18,7 @@ const Marque = () => {
   const [updatedMarque, setUpdatedMarque] = useState(EMPTY_MARQUE);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [showPerPage, setShowPerPage] = useState(4);
+  const [showPerPage, setShowPerPage] = useState(8);
   const [totalPages, setTotalPages] = useState(null);
 
   const [loadingFetch, setLoadingFetch] = useState(true);
@@ -100,7 +100,6 @@ const Marque = () => {
       body: formData,
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-        "Content-Type": "multipart/form-data",
       },
     })
       .then((response) => {
@@ -109,6 +108,7 @@ const Marque = () => {
             setMarques([...marques, data.data]);
             setLoadingCreate(false);
             setCreatedMarque(EMPTY_MARQUE);
+            e.target.reset();
             document.querySelector("#modalCreate .btn-close").click();
           });
         }
@@ -128,42 +128,43 @@ const Marque = () => {
     e.preventDefault();
     setLoadingUpdate(true);
 
-    // fetch(`${API_URL}/marques/${updatedMarque.id}`, {
-    //   method: "PUT",
-    //   body: JSON.stringify({
-    //     nom: updatedMarque.nom,
-    //   }),
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //     .then((response) => {
-    //       if (response.status === 200) {
-    //         response.json().then((data) => {
-    //           setMarques(
-    //               marques.map((marque) =>
-    //                   marque.id === data.data.id ? data.data : marque
-    //               )
-    //           );
-    //           setLoadingUpdate(false);
-    //           document
-    //               .querySelector(`#modalUpdate-${updatedMarque.id} .btn-close`)
-    //               .click();
-    //         });
-    //       }
-    //     })
-    //     .catch((err) => console.error(err));
+    const formData = new FormData();
+    formData.append("nom", createdMarque.nom);
+    formData.append("file", createdMarque.file);
 
-    setMarques(
-      marques.map((marque) =>
-        marque.id === updatedMarque.id ? updatedMarque : marque
-      )
-    );
-    setLoadingUpdate(false);
-    document
-      .querySelector(`#modalUpdate-${updatedMarque.id} .btn-close`)
-      .click();
+    fetch(`${API_URL}/marques/${updatedMarque.id}`, {
+      method: "PUT",
+      body: formData,
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setMarques(
+              marques.map((marque) =>
+                marque.id === data.data.id ? data.data : marque
+              )
+            );
+            setLoadingUpdate(false);
+            document
+              .querySelector(`#modalUpdate-${updatedMarque.id} .btn-close`)
+              .click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setMarques(
+    //   marques.map((marque) =>
+    //     marque.id === updatedMarque.id ? updatedMarque : marque
+    //   )
+    // );
+    // setLoadingUpdate(false);
+    // document
+    //   .querySelector(`#modalUpdate-${updatedMarque.id} .btn-close`)
+    //   .click();
   };
 
   const handleDelete = (id) => {
@@ -211,6 +212,7 @@ const Marque = () => {
                       className="form-control"
                       placeholder="Entrer un mot clé"
                       name="motCle"
+                      id="inputMotCle"
                       value={filters.motCle}
                       onChange={(e) =>
                         setFilters({
@@ -288,7 +290,6 @@ const Marque = () => {
                                     className="form-control"
                                     id="photo"
                                     name="file"
-                                    value={createdMarque.file}
                                     onChange={(e) =>
                                       setCreatedMarque({
                                         ...createdMarque,
@@ -372,11 +373,30 @@ const Marque = () => {
                                     className="form-control"
                                     id="nom"
                                     placeholder="Nom de la marque"
+                                    name="nom"
                                     value={updatedMarque.nom}
                                     onChange={(e) =>
                                       setUpdatedMarque({
                                         ...updatedMarque,
-                                        nom: e.target.value,
+                                        [e.target.name]: e.target.value,
+                                      })
+                                    }
+                                    required
+                                  />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="photo" className="form-label">
+                                    Photo
+                                  </label>
+                                  <input
+                                    type="file"
+                                    className="form-control"
+                                    id="photo"
+                                    name="file"
+                                    onChange={(e) =>
+                                      setUpdatedMarque({
+                                        ...updatedMarque,
+                                        [e.target.name]: e.target.files[0],
                                       })
                                     }
                                     required

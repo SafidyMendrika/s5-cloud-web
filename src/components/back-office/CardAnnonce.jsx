@@ -9,7 +9,7 @@ const CardAnnonce = ({ annonce }) => {
               style={{ height: "200px" }}
             >
               <img
-                src={`${process.env.PUBLIC_URL + annonce.pathImage}`}
+                src={annonce.pathImage}
                 className="card-img-top rounded-0"
                 alt="..."
               />
@@ -63,7 +63,7 @@ const CardAnnonce = ({ annonce }) => {
               <div className="row">
                 <div className="col-lg-5 col-12 mb-lg-0 mb-3 p-0 bg-light">
                   <img
-                    src={`${process.env.PUBLIC_URL + annonce.pathImage}`}
+                    src={annonce.pathImage}
                     className="w-100 h-100"
                     style={{ objectFit: "contain" }}
                     alt="..."
