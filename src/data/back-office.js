@@ -146,7 +146,9 @@ export var dataAnnonce = [
     dateAnnonce: "2021-09-01",
     dateValidation: null,
     etat: 0,
-    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce1.png`],
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
+    ],
   },
   {
     id: 2,
@@ -176,7 +178,9 @@ export var dataAnnonce = [
     dateAnnonce: "2021-09-02",
     dateValidation: "2021-09-02",
     etat: 10,
-    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce2.png`],
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
+    ],
   },
   {
     id: 3,
@@ -206,7 +210,9 @@ export var dataAnnonce = [
     dateAnnonce: "2021-09-03",
     dateValidation: "2021-09-03",
     etat: 20,
-    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce3.png`],
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
+    ],
   },
   {
     id: 4,
@@ -236,7 +242,9 @@ export var dataAnnonce = [
     dateAnnonce: "2021-09-04",
     dateValidation: null,
     etat: 0,
-    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce4.png`],
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce4.png` },
+    ],
   },
   {
     id: 5,
@@ -266,7 +274,9 @@ export var dataAnnonce = [
     dateAnnonce: "2021-09-05",
     dateValidation: "2021-09-06",
     etat: 10,
-    photoAnnonces: [`${process.env.PUBLIC_URL}/images/annonces/annonce5.png`],
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce5.png` },
+    ],
   },
 ];
 
@@ -350,3 +360,106 @@ export var dataCommissions = [
     dateInsertion: "2024-01-25T17:30:14",
   },
 ];
+
+export var dataStatistiques = {
+  benefice: 100000000,
+  nombreUtilisateurs: 5,
+  classementsAnnonces: [
+    {
+      id: 1,
+      utilisateur: {
+        nom: "John",
+      },
+      modele: {
+        nom: "Toyota Corolla",
+        marque: {
+          nom: "Toyota",
+        },
+        categorie: {
+          nom: "Compacte",
+        },
+      },
+      moteur: {
+        nom: "Moteur 2 temps",
+      },
+      vitesse: {
+        nom: "Manuelle",
+      },
+      energie: {
+        nom: "Essence",
+      },
+      description: "Voiture en bon état",
+      prix: 10000000,
+      dateAnnonce: "2021-09-01",
+      dateValidation: null,
+      etat: 10,
+      photoAnnonces: [
+        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
+      ],
+    },
+    {
+      id: 2,
+      utilisateur: {
+        nom: "Jane",
+      },
+      modele: {
+        nom: "BMW Serie 3",
+        marque: {
+          nom: "BMW",
+        },
+        categorie: {
+          nom: "Berline",
+        },
+      },
+      moteur: {
+        nom: "Moteur 2 temps",
+      },
+      vitesse: {
+        nom: "Manuelle",
+      },
+      energie: {
+        nom: "Essence",
+      },
+      description: "Voiture en bon état",
+      prix: 15000000,
+      dateAnnonce: "2021-09-02",
+      dateValidation: "2021-09-02",
+      etat: 10,
+      photoAnnonces: [
+        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
+      ],
+    },
+    {
+      id: 3,
+      utilisateur: {
+        nom: "Jack",
+      },
+      modele: {
+        nom: "Mercedes Classe C",
+        marque: {
+          nom: "Mercedes-Benz",
+        },
+        categorie: {
+          nom: "Berline",
+        },
+      },
+      moteur: {
+        nom: "Moteur 2 temps",
+      },
+      vitesse: {
+        nom: "Manuelle",
+      },
+      energie: {
+        nom: "Essence",
+      },
+      description: "Voiture en bon état",
+      prix: 250000000,
+      dateAnnonce: "2021-09-03",
+      dateValidation: "2021-09-03",
+      etat: 20,
+      photoAnnonces: [
+        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
+      ],
+    },
+  ],
+};

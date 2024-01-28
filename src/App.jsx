@@ -14,13 +14,12 @@ import Energie from "./pages/back-office/Energie";
 
 const BackOfficeRoutes = () => (
   <Routes>
-    <Route path="/sign-in" element={<SignIn />} />
+    <Route path="/" element={<SignIn />} />
     <Route
       path="/*"
       element={
         <BackOfficeLayout>
           <Routes>
-            <Route path="/" element={<Statistique />} />
             <Route path="/statistiques" element={<Statistique />} />
             <Route path="/categories" element={<Categorie />} />
             <Route path="/marques" element={<Marque />} />

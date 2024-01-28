@@ -54,7 +54,7 @@ const BackOfficeLayout = ({ children }) => {
   };
 
   const redirectToLogin = () => {
-    window.location.href = "/back-office/sign-in";
+    window.location.href = "/back-office/";
   };
 
   return (

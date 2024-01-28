@@ -48,7 +48,7 @@ const Header = () => {
                 >
                   <div className="message-body">
                     <a
-                      href="/back-office/sign-in"
+                      href="/back-office/"
                       className="btn btn-outline-primary mx-3 mt-2 d-block"
                     >
                       Se deconnecter

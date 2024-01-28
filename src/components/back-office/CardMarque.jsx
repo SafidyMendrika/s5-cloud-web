@@ -40,10 +40,7 @@ const CardMarque = ({ marque, setUpdatedMarque }) => {
             <div className="d-flex align-items-center justify-content-between mb-4">
               <h6 className="fs-4 mb-0" style={{ color: "grey" }}>
                 {marque.nombreModele}{" "}
-                {parseInt(marque.nombreModele) === 1 ||
-                parseInt(marque.nombreModele) === 0
-                  ? "modele"
-                  : "modeles"}
+                {parseInt(marque.nombreModele) > 1 ? "modeles" : "modele"}
               </h6>
             </div>
             <div

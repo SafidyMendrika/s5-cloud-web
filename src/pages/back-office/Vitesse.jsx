@@ -367,7 +367,7 @@ const Vitesse = () => {
                     </div>
                   ) : (
                     resultVitesses.length === 0 && (
-                      <div className="mt-5">Aucune vitesse</div>
+                      <div className="mt-5">Aucun resultat</div>
                     )
                   )}
                 </h5>

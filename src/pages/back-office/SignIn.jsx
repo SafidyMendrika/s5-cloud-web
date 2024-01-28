@@ -3,14 +3,14 @@ import { API_URL } from "../../context/UrlContext";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
-    email: "",
-    mdp: "",
+    email: "root@email.com",
+    mdp: "root",
   });
   const [message, setMessage] = useState("");
   const [isOnload, setIsOnload] = useState(false);
 
   useEffect(() => {
-    localStorage.clear();
+    sessionStorage.clear();
   }, []);
 
   const handleSubmit = (e) => {

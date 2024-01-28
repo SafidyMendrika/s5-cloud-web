@@ -222,7 +222,7 @@ const CardAnnonce = ({
                       </p>
                     </div>
                   </div>
-                  <div>
+                  {handleValidate && (
                     <div className="d-flex">
                       {annonce.etat === 0 && (
                         <button
@@ -259,7 +259,7 @@ const CardAnnonce = ({
                         )}
                       </button>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

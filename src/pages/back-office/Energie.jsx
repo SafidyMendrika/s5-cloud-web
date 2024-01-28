@@ -367,7 +367,7 @@ const Energie = () => {
                     </div>
                   ) : (
                     resultEnergies.length === 0 && (
-                      <div className="mt-5">Aucune energie</div>
+                      <div className="mt-5">Aucun resultat</div>
                     )
                   )}
                 </h5>

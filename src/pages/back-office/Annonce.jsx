@@ -19,6 +19,7 @@ const Annonce = () => {
 
   const [filters, setFilters] = useState({
     motCle: "",
+    prixMin: "",
     etat: "100", // Tous
   });
 
@@ -60,10 +61,13 @@ const Annonce = () => {
           .toLowerCase()
           .includes(filters.motCle.toLowerCase());
 
+      const isMatchingPrixMin =
+        filters.prixMin === "" || annonce.prix >= parseFloat(filters.prixMin);
+
       const isMatchingEtat =
         filters.etat === "100" || annonce.etat === parseInt(filters.etat);
 
-      return isMatchingMotCle && isMatchingEtat;
+      return isMatchingMotCle && isMatchingPrixMin && isMatchingEtat;
     });
 
     setFilteredAnnonces(filteredAnnonces);
@@ -167,9 +171,9 @@ const Annonce = () => {
                 Liste des annonces
               </h5>
               <div className="row mb-3 align-items-end">
-                <form className="col-md-7 col-12 mb-md-0 mb-3">
+                <form className="col-md-12 col-12 mb-md-0 mb-3">
                   <div className="row">
-                    <div className="col-md-6 pe-md-0 mb-md-0 mb-3">
+                    <div className="col-md-4 pe-md-0 mb-md-0 mb-3">
                       <label htmlFor="inputMotCle" className="form-label">
                         Mot clé
                       </label>
@@ -188,7 +192,26 @@ const Annonce = () => {
                         id="inputMotCle"
                       />
                     </div>
-                    <div className="col-md-6 mb-md-0 mb-3">
+                    <div className="col-md-4 pe-md-0 mb-md-0 mb-3">
+                      <label htmlFor="inputPrixMin" className="form-label">
+                        Prix minimun
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Entrer un prix minimun"
+                        name="prixMin"
+                        value={filters.prixMin}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
+                        id="inputPrixMin"
+                      />
+                    </div>
+                    <div className="col-md-4 mb-md-0 mb-3">
                       <label htmlFor="selectEtat" className="form-label">
                         Trier par etat
                       </label>
@@ -248,7 +271,7 @@ const Annonce = () => {
               </div>
             ) : (
               resultAnnonces.length === 0 && (
-                <div className="mt-5">Aucune annonce</div>
+                <div className="mt-5">Aucun resultat</div>
               )
             )}
           </h5>
