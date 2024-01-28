@@ -10,7 +10,7 @@ const Annonce = () => {
   const [filteredAnnonces, setFilteredAnnonces] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [showPerPage, setShowPerPage] = useState(4);
+  const [showPerPage, setShowPerPage] = useState(6);
   const [totalPages, setTotalPages] = useState(null);
 
   const [loadingFetch, setLoadingFetch] = useState(true);
@@ -79,75 +79,77 @@ const Annonce = () => {
       .then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
-            // setAnnonces(data.data);
+            setAnnonces(data.data);
             setLoadingFetch(false);
           });
         }
       })
       .catch((err) => console.error(err));
 
-    setAnnonces(dataAnnonce);
-    setLoadingFetch(false);
+    // setAnnonces(dataAnnonce);
+    // setLoadingFetch(false);
   };
 
   const handleValidate = (id) => {
     setLoadingValidate(true);
 
-    // fetch(`${API_URL}/annonces/${id}/confirmer`, {
-    //   method: "PUT",
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setAnnonces(
-    //           annonces.map((annonce) =>
-    //             annonce.id === data.data.id ? data.data : annonce
-    //           )
-    //         );
-    //         setLoadingValidate(false);
-    //         document.querySelector(`#modalDetail-${id} .btn-close`).click();
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+    fetch(`${API_URL}/annonces/${id}/confirmer`, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setAnnonces(
+              annonces.map((annonce) =>
+                annonce.id === data.data.id ? data.data : annonce
+              )
+            );
+            setLoadingValidate(false);
+            document.querySelector(`#modalDetail-${id} .btn-close`).click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
 
-    setAnnonces(
-      annonces.map((annonce) =>
-        annonce.id === id ? { ...annonce, etat: 10 } : annonce
-      )
-    );
-    setLoadingValidate(false);
-    document.querySelector(`#modalDetail-${id} .btn-close`).click();
+    // setAnnonces(
+    //   annonces.map((annonce) =>
+    //     annonce.id === id ? { ...annonce, etat: 10 } : annonce
+    //   )
+    // );
+    // setLoadingValidate(false);
+    // document.querySelector(`#modalDetail-${id} .btn-close`).click();
   };
 
   const handleDelete = (id) => {
     setLoadingDelete(true);
 
-    // fetch(`${API_URL}/annonces/${id}`, {
-    //   method: "DELETE",
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setAnnonces(
-    //           annonces.filter((annonce) => annonce.id !== data.data.id)
-    //         );
-    //         setLoadingDelete(false);
-    //         document.querySelector(`#modalDetail-${id} .btn-close`).click();
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+    fetch(`${API_URL}/annonces/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setAnnonces(
+              annonces.filter((annonce) => annonce.id !== data.data.id)
+            );
+            setLoadingDelete(false);
+            document.querySelector(`#modalDetail-${id} .btn-close`).click();
+          });
+        }
+      })
+      .catch((err) => console.error(err));
 
-    setAnnonces(annonces.filter((annonce) => annonce.id !== id));
-    setLoadingDelete(false);
-    document.querySelector(`#modalDetail-${id} .btn-close`).click();
+    // setAnnonces(annonces.filter((annonce) => annonce.id !== id));
+    // setLoadingDelete(false);
+    // document.querySelector(`#modalDetail-${id} .btn-close`).click();
   };
 
   const handlePageChange = (page) => {

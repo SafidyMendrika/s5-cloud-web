@@ -8,6 +8,7 @@ const EMPTY_MARQUE = {
   id: null,
   nom: "",
   file: null,
+  nombreModele: 0,
 };
 
 const Marque = () => {
@@ -129,8 +130,8 @@ const Marque = () => {
     setLoadingUpdate(true);
 
     const formData = new FormData();
-    formData.append("nom", createdMarque.nom);
-    formData.append("file", createdMarque.file);
+    formData.append("nom", updatedMarque.nom);
+    formData.append("file", updatedMarque.file);
 
     fetch(`${API_URL}/marques/${updatedMarque.id}`, {
       method: "PUT",
@@ -144,7 +145,9 @@ const Marque = () => {
           response.json().then((data) => {
             setMarques(
               marques.map((marque) =>
-                marque.id === data.data.id ? data.data : marque
+                marque.id === data.data.id
+                  ? { ...data.data, nombreModele: updatedMarque.nombreModele }
+                  : marque
               )
             );
             setLoadingUpdate(false);
@@ -399,7 +402,6 @@ const Marque = () => {
                                         [e.target.name]: e.target.files[0],
                                       })
                                     }
-                                    required
                                   />
                                 </div>
                               </div>
@@ -408,7 +410,6 @@ const Marque = () => {
                                   type="submit"
                                   className="btn btn-primary w-100"
                                 >
-                                  Valider
                                   {loadingUpdate ? (
                                     <div
                                       className="spinner-border spinner-border-sm"

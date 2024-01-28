@@ -88,15 +88,17 @@ const Statistique = () => {
             <div className="card-body">
               <div className="d-sm-flex d-block align-items-center justify-content-between mb-9">
                 <div className="mb-3 mb-sm-0">
-                  <h5 className="card-title fw-semibold">Sales Overview</h5>
+                  <h5 className="card-title fw-semibold">
+                    Rendement des voitures
+                  </h5>
                 </div>
-                <div>
-                  <select className="form-select">
-                    <option value="1">March 2023</option>
-                    <option value="2">April 2023</option>
-                    <option value="3">May 2023</option>
-                    <option value="4">June 2023</option>
-                  </select>
+                <div className="d-flex align-items-center">
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Entrer un nombre"
+                  />
+                  <span className="ms-3 text-nowrap">Derniers mois</span>
                 </div>
               </div>
               <div id="chart">
@@ -111,33 +113,41 @@ const Statistique = () => {
               <div className="card overflow-hidden">
                 <div className="card-body p-4">
                   <h5 className="card-title mb-9 fw-semibold">
-                    Yearly Breakup
+                    Chiffre d'affaire
                   </h5>
                   <div className="row align-items-center">
                     <div className="col-8">
-                      <h4 className="fw-semibold mb-3">$36,358</h4>
-                      <div className="d-flex align-items-center mb-3">
-                        <span className="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                          <i className="ti ti-arrow-up-left text-success"></i>
-                        </span>
-                        <p className="text-dark me-1 fs-3 mb-0">+9%</p>
-                        <p className="fs-3 mb-0">last year</p>
-                      </div>
-                      <div className="d-flex align-items-center">
-                        <div className="me-4">
-                          <span className="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                          <span className="fs-2">2023</span>
-                        </div>
-                        <div>
-                          <span className="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
-                          <span className="fs-2">2023</span>
-                        </div>
-                      </div>
+                      <h2
+                        className="fw-semibold"
+                        style={{
+                          color: "var(--bs-muted)",
+                        }}
+                      >
+                        {"36,358".toLocaleString("en-US")} Ar
+                      </h2>
                     </div>
-                    <div className="col-4">
-                      <div className="d-flex justify-content-center">
-                        <div id="breakup"></div>
-                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card overflow-hidden">
+                <div className="card-body p-4">
+                  <h5 className="card-title mb-9 fw-semibold">
+                    Nombre d'utilisateurs
+                  </h5>
+                  <div className="row align-items-center">
+                    <div className="col-8">
+                      <h2
+                        className="fw-semibold"
+                        style={{
+                          color: "var(--bs-muted)",
+                        }}
+                      >
+                        9 inscrits
+                      </h2>
                     </div>
                   </div>
                 </div>

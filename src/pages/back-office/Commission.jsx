@@ -39,7 +39,7 @@ const Commission = () => {
 
         return {
           ...commission,
-          date: format(date, "d MMMM yyyy"),
+          date: format(date, "dd/MM/yyyy"),
           heure: format(date, "HH:mm"),
           variation,
         };

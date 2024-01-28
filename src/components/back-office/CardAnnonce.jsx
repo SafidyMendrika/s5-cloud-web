@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 const CardAnnonce = ({
   annonce,
   handleValidate,
@@ -11,12 +13,13 @@ const CardAnnonce = ({
         <div className="card overflow-hidden rounded-2">
           <div className="position-relative d-flex justify-content-center align-items-center bg-light">
             <div
-              className="d-flex justify-content-center align-items-center overflow-hidden"
+              className="d-flex justify-content-center align-items-center overflow-hidden w-100"
               style={{ height: "200px" }}
             >
               <img
-                src={annonce.photoAnnonces}
-                className="card-img-top rounded-0"
+                src={annonce.photoAnnonces[0].path}
+                className="card-img-top rounded-0 h-100 w-100"
+                style={{ objectFit: "cover" }}
                 alt="..."
               />
             </div>
@@ -31,7 +34,8 @@ const CardAnnonce = ({
             <h6 className="fw-semibold fs-4">Par {annonce.utilisateur.nom}</h6>
             <div className="d-flex align-items-center justify-content-between mb-3 flex-wrap">
               <h6 className="fs-4 mb-2" style={{ color: "grey" }}>
-                {annonce.dateAnnonce}
+                {format(annonce.dateAnnonce, "dd/MM/yyyy")} -{" "}
+                {format(annonce.dateAnnonce, "HH:mm")}
               </h6>
               {annonce.etat === 0 ? (
                 <span className="badge bg-danger rounded-3 fw-semibold mb-2">
@@ -73,15 +77,57 @@ const CardAnnonce = ({
                 aria-label="Close"
               ></button>
               <div className="row">
-                <div className="col-lg-5 col-12 mb-lg-0 mb-3 p-0 bg-light">
-                  <img
-                    src={annonce.photoAnnonces}
-                    className="w-100 h-100"
-                    style={{ objectFit: "contain" }}
-                    alt="..."
-                  />
+                <div className="col-lg-6 col-12 mb-lg-0 mb-3 p-0 bg-light">
+                  <div
+                    id={`carousel-${annonce.id}`}
+                    className="carousel slide"
+                    style={{ height: "450px" }}
+                  >
+                    <div className="carousel-inner h-100">
+                      {annonce.photoAnnonces.map((photo, index) => (
+                        <div
+                          className={`carousel-item h-100 ${
+                            index === 0 ? "active" : ""
+                          }`}
+                          key={index}
+                        >
+                          <img
+                            src={photo.path}
+                            className="d-block w-100 h-100"
+                            style={{ objectFit: "cover" }}
+                            alt="..."
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      className="carousel-control-prev"
+                      type="button"
+                      data-bs-target={`#carousel-${annonce.id}`}
+                      data-bs-slide="prev"
+                    >
+                      <span
+                        className="carousel-control-prev-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      className="carousel-control-next"
+                      type="button"
+                      data-bs-target={`#carousel-${annonce.id}`}
+                      data-bs-slide="next"
+                    >
+                      <span
+                        className="carousel-control-next-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Next</span>
+                    </button>
+                  </div>
                 </div>
-                <div className="col-lg-7 col-12 p-7 pt-lg-7 pt-0">
+
+                <div className="col-lg-6 col-12 p-7 pt-lg-7 pt-0">
                   <h1 className="fw-bold">
                     Annonce de {annonce.utilisateur.nom}
                   </h1>
@@ -110,14 +156,18 @@ const CardAnnonce = ({
                         <span className="fw-bold text-decoration-underline text-dark">
                           Date d'annonce
                         </span>
-                        &nbsp; : {annonce.dateAnnonce}
+                        &nbsp; : <br />{" "}
+                        {format(annonce.dateAnnonce, "dd/MM/yyyy")} -{" "}
+                        {format(annonce.dateAnnonce, "HH:mm")}
                       </p>
                       {annonce.dateValidation && (
                         <p className="fs-4 mb-0">
                           <span className="fw-bold text-decoration-underline text-dark">
                             Date de validation
                           </span>
-                          &nbsp; : {annonce.dateValidation}
+                          &nbsp; :<br />
+                          {format(annonce.dateValidation, "dd/MM/yyyy")} -{" "}
+                          {format(annonce.dateValidation, "HH:mm")}
                         </p>
                       )}
 
@@ -139,7 +189,7 @@ const CardAnnonce = ({
                         <span className="fw-bold text-decoration-underline text-dark">
                           Description
                         </span>{" "}
-                        &nbsp; : &nbsp; <br /> {annonce.description}
+                        &nbsp; : <br /> {annonce.description}
                       </p>
                     </div>
                     <div className="col-lg-6">
