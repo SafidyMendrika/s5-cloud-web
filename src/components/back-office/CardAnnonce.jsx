@@ -6,6 +6,7 @@ const CardAnnonce = ({
   loadingValidate,
   handleDelete,
   loadingDelete,
+  nombreFavoris = 0,
 }) => {
   return (
     <>
@@ -37,17 +38,28 @@ const CardAnnonce = ({
                 {format(annonce.dateAnnonce, "dd/MM/yyyy")} -{" "}
                 {format(annonce.dateAnnonce, "HH:mm")}
               </h6>
-              {annonce.etat === 0 ? (
-                <span className="badge bg-danger rounded-3 fw-semibold mb-2">
-                  En attente
-                </span>
-              ) : annonce.etat === 10 ? (
-                <span className="badge bg-success rounded-3 fw-semibold mb-2">
-                  Validé
-                </span>
+              {handleValidate ? (
+                <>
+                  {annonce.etat === 0 ? (
+                    <span className="badge bg-danger rounded-3 fw-semibold mb-2">
+                      En attente
+                    </span>
+                  ) : annonce.etat === 10 ? (
+                    <span className="badge bg-success rounded-3 fw-semibold mb-2">
+                      Validé
+                    </span>
+                  ) : (
+                    <span className="badge bg-secondary rounded-3 fw-semibold mb-2">
+                      Vendu
+                    </span>
+                  )}
+                </>
               ) : (
-                <span className="badge bg-secondary rounded-3 fw-semibold mb-2">
-                  Vendu
+                <span
+                  className="badge rounded-3 fw-semibold mb-2"
+                  style={{ background: "var(--bs-teal)" }}
+                >
+                  {nombreFavoris} &nbsp; &#10084;
                 </span>
               )}
             </div>

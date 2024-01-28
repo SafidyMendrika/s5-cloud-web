@@ -362,104 +362,127 @@ export var dataCommissions = [
 ];
 
 export var dataStatistiques = {
+  rendementVoitures: [
+    { mois: 1, vendus: 1, annonces: 3 },
+    { mois: 2, vendus: 12, annonces: 17 },
+    { mois: 3, vendus: 10, annonces: 12 },
+    { mois: 4, vendus: 5, annonces: 8 },
+    { mois: 5, vendus: 4, annonces: 9 },
+    { mois: 6, vendus: 10, annonces: 11 },
+    { mois: 7, vendus: 1, annonces: 10 },
+    { mois: 8, vendus: 2, annonces: 13 },
+    { mois: 9, vendus: 4, annonces: 15 },
+    { mois: 10, vendus: 10, annonces: 14 },
+    { mois: 11, vendus: 6, annonces: 16 },
+    { mois: 12, vendus: 11, annonces: 18 },
+  ],
   benefice: 100000000,
   nombreUtilisateurs: 5,
   classementsAnnonces: [
     {
-      id: 1,
-      utilisateur: {
-        nom: "John",
-      },
-      modele: {
-        nom: "Toyota Corolla",
-        marque: {
-          nom: "Toyota",
+      annonce: {
+        id: 1,
+        utilisateur: {
+          nom: "John",
         },
-        categorie: {
-          nom: "Compacte",
+        modele: {
+          nom: "Toyota Corolla",
+          marque: {
+            nom: "Toyota",
+          },
+          categorie: {
+            nom: "Compacte",
+          },
         },
+        moteur: {
+          nom: "Moteur 2 temps",
+        },
+        vitesse: {
+          nom: "Manuelle",
+        },
+        energie: {
+          nom: "Essence",
+        },
+        description: "Voiture en bon état",
+        prix: 10000000,
+        dateAnnonce: "2021-09-01",
+        dateValidation: null,
+        etat: 10,
+        photoAnnonces: [
+          { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
+        ],
       },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 10000000,
-      dateAnnonce: "2021-09-01",
-      dateValidation: null,
-      etat: 10,
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
-      ],
+      count: 100,
     },
     {
-      id: 2,
-      utilisateur: {
-        nom: "Jane",
-      },
-      modele: {
-        nom: "BMW Serie 3",
-        marque: {
-          nom: "BMW",
+      annonce: {
+        id: 2,
+        utilisateur: {
+          nom: "Jane",
         },
-        categorie: {
-          nom: "Berline",
+        modele: {
+          nom: "BMW Serie 3",
+          marque: {
+            nom: "BMW",
+          },
+          categorie: {
+            nom: "Berline",
+          },
         },
+        moteur: {
+          nom: "Moteur 2 temps",
+        },
+        vitesse: {
+          nom: "Manuelle",
+        },
+        energie: {
+          nom: "Essence",
+        },
+        description: "Voiture en bon état",
+        prix: 15000000,
+        dateAnnonce: "2021-09-02",
+        dateValidation: "2021-09-02",
+        etat: 10,
+        photoAnnonces: [
+          { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
+        ],
       },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 15000000,
-      dateAnnonce: "2021-09-02",
-      dateValidation: "2021-09-02",
-      etat: 10,
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
-      ],
+      count: 98,
     },
     {
-      id: 3,
-      utilisateur: {
-        nom: "Jack",
-      },
-      modele: {
-        nom: "Mercedes Classe C",
-        marque: {
-          nom: "Mercedes-Benz",
+      annonce: {
+        id: 3,
+        utilisateur: {
+          nom: "Jack",
         },
-        categorie: {
-          nom: "Berline",
+        modele: {
+          nom: "Mercedes Classe C",
+          marque: {
+            nom: "Mercedes-Benz",
+          },
+          categorie: {
+            nom: "Berline",
+          },
         },
+        moteur: {
+          nom: "Moteur 2 temps",
+        },
+        vitesse: {
+          nom: "Manuelle",
+        },
+        energie: {
+          nom: "Essence",
+        },
+        description: "Voiture en bon état",
+        prix: 250000000,
+        dateAnnonce: "2021-09-03",
+        dateValidation: "2021-09-03",
+        etat: 20,
+        photoAnnonces: [
+          { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
+        ],
       },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 250000000,
-      dateAnnonce: "2021-09-03",
-      dateValidation: "2021-09-03",
-      etat: 20,
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
-      ],
+      count: 79,
     },
   ],
 };

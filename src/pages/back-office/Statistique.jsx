@@ -6,100 +6,158 @@ import CardAnnonce from "../../components/back-office/CardAnnonce";
 
 const Statistique = () => {
   const [chart, setChart] = useState({
-    series: [
-      {
-        name: "Nombre des annonces",
-        data: [30, 40, 23, 10],
-        color: "#5D87FF",
-      },
-      {
-        name: "Vendus",
-        data: [11, 32, 45, 32],
-        color: "#13DEB9",
-      },
-    ],
-
     options: {
       chart: {
         id: "basic-bar",
       },
       xaxis: {
-        categories: ["Jan", "Fev", "Mar", "Avr"],
+        categories: [
+          "Jan",
+          "Fev",
+          "Mar",
+          "Avr",
+          "Mai",
+          "Juin",
+          "Juil",
+          "Aou",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
       },
     },
   });
 
+  const listAnnees = [];
+  for (let i = new Date().getFullYear(); i >= 2023; i--) {
+    listAnnees.push(i);
+  }
+
+  const [rendementVoitures, setRendementVoitures] = useState(null);
   const [benefice, setBenefice] = useState(null);
   const [nombreUtilisateurs, setNombreUtilisateurs] = useState(null);
   const [classementsAnnonces, setClasssementsAnnonces] = useState(null);
 
   useEffect(() => {
+    fetchRendementVoitures();
     fetchBenefice();
     fetchNombreUtilisateurs();
     fetchClassementsAnnonces();
   }, []);
 
-  const fetchBenefice = () => {
-    // fetch(`${API_URL}/benefice`, {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setBenefice(data.data);
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+  useEffect(() => {
+    if (rendementVoitures) {
+      let annonces = [];
+      let vendus = [];
 
-    setBenefice(dataStatistiques.benefice);
+      rendementVoitures.forEach((rendement) => {
+        annonces.push(rendement.annonces);
+        vendus.push(rendement.vendus);
+      });
+
+      setChart({
+        ...chart,
+        series: [
+          {
+            name: "Nombre d'annonces",
+            data: annonces,
+            color: "#5D87FF",
+          },
+          {
+            name: "Vendus",
+            data: vendus,
+            color: "#13DEB9",
+          },
+        ],
+      });
+    }
+  }, [rendementVoitures]);
+
+  const fetchRendementVoitures = (annee = new Date().getFullYear()) => {
+    fetch(`${API_URL}/annonces/statistiques?annee=${annee}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setRendementVoitures(data.data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setRendementVoitures(dataStatistiques.rendementVoitures);
+  };
+
+  const fetchBenefice = () => {
+    fetch(`${API_URL}/benefices`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setBenefice(data.data.benefice);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setBenefice(dataStatistiques.benefice);
   };
 
   const fetchNombreUtilisateurs = () => {
-    // fetch(`${API_URL}/nombre-utilisateurs`, {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setNombreUtilisateurs(data.data);
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+    fetch(`${API_URL}/utilisateurs/nombres`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setNombreUtilisateurs(data.data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
 
-    setNombreUtilisateurs(dataStatistiques.nombreUtilisateurs);
+    // setNombreUtilisateurs(dataStatistiques.nombreUtilisateurs);
   };
 
   const fetchClassementsAnnonces = () => {
-    // fetch(`${API_URL}/classements/annonces`, {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setClasssementsAnnonces(data.data);
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+    fetch(`${API_URL}/classements/annonces?top=3`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("authUserAdmin"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setClasssementsAnnonces(data.data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
 
-    setClasssementsAnnonces(dataStatistiques.classementsAnnonces);
+    // setClasssementsAnnonces(dataStatistiques.classementsAnnonces);
   };
 
   return (
     <>
       <h3 className="mb-4">Statistiques</h3>
-      {benefice && nombreUtilisateurs && classementsAnnonces ? (
+      {rendementVoitures &&
+      benefice != null &&
+      nombreUtilisateurs != null &&
+      classementsAnnonces ? (
         <>
           <div className="row mb-5">
             <div className="col-lg-8 d-flex align-items-strech">
@@ -112,12 +170,17 @@ const Statistique = () => {
                       </h5>
                     </div>
                     <div className="d-flex align-items-center">
-                      <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Entrer un nombre"
-                      />
-                      <span className="ms-3 text-nowrap">Derniers mois</span>
+                      <span className="me-3 text-nowrap">Année</span>
+                      <select
+                        className="form-select"
+                        onChange={(e) => fetchRendementVoitures(e.target.value)}
+                      >
+                        {listAnnees.map((annee) => (
+                          <option key={annee} value={annee}>
+                            {annee}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                   <div id="chart">
@@ -180,7 +243,11 @@ const Statistique = () => {
           </h4>
           <div className="row">
             {classementsAnnonces.map((annonce) => (
-              <CardAnnonce key={annonce.id} annonce={annonce} />
+              <CardAnnonce
+                key={annonce.annonce.id}
+                annonce={annonce.annonce}
+                nombreFavoris={annonce.count}
+              />
             ))}
             <h5 className="fw-semibold" style={{ color: "var(--bs-muted)" }}>
               {classementsAnnonces.length === 0 && (
