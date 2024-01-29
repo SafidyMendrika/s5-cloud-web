@@ -25,7 +25,7 @@ const CardAnnonce = ({
               />
             </div>
             <a
-              href="{#}"
+              href="##"
               className="bg-dark rounded p-2 py-1 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-4 fw-bold"
             >
               {annonce.prix.toLocaleString("en-US")} Ar
