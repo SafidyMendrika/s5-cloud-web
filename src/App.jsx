@@ -1,20 +1,24 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BackOfficeLayout from "./layouts/BackOfficeLayout";
 import FrontOfficeLayout from "./layouts/FrontOfficeLayout";
+
 import Statistique from "./pages/back-office/Statistique";
 import Categorie from "./pages/back-office/Categorie";
 import Marque from "./pages/back-office/Marque";
 import Modele from "./pages/back-office/Modele";
 import Annonce from "./pages/back-office/Annonce";
 import Commission from "./pages/back-office/Commission";
-import SignIn from "./pages/back-office/SignIn";
+import SignInBackOffice from "./pages/back-office/SignIn";
 import Moteur from "./pages/back-office/Moteur";
 import Vitesse from "./pages/back-office/Vitesse";
 import Energie from "./pages/back-office/Energie";
 
+import SignInFrontOffice from "./pages/front-office/SignIn";
+import Accueil from "./pages/front-office/Accueil";
+
 const BackOfficeRoutes = () => (
   <Routes>
-    <Route path="/" element={<SignIn />} />
+    <Route path="/" element={<SignInBackOffice />} />
     <Route
       path="/*"
       element={
@@ -37,11 +41,19 @@ const BackOfficeRoutes = () => (
 );
 
 const FrontOfficeRoutes = () => (
-  <FrontOfficeLayout>
-    <Routes>
-      <Route path="/home" element={<h1>Home</h1>} />
-    </Routes>
-  </FrontOfficeLayout>
+  <Routes>
+    <Route
+      path="/*"
+      element={
+        <FrontOfficeLayout>
+          <Routes>
+            <Route path="/" element={<SignInFrontOffice />} />
+            <Route path="/accueil" element={<Accueil />} />
+          </Routes>
+        </FrontOfficeLayout>
+      }
+    />
+  </Routes>
 );
 
 const App = () => (

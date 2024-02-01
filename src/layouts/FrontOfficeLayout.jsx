@@ -12,13 +12,7 @@ const FrontOfficeLayout = ({ children }) => {
   return (
     <>
       <Header />
-      <h1>Front Office</h1>
-      <a href="/back-office/dashboard" className={handleActivePage("home")}>
-        Home
-      </a>
-      <br />
       <div className="container">{children}</div>
-      <br />
       <Footer />
     </>
   );
