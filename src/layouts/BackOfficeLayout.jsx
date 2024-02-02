@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import "../assets/css/styles.min.css";
+import "../assets/css/template.min.css";
 import "../assets/js/sidebarmenu.js";
 import "../assets/js/app.min.js";
 import SideBar from "../components/back-office/SideBar.jsx";

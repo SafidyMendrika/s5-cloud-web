@@ -1,4 +1,6 @@
 import { useLocation } from "react-router-dom";
+
+import "../assets/css/style.css";
 import Header from "../components/front-office/Header";
 import Footer from "../components/front-office/Footer";
 
@@ -12,7 +14,7 @@ const FrontOfficeLayout = ({ children }) => {
   return (
     <>
       <Header />
-      <div className="container">{children}</div>
+      <div>{children}</div>
       <Footer />
     </>
   );

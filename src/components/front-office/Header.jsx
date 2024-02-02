@@ -1,4 +1,4 @@
-const Header = ({ isConnected = true }) => {
+const Header = ({ isConnected = false }) => {
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light">
@@ -22,7 +22,10 @@ const Header = ({ isConnected = true }) => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarToggler">
-            <ul className="navbar-nav ms-auto me-4 mb-2 mb-lg-0 gap-3">
+            <ul
+              className="navbar-nav ms-auto me-4 mb-2 mb-lg-0"
+              style={{ columnGap: "1rem" }}
+            >
               <li className="nav-item">
                 <a className="nav-link fs-4 fw-bold" href="##">
                   Accueil
