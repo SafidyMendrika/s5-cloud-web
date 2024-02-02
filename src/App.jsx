@@ -47,8 +47,8 @@ const FrontOfficeRoutes = () => (
       element={
         <FrontOfficeLayout>
           <Routes>
-            <Route path="/" element={<SignInFrontOffice />} />
-            <Route path="/accueil" element={<Accueil />} />
+            <Route path="/" element={<Accueil />} />
+            <Route path="/sign-in" element={<SignInFrontOffice />} />
           </Routes>
         </FrontOfficeLayout>
       }
@@ -60,8 +60,7 @@ const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/back-office/*" element={<BackOfficeRoutes />} />
-      <Route path="/front-office/*" element={<FrontOfficeRoutes />} />
-      <Route path="*" element={<h1>Not Found</h1>} />
+      <Route path="/*" element={<FrontOfficeRoutes />} />
     </Routes>
   </BrowserRouter>
 );
