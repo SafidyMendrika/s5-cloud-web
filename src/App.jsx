@@ -13,7 +13,6 @@ import Moteur from "./pages/back-office/Moteur";
 import Vitesse from "./pages/back-office/Vitesse";
 import Energie from "./pages/back-office/Energie";
 
-import SignInFrontOffice from "./pages/front-office/SignIn";
 import Accueil from "./pages/front-office/Accueil";
 
 const BackOfficeRoutes = () => (
@@ -48,7 +47,6 @@ const FrontOfficeRoutes = () => (
         <FrontOfficeLayout>
           <Routes>
             <Route path="/" element={<Accueil />} />
-            <Route path="/sign-in" element={<SignInFrontOffice />} />
           </Routes>
         </FrontOfficeLayout>
       }

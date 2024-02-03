@@ -3,6 +3,7 @@ import { dataMarque, dataClassementsAnnonces } from "../../data/front-office";
 import Hero from "../../components/front-office/Hero";
 import MarqueDispo from "../../components/front-office/MarqueDispo";
 import TopAnnonce from "../../components/front-office/TopAnnonce";
+import ModalSignIn from "../../components/front-office/ModalSignIn";
 
 const Accueil = () => {
   const [marques, setMarques] = useState([]);
@@ -18,6 +19,7 @@ const Accueil = () => {
       <Hero />
       <MarqueDispo data={marques} />
       <TopAnnonce data={classementsAnnonces} />
+      <ModalSignIn />
     </Fragment>
   );
 };

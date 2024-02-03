@@ -133,7 +133,7 @@ export var dataClassementsAnnonces = [
       },
       description: "Voiture en bon état",
       prix: 100000000,
-      dateAnnonce: "2021-09-01",
+      dateAnnonce: "2024-01-01",
       photoAnnonces: [
         { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
       ],
@@ -166,7 +166,7 @@ export var dataClassementsAnnonces = [
       },
       description: "Voiture en bon état",
       prix: 150000000,
-      dateAnnonce: "2021-09-02",
+      dateAnnonce: "2024-01-02",
       photoAnnonces: [
         { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
       ],
@@ -199,7 +199,7 @@ export var dataClassementsAnnonces = [
       },
       description: "Voiture en bon état",
       prix: 250000000,
-      dateAnnonce: "2021-09-03",
+      dateAnnonce: "2024-01-03",
       photoAnnonces: [
         { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
       ],

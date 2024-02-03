@@ -3,7 +3,7 @@ const Header = ({ isConnected = false }) => {
     <header>
       <nav className="navbar navbar-expand-lg navbar-light">
         <div className="container">
-          <a className="navbar-brand" href="##">
+          <a className="navbar-brand" href="/">
             <img
               src={`${process.env.PUBLIC_URL}/images/logos/logo.png`}
               width="150"
@@ -27,7 +27,7 @@ const Header = ({ isConnected = false }) => {
               style={{ columnGap: "1rem" }}
             >
               <li className="nav-item">
-                <a className="nav-link fs-4 fw-bold" href="##">
+                <a className="nav-link fs-4 fw-bold" href="/">
                   Accueil
                 </a>
               </li>
@@ -64,7 +64,14 @@ const Header = ({ isConnected = false }) => {
                 Se deconnecter
               </a>
             ) : (
-              <a className="btn btn-primary rounded-pill fs-4" href="##">
+              <a
+                href="##"
+                className="btn btn-primary rounded-pill fs-4"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modalSignIn"
+                onClick={(e) => e.preventDefault()}
+              >
                 Se connecter
               </a>
             )}

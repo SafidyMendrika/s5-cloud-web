@@ -4,7 +4,7 @@ const TopAnnonce = ({ data }) => {
   return (
     <section className="py-5 my-5" id="top-annonce">
       <div className="container">
-        <h3 className="mb-5 text-md-center text-start">
+        <h3 className="mb-5 pb-4 text-md-center text-start">
           Les annonces les plus populaires en tête
         </h3>
 
