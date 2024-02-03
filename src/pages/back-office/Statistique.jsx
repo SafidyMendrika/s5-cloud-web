@@ -37,7 +37,7 @@ const Statistique = () => {
   const [rendementVoitures, setRendementVoitures] = useState(null);
   const [benefice, setBenefice] = useState(null);
   const [nombreUtilisateurs, setNombreUtilisateurs] = useState(null);
-  const [classementsAnnonces, setClasssementsAnnonces] = useState(null);
+  const [classementsAnnonces, setClassementsAnnonces] = useState(null);
 
   useEffect(() => {
     fetchRendementVoitures();
@@ -142,13 +142,13 @@ const Statistique = () => {
       .then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
-            setClasssementsAnnonces(data.data);
+            setClassementsAnnonces(data.data);
           });
         }
       })
       .catch((err) => console.error(err));
 
-    // setClasssementsAnnonces(dataStatistiques.classementsAnnonces);
+    // setClassementsAnnonces(dataStatistiques.classementsAnnonces);
   };
 
   return (

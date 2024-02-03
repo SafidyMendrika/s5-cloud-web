@@ -7,6 +7,7 @@ const CardAnnonce = ({
   handleDelete,
   loadingDelete,
   nombreFavoris = 0,
+  hasDetail = true,
 }) => {
   return (
     <>
@@ -66,14 +67,16 @@ const CardAnnonce = ({
             <h6 className="text-info mb-3 fw-semi-bold">
               {annonce.modele.nom}
             </h6>
-            <button
-              className="btn btn-outline-primary d-flex justify-content-center align-items-center w-100"
-              data-bs-toggle="modal"
-              data-bs-target={`#modalDetail-${annonce.id}`}
-              onClick={(e) => e.preventDefault()}
-            >
-              <i className="ti ti-info-circle me-2"></i> Detail
-            </button>
+            {hasDetail && (
+              <button
+                className="btn btn-outline-primary d-flex justify-content-center align-items-center w-100"
+                data-bs-toggle="modal"
+                data-bs-target={`#modalDetail-${annonce.id}`}
+                onClick={(e) => e.preventDefault()}
+              >
+                <i className="ti ti-info-circle me-2"></i> Detail
+              </button>
+            )}
           </div>
         </div>
       </div>

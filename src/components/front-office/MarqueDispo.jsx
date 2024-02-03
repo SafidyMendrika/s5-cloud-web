@@ -1,42 +1,14 @@
-import { API_URL } from "../../context/UrlContext";
-import { useEffect, useState } from "react";
-import { dataMarque } from "../../data/back-office";
-
 import Glider from "react-glider";
 import "glider-js/glider.min.css";
 
-const MarqueDispo = () => {
-  const [marques, setMarques] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchMarques();
-  }, []);
-
-  const fetchMarques = () => {
-    // fetch(`${API_URL}/marques`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setMarques(data.data);
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
-
-    setMarques(dataMarque);
-  };
-
+const MarqueDispo = ({ data }) => {
   return (
     <section
-      className="py-5"
-      style={{ background: "#ebebeb" }}
+      className="py-3 mt-5"
+      style={{ background: "#f7f7f7" }}
       id="marque-dispo"
     >
-      <div className="container">
-        <h3 className="text-center mb-5">Marques disponibles</h3>
+      <div className="container-fluid">
         <Glider
           draggable
           slidesToShow={2}
@@ -49,18 +21,25 @@ const MarqueDispo = () => {
               },
             },
             {
-              breakpoint: 1000,
+              breakpoint: 1200,
               settings: {
                 slidesToShow: 5,
               },
             },
+            {
+              breakpoint: 1400,
+              settings: {
+                slidesToShow: 8,
+              },
+            },
           ]}
         >
-          {marques.map((marque) => (
-            <div key={marque.id} className="d-flex align-items-center">
-              <img src={marque.lien} alt="..." className="glide-img" />
-            </div>
-          ))}
+          {data &&
+            data.map((marque) => (
+              <div key={marque.id} className="d-flex align-items-center">
+                <img src={marque.lien} alt="..." className="glide-img" />
+              </div>
+            ))}
         </Glider>
       </div>
     </section>
