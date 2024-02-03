@@ -1,4 +1,16 @@
-const Header = ({ isConnected = false }) => {
+import { useEffect } from "react";
+
+const Header = () => {
+  useEffect(() => {
+    const links = document.querySelectorAll("a.nav-link");
+    links.forEach((link) => {
+      link.classList.remove("text-primary");
+      if (link.href === window.location.href) {
+        link.classList.add("text-primary");
+      }
+    });
+  }, []);
+
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light">
@@ -32,11 +44,11 @@ const Header = ({ isConnected = false }) => {
                 </a>
               </li>
               <li className="nav-item fs-4 fw-bold">
-                <a className="nav-link" href="##">
+                <a className="nav-link" href="/annonces">
                   Annonces
                 </a>
               </li>
-              {isConnected && (
+              {localStorage.getItem("authUserClient") && (
                 <>
                   <li className="nav-item fs-4 fw-bold">
                     <a className="nav-link" href="##">
@@ -56,10 +68,14 @@ const Header = ({ isConnected = false }) => {
                 </a>
               </li>
             </ul>
-            {isConnected ? (
+            {localStorage.getItem("authUserClient") ? (
               <a
                 className="btn btn-outline-primary rounded-pill fs-4"
                 href="##"
+                onClick={(e) => {
+                  e.preventDefault();
+                  localStorage.removeItem("authUserClient");
+                }}
               >
                 Se deconnecter
               </a>

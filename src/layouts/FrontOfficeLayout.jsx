@@ -1,14 +1,40 @@
-import { useLocation } from "react-router-dom";
-
 import "../assets/css/style.css";
 import Header from "../components/front-office/Header";
 import Footer from "../components/front-office/Footer";
+import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const FrontOfficeLayout = ({ children }) => {
-  const location = useLocation();
+  useEffect(() => {
+    const handleStorageChange = () => {
+      checkAuthUserClient();
+    };
 
-  const handleActivePage = (path) => {
-    return location.pathname.includes(path) ? "active" : "";
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const checkAuthUserClient = () => {
+    const authUserClientToken = localStorage.getItem("authUserClient");
+
+    if (!authUserClientToken) {
+      window.location.href = "/";
+      return;
+    }
+
+    try {
+      const decodedToken = jwtDecode(authUserClientToken);
+      const currentTime = Date.now() / 1000;
+
+      if (currentTime > decodedToken.exp) {
+        localStorage.removeItem("authUserClient");
+      }
+    } catch (error) {
+      localStorage.removeItem("authUserClient");
+    }
   };
 
   return (

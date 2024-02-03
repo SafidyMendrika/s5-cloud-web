@@ -9,24 +9,12 @@ import { jwtDecode } from "jwt-decode";
 
 const BackOfficeLayout = ({ children }) => {
   useEffect(() => {
-    checkAuthUserAdmin();
-    const tokenCheckInterval = setInterval(() => {
-      checkAuthUserAdmin();
-    }, 1000);
-    // Nettoyer l'intervalle lors du démontage du composant
-    return () => clearInterval(tokenCheckInterval);
-  }, []);
-
-  useEffect(() => {
-    // Surveiller les changements dans le stockage local
     const handleStorageChange = () => {
       checkAuthUserAdmin();
     };
 
-    // Ajouter un écouteur d'événements pour le changement dans le stockage local
     window.addEventListener("storage", handleStorageChange);
 
-    // Nettoyer l'écouteur lors du démontage du composant
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
@@ -36,7 +24,7 @@ const BackOfficeLayout = ({ children }) => {
     const authUserAdminToken = sessionStorage.getItem("authUserAdmin");
 
     if (!authUserAdminToken) {
-      redirectToLogin();
+      window.location.href = "/back-office/";
       return;
     }
 
@@ -45,16 +33,11 @@ const BackOfficeLayout = ({ children }) => {
       const currentTime = Date.now() / 1000;
 
       if (currentTime > decodedToken.exp) {
-        // Le jeton a expiré, rediriger vers la page de connexion
         sessionStorage.removeItem("authUserAdmin");
       }
     } catch (error) {
       sessionStorage.removeItem("authUserAdmin");
     }
-  };
-
-  const redirectToLogin = () => {
-    window.location.href = "/back-office/";
   };
 
   return (

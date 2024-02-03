@@ -6,7 +6,8 @@ import Statistique from "./pages/back-office/Statistique";
 import Categorie from "./pages/back-office/Categorie";
 import Marque from "./pages/back-office/Marque";
 import Modele from "./pages/back-office/Modele";
-import Annonce from "./pages/back-office/Annonce";
+import AnnonceBackOffice from "./pages/back-office/Annonce";
+import AnnonceFrontOffice from "./pages/front-office/Annonce";
 import Commission from "./pages/back-office/Commission";
 import SignInBackOffice from "./pages/back-office/SignIn";
 import Moteur from "./pages/back-office/Moteur";
@@ -30,7 +31,7 @@ const BackOfficeRoutes = () => (
             <Route path="/moteurs" element={<Moteur />} />
             <Route path="/vitesses" element={<Vitesse />} />
             <Route path="/energies" element={<Energie />} />
-            <Route path="/annonces" element={<Annonce />} />
+            <Route path="/annonces" element={<AnnonceBackOffice />} />
             <Route path="/commissions" element={<Commission />} />
           </Routes>
         </BackOfficeLayout>
@@ -47,6 +48,8 @@ const FrontOfficeRoutes = () => (
         <FrontOfficeLayout>
           <Routes>
             <Route path="/" element={<Accueil />} />
+
+            <Route path="/annonces" element={<AnnonceFrontOffice />} />
           </Routes>
         </FrontOfficeLayout>
       }
