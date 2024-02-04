@@ -75,6 +75,7 @@ const Header = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   localStorage.removeItem("authUserClient");
+                  window.location.reload();
                 }}
               >
                 Se deconnecter
