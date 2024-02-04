@@ -1,10 +1,82 @@
+header#nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: hsla(0, 0%, 100%, 0.97);
+  z-index: 1;
+  transition: 0.3s;
+}
+
+.clone-header {
+  height: 73px;
+}
+
 .glide-img {
-    width: 150px;
-    object-fit: cover;
-    filter: grayscale(100%);
-    transition: filter 0.3s;
+  width: 150px;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.3s;
 }
 
 .glider-slide:hover .glide-img {
-    filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+#filtre-annonce {
+  width: 320px;
+}
+
+#filtre-annonce > div {
+  position: sticky;
+  top: 100px;
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+}
+
+#filtre-annonce > div::-webkit-scrollbar {
+  width: 5px;
+}
+
+#filtre-annonce > div::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#filtre-annonce > div::-webkit-scrollbar-thumb {
+  background: #888;
+  background: #cfcfcf;
+}
+
+#filtre-annonce > div::-webkit-scrollbar-thumb:hover {
+  background: #aaaaaa;
+}
+
+#liste-annonce {
+  width: calc(100% - 320px);
+}
+
+@media (max-width: 1717px) {
+  #filtre-annonce {
+    width: 300px;
+  }
+
+  #filtre-annonce .accordion-header > button {
+    padding-left: 1.5rem !important;
+  }
+}
+
+@media (max-width: 1654px) {
+  #filtre-annonce {
+    display: none;
+  }
+
+  #liste-annonce {
+    width: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  #liste-annonce > div {
+    max-width: 100% !important;
+  }
 }

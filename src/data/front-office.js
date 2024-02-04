@@ -207,3 +207,26 @@ export var dataClassementsAnnonces = [
     count: "5.7K",
   },
 ];
+
+export var dataCategorie = [
+  {
+    id: 1,
+    nom: "Compacte",
+  },
+  {
+    id: 2,
+    nom: "Berline",
+  },
+  {
+    id: 3,
+    nom: "SUV",
+  },
+  {
+    id: 4,
+    nom: "Coupé",
+  },
+  {
+    id: 5,
+    nom: "Monospace",
+  },
+];

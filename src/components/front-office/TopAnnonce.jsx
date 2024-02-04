@@ -22,7 +22,7 @@ const TopAnnonce = ({ data }) => {
 
         <div className="row">
           <div className="col-12 text-md-end text-center">
-            <a href="##" className="fs-5 fw-bolder">
+            <a href="/annonces" className="fs-5 fw-bolder">
               Voir plus <span className="ms-2">&#10147;</span>
             </a>
           </div>
