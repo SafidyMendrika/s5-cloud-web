@@ -230,3 +230,172 @@ export var dataCategorie = [
     nom: "Monospace",
   },
 ];
+
+export var dataAnnonce = [
+  {
+    annonce: {
+      id: 1,
+      utilisateur: {
+        nom: "John",
+      },
+      modele: {
+        nom: "Toyota Corolla",
+        marque: {
+          nom: "Toyota",
+        },
+        categorie: {
+          nom: "Compacte",
+        },
+      },
+      moteur: {
+        nom: "Moteur 2 temps",
+      },
+      vitesse: {
+        nom: "Manuelle",
+      },
+      energie: {
+        nom: "Essence",
+      },
+      description: "Voiture en bon état",
+      prix: 10000000,
+      dateAnnonce: "2021-09-01",
+      photoAnnonces: [
+        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
+      ],
+    },
+    count: "5.7K",
+  },
+  {
+    annonce: {
+      id: 2,
+      utilisateur: {
+        nom: "Jane",
+      },
+      modele: {
+        nom: "BMW Serie 3",
+        marque: {
+          nom: "BMW",
+        },
+        categorie: {
+          nom: "Berline",
+        },
+      },
+      moteur: {
+        nom: "Moteur 2 temps",
+      },
+      vitesse: {
+        nom: "Manuelle",
+      },
+      energie: {
+        nom: "Essence",
+      },
+      description: "Voiture en bon état",
+      prix: 15000000,
+      dateAnnonce: "2021-09-02",
+      photoAnnonces: [
+        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
+      ],
+    },
+    count: "1K",
+  },
+  {
+    annonce: {
+      id: 3,
+      utilisateur: {
+        nom: "Jack",
+      },
+      modele: {
+        nom: "Mercedes Classe C",
+        marque: {
+          nom: "Mercedes-Benz",
+        },
+        categorie: {
+          nom: "Berline",
+        },
+      },
+      moteur: {
+        nom: "Moteur 2 temps",
+      },
+      vitesse: {
+        nom: "Manuelle",
+      },
+      energie: {
+        nom: "Essence",
+      },
+      description: "Voiture en bon état",
+      prix: 250000000,
+      dateAnnonce: "2021-09-03",
+      dateValidation: "2021-09-03",
+      photoAnnonces: [
+        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
+      ],
+    },
+    count: "103",
+  },
+  {
+    annonce: {
+      id: 4,
+      utilisateur: {
+        nom: "Jill",
+      },
+      modele: {
+        nom: "Honda Civic",
+        marque: {
+          nom: "Honda",
+        },
+        categorie: {
+          nom: "Compacte",
+        },
+      },
+      moteur: {
+        nom: "Moteur 2 temps",
+      },
+      vitesse: {
+        nom: "Manuelle",
+      },
+      energie: {
+        nom: "Essence",
+      },
+      description: "Voiture en bon état",
+      prix: 200000000,
+      dateAnnonce: "2021-09-04",
+      photoAnnonces: [
+        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce4.png` },
+      ],
+    },
+    count: "1.5K",
+  },
+  {
+    annonce: {
+      id: 5,
+      utilisateur: {
+        nom: "James",
+      },
+      modele: {
+        nom: "Ford Focus",
+        marque: {
+          nom: "Ford",
+        },
+        categorie: {
+          nom: "Compacte",
+        },
+      },
+      moteur: {
+        nom: "Moteur 2 temps",
+      },
+      vitesse: {
+        nom: "Manuelle",
+      },
+      energie: {
+        nom: "Essence",
+      },
+      description: "Voiture en bon état",
+      prix: 100000000,
+      dateAnnonce: "2021-09-05",
+      photoAnnonces: [
+        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce5.png` },
+      ],
+    },
+    count: "405",
+  },
+];

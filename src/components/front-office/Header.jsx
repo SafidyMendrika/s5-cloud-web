@@ -62,13 +62,13 @@ const Header = () => {
                         Notifications
                       </a>
                     </li>
+                    <li className="nav-item fs-4 fw-bold">
+                      <a className="nav-link" href="##">
+                        Profil
+                      </a>
+                    </li>
                   </>
                 )}
-                <li className="nav-item fs-4 fw-bold">
-                  <a className="nav-link" href="###">
-                    Contact
-                  </a>
-                </li>
               </ul>
               {localStorage.getItem("authUserClient") ? (
                 <a

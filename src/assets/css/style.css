@@ -80,3 +80,15 @@ header#nav {
     max-width: 100% !important;
   }
 }
+
+#liste-annonce .icon-favoris i {
+  --bs-text-opacity: 1;
+  cursor: pointer;
+  color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
+}
+
+#liste-annonce .icon-favoris:hover i,
+#liste-annonce .icon-favoris i.active {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
+}

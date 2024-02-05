@@ -71,8 +71,9 @@ const FiltreAnnonce = () => {
               <div className="form-check">
                 <input
                   className="form-check-input"
-                  type="checkbox"
+                  type="radio"
                   value=""
+                  name="date"
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -82,8 +83,9 @@ const FiltreAnnonce = () => {
               <div className="form-check">
                 <input
                   className="form-check-input"
-                  type="checkbox"
+                  type="radio"
                   value=""
+                  name="date"
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -93,8 +95,9 @@ const FiltreAnnonce = () => {
               <div className="form-check">
                 <input
                   className="form-check-input"
-                  type="checkbox"
+                  type="radio"
                   value=""
+                  name="date"
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">

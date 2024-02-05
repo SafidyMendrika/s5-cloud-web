@@ -1,6 +1,6 @@
-import CardAnnonce from "../back-office/CardAnnonce";
+import CardAnnonce from "../front-office/CardAnnonce";
 
-const TopAnnonce = ({ data }) => {
+const AnnonceClassement = ({ data }) => {
   return (
     <section className="py-5 my-5" id="top-annonce">
       <div className="container">
@@ -15,7 +15,6 @@ const TopAnnonce = ({ data }) => {
                 key={annonce.annonce.id}
                 annonce={annonce.annonce}
                 nombreFavoris={annonce.count}
-                hasDetail={false}
               />
             ))}
         </div>
@@ -32,4 +31,4 @@ const TopAnnonce = ({ data }) => {
   );
 };
 
-export default TopAnnonce;
+export default AnnonceClassement;

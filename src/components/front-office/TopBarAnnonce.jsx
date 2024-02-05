@@ -1,4 +1,4 @@
-const TopBarAnnonce = ({ resultats = 245 }) => {
+const TopBarAnnonce = ({ resultats = 0 }) => {
   return (
     <div className="px-sm-5 px-3">
       <div className="row align-items-center">

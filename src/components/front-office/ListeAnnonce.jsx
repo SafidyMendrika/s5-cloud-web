@@ -1,4 +1,4 @@
-import CardAnnonce from "../back-office/CardAnnonce";
+import CardAnnonce from "../front-office/CardAnnonce";
 
 const ListeAnnonce = ({ data }) => {
   return (
@@ -10,7 +10,6 @@ const ListeAnnonce = ({ data }) => {
               key={annonce.annonce.id}
               annonce={annonce.annonce}
               nombreFavoris={annonce.count}
-              hasDetail={false}
             />
           ))}
       </div>
