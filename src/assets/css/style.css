@@ -80,10 +80,9 @@ header#nav {
     max-width: 100% !important;
   }
 }
-
 #liste-annonce .icon-favoris i {
-  --bs-text-opacity: 1;
   cursor: pointer;
+  --bs-text-opacity: 1;
   color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
 }
 

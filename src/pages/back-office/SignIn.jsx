@@ -17,7 +17,7 @@ const SignIn = () => {
     e.preventDefault();
     setIsOnload(true);
 
-    fetch(`${API_URL}/utilisateurs/login`, {
+    fetch(`${API_URL}/auth/login-admin`, {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {

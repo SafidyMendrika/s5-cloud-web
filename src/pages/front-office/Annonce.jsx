@@ -6,7 +6,7 @@ import { dataAnnonce } from "../../data/front-office";
 import { API_URL } from "../../context/UrlContext";
 
 const Annonce = () => {
-  const [annonces, setAnnonces] = useState([]);
+  const [annonces, setAnnonces] = useState(null);
 
   useEffect(() => {
     fetchAnnonces();
@@ -30,7 +30,7 @@ const Annonce = () => {
 
   return (
     <div className="py-5" style={{ minHeight: "100vh" }}>
-      <TopBarAnnonce resultats={annonces.length} />
+      <TopBarAnnonce resultats={annonces ? annonces.length : 0} />
       <div className="d-flex py-5">
         <div id="filtre-annonce">
           <FiltreAnnonce />

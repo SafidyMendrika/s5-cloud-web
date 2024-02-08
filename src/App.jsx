@@ -7,14 +7,17 @@ import Categorie from "./pages/back-office/Categorie";
 import Marque from "./pages/back-office/Marque";
 import Modele from "./pages/back-office/Modele";
 import AnnonceBackOffice from "./pages/back-office/Annonce";
-import AnnonceFrontOffice from "./pages/front-office/Annonce";
 import Commission from "./pages/back-office/Commission";
 import SignInBackOffice from "./pages/back-office/SignIn";
 import Moteur from "./pages/back-office/Moteur";
 import Vitesse from "./pages/back-office/Vitesse";
 import Energie from "./pages/back-office/Energie";
 
+import AnnonceFrontOffice from "./pages/front-office/Annonce";
 import Accueil from "./pages/front-office/Accueil";
+import Profil from "./pages/front-office/Profil";
+import Message from "./pages/front-office/Message";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const BackOfficeRoutes = () => (
   <Routes>
@@ -48,8 +51,9 @@ const FrontOfficeRoutes = () => (
         <FrontOfficeLayout>
           <Routes>
             <Route path="/" element={<Accueil />} />
-
             <Route path="/annonces" element={<AnnonceFrontOffice />} />
+            <Route path="/messages" element={<Message />} />
+            <Route path="/profil" element={<Profil />} />
           </Routes>
         </FrontOfficeLayout>
       }

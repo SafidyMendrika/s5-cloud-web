@@ -53,17 +53,12 @@ const Header = () => {
                 {localStorage.getItem("authUserClient") && (
                   <>
                     <li className="nav-item fs-4 fw-bold">
-                      <a className="nav-link" href="##">
+                      <a className="nav-link" href="/messages">
                         Messages
                       </a>
                     </li>
                     <li className="nav-item fs-4 fw-bold">
-                      <a className="nav-link" href="##">
-                        Notifications
-                      </a>
-                    </li>
-                    <li className="nav-item fs-4 fw-bold">
-                      <a className="nav-link" href="##">
+                      <a className="nav-link" href="/profil">
                         Profil
                       </a>
                     </li>

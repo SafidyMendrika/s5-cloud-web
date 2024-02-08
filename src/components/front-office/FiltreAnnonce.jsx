@@ -3,47 +3,50 @@ import { dataCategorie, dataMarque } from "../../data/front-office";
 import { API_URL } from "../../context/UrlContext";
 
 const FiltreAnnonce = () => {
-  const [categories, setCategories] = useState([]);
-  const [marques, setMarques] = useState([]);
+  const [categories, setCategories] = useState(null);
+  const [marques, setMarques] = useState(null);
 
   const [sliceCategorie, setSliceCategorie] = useState(4);
   const [sliceMarque, setSliceMarque] = useState(4);
 
-  useEffect(() => {
-    fetchCategories();
-    fetchMarques();
-  }, []);
-
   const fetchCategories = () => {
-    // fetch(`${API_URL}/categories`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setCategories(data.data);
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+    fetch(`${API_URL}/categories`, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            if (!categories) {
+              setCategories(data.data);
+            }
+          });
+        }
+      })
+      .catch((err) => console.error(err));
 
-    setCategories(dataCategorie);
+    // if (!categories) {
+    //   setCategories(dataCategorie);
+    // }
   };
 
   const fetchMarques = () => {
-    // fetch(`${API_URL}/marques`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setMarques(data.data);
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+    fetch(`${API_URL}/marques`, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            if (!marques) {
+              setMarques(data.data);
+            }
+          });
+        }
+      })
+      .catch((err) => console.error(err));
 
-    setMarques(dataMarque);
+    // if (!marques) {
+    //   setMarques(dataMarque);
+    // }
   };
 
   return (
@@ -171,6 +174,7 @@ const FiltreAnnonce = () => {
               data-bs-target="#flush-collapseCategorie"
               aria-expanded="false"
               aria-controls="flush-collapseCategorie"
+              onClick={() => fetchCategories()}
             >
               Catégories
             </button>
@@ -181,35 +185,47 @@ const FiltreAnnonce = () => {
             aria-labelledby="flush-headingCategorie"
           >
             <div className="accordion-body ps-5 fs-5">
-              <div className="mb-2">
-                {categories.slice(0, sliceCategorie).map((categorie) => (
-                  <div className="form-check" key={categorie.id}>
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      {categorie.nom}
-                    </label>
+              {categories ? (
+                <>
+                  <div className="mb-2">
+                    {categories.slice(0, sliceCategorie).map((categorie) => (
+                      <div className="form-check" key={categorie.id}>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="flexCheckDefault"
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          {categorie.nom}
+                        </label>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <a href="##" className="text-decoration-none text-dark">
-                {sliceCategorie === 4 ? (
-                  <span onClick={() => setSliceCategorie(categories.length)}>
-                    <i className="ti ti-plus fs-4"></i> Plus
-                  </span>
-                ) : (
-                  <span onClick={() => setSliceCategorie(4)}>
-                    <i className="ti ti-minus fs-4"></i> Moins{" "}
-                  </span>
-                )}
-              </a>
+                  {categories.length > 4 && (
+                    <a href="##" className="text-decoration-none text-dark">
+                      {sliceCategorie === 4 ? (
+                        <span
+                          onClick={() => setSliceCategorie(categories.length)}
+                        >
+                          <i className="ti ti-plus fs-4"></i> Plus
+                        </span>
+                      ) : (
+                        <span onClick={() => setSliceCategorie(4)}>
+                          <i className="ti ti-minus fs-4"></i> Moins{" "}
+                        </span>
+                      )}
+                    </a>
+                  )}
+                </>
+              ) : (
+                <div className="spinner-border spinner-border-sm" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -222,6 +238,7 @@ const FiltreAnnonce = () => {
               data-bs-target="#flush-collapseMarque"
               aria-expanded="false"
               aria-controls="flush-collapseMarque"
+              onClick={() => fetchMarques()}
             >
               Marques
             </button>
@@ -232,35 +249,45 @@ const FiltreAnnonce = () => {
             aria-labelledby="flush-headingMarque"
           >
             <div className="accordion-body ps-5 fs-5">
-              <div className="mb-2">
-                {marques.slice(0, sliceMarque).map((marque) => (
-                  <div className="form-check" key={marque.id}>
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      {marque.nom}
-                    </label>
+              {marques ? (
+                <>
+                  <div className="mb-2">
+                    {marques.slice(0, sliceMarque).map((marque) => (
+                      <div className="form-check" key={marque.id}>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="flexCheckDefault"
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          {marque.nom}
+                        </label>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <a href="##" className="text-decoration-none text-dark">
-                {sliceMarque === 4 ? (
-                  <span onClick={() => setSliceMarque(marques.length)}>
-                    <i className="ti ti-plus fs-4"></i> Plus
-                  </span>
-                ) : (
-                  <span onClick={() => setSliceMarque(4)}>
-                    <i className="ti ti-minus fs-4"></i> Moins{" "}
-                  </span>
-                )}
-              </a>
+                  {marques.length > 4 && (
+                    <a href="##" className="text-decoration-none text-dark">
+                      {sliceMarque === 4 ? (
+                        <span onClick={() => setSliceMarque(marques.length)}>
+                          <i className="ti ti-plus fs-4"></i> Plus
+                        </span>
+                      ) : (
+                        <span onClick={() => setSliceMarque(4)}>
+                          <i className="ti ti-minus fs-4"></i> Moins{" "}
+                        </span>
+                      )}
+                    </a>
+                  )}
+                </>
+              ) : (
+                <div className="spinner-border spinner-border-sm" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
