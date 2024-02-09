@@ -6,20 +6,16 @@ const ListeAnnonce = ({ data }) => {
       <div className="row">
         {data ? (
           data.map((annonce) => (
-            <CardAnnonce
-              key={annonce.annonce.id}
-              annonce={annonce.annonce}
-              nombreFavoris={annonce.count}
-            />
+            <CardAnnonce key={annonce.id} annonce={annonce} />
           ))
         ) : (
           <>
-            <CardAnnonce annonce={null} nombreFavoris={null} />
-            <CardAnnonce annonce={null} nombreFavoris={null} />
-            <CardAnnonce annonce={null} nombreFavoris={null} />
-            <CardAnnonce annonce={null} nombreFavoris={null} />
-            <CardAnnonce annonce={null} nombreFavoris={null} />
-            <CardAnnonce annonce={null} nombreFavoris={null} />
+            <CardAnnonce annonce={null} />
+            <CardAnnonce annonce={null} />
+            <CardAnnonce annonce={null} />
+            <CardAnnonce annonce={null} />
+            <CardAnnonce annonce={null} />
+            <CardAnnonce annonce={null} />
           </>
         )}
       </div>

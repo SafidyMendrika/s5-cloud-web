@@ -1,14 +1,13 @@
 import { format } from "date-fns";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton from "react-loading-skeleton";
 
-const CardAnnonce = ({ annonce, nombreFavoris = 0, hasDetail = true }) => {
+const CardAnnonce = ({ annonce, hasDetail = true }) => {
   const handleFavoris = (e) => {
     e.target.classList.toggle("active");
   };
 
   return (
-    <SkeletonTheme baseColor="#f3f3f3" highlightColor="#e1e1e1">
+    <>
       <div className="col-sm-6 col-xl-4">
         <div className="card overflow-hidden rounded-2">
           {annonce ? (
@@ -57,7 +56,7 @@ const CardAnnonce = ({ annonce, nombreFavoris = 0, hasDetail = true }) => {
                     className="badge rounded-3 fw-semibold mb-2"
                     style={{ background: "var(--bs-teal)" }}
                   >
-                    {nombreFavoris} &nbsp; &#10084;
+                    {annonce.count} &nbsp; &#10084;
                   </span>
                 </div>
                 <h6 className="text-info mb-3 fw-semi-bold">
@@ -187,7 +186,7 @@ const CardAnnonce = ({ annonce, nombreFavoris = 0, hasDetail = true }) => {
                             Nombre de favoris
                           </span>{" "}
                           &nbsp; : &nbsp;
-                          {nombreFavoris}
+                          {annonce.count}
                         </p>
 
                         <p className="fs-4">
@@ -267,7 +266,7 @@ const CardAnnonce = ({ annonce, nombreFavoris = 0, hasDetail = true }) => {
           </div>
         </div>
       )}
-    </SkeletonTheme>
+    </>
   );
 };
 

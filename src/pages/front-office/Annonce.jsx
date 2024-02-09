@@ -4,28 +4,37 @@ import ListeAnnonce from "../../components/front-office/ListeAnnonce";
 import TopBarAnnonce from "../../components/front-office/TopBarAnnonce";
 import { dataAnnonce } from "../../data/front-office";
 import { API_URL } from "../../context/UrlContext";
+import { jwtDecode } from "jwt-decode";
 
 const Annonce = () => {
   const [annonces, setAnnonces] = useState(null);
+
+  const authUserClientToken = localStorage.getItem("authUserClient");
 
   useEffect(() => {
     fetchAnnonces();
   }, []);
 
   const fetchAnnonces = () => {
-    // fetch(`${API_URL}/annonces`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       response.json().then((data) => {
-    //         setAnnonces(data.data);
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => console.error(err));
+    let URL = authUserClientToken
+      ? `${API_URL}/annonces/feed?iduser=${
+          jwtDecode(authUserClientToken).idutilisateur
+        }`
+      : `${API_URL}/annonces`;
 
-    setAnnonces(dataAnnonce);
+    fetch(URL, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setAnnonces(data.data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setAnnonces(dataAnnonce);
   };
 
   return (

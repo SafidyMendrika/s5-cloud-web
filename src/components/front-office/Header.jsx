@@ -41,7 +41,7 @@ const Header = () => {
                 style={{ columnGap: "1rem" }}
               >
                 <li className="nav-item">
-                  <a className="nav-link fs-4 fw-bold" href="/">
+                  <a className="nav-link fs-4 fw-bold" id="accueil" href="/">
                     Accueil
                   </a>
                 </li>
@@ -72,7 +72,7 @@ const Header = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     localStorage.removeItem("authUserClient");
-                    window.location.reload();
+                    window.location.href = "/";
                   }}
                 >
                   Se deconnecter

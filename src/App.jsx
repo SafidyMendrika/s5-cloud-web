@@ -17,7 +17,9 @@ import AnnonceFrontOffice from "./pages/front-office/Annonce";
 import Accueil from "./pages/front-office/Accueil";
 import Profil from "./pages/front-office/Profil";
 import Message from "./pages/front-office/Message";
+
 import { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const BackOfficeRoutes = () => (
   <Routes>
@@ -62,12 +64,14 @@ const FrontOfficeRoutes = () => (
 );
 
 const App = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/back-office/*" element={<BackOfficeRoutes />} />
-      <Route path="/*" element={<FrontOfficeRoutes />} />
-    </Routes>
-  </BrowserRouter>
+  <SkeletonTheme baseColor="#f3f3f3" highlightColor="#e1e1e1">
+    <BrowserRouter>
+      <Routes>
+        <Route path="/back-office/*" element={<BackOfficeRoutes />} />
+        <Route path="/*" element={<FrontOfficeRoutes />} />
+      </Routes>
+    </BrowserRouter>
+  </SkeletonTheme>
 );
 
 export default App;

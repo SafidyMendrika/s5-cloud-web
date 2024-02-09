@@ -108,102 +108,96 @@ export var dataMarque = [
 
 export var dataClassementsAnnonces = [
   {
-    annonce: {
-      id: 1,
-      utilisateur: {
-        nom: "John",
-      },
-      modele: {
-        nom: "Toyota Corolla",
-        marque: {
-          nom: "Toyota",
-        },
-        categorie: {
-          nom: "Compacte",
-        },
-      },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 100000000,
-      dateAnnonce: "2024-01-01",
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
-      ],
+    id: 1,
+    utilisateur: {
+      nom: "John",
     },
+    modele: {
+      nom: "Toyota Corolla",
+      marque: {
+        nom: "Toyota",
+      },
+      categorie: {
+        nom: "Compacte",
+      },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
+    },
+    description: "Voiture en bon état",
+    prix: 100000000,
+    dateAnnonce: "2024-01-01",
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
+    ],
     count: "12.7K",
   },
   {
-    annonce: {
-      id: 2,
-      utilisateur: {
-        nom: "Jane",
-      },
-      modele: {
-        nom: "BMW Serie 3",
-        marque: {
-          nom: "BMW",
-        },
-        categorie: {
-          nom: "Berline",
-        },
-      },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 150000000,
-      dateAnnonce: "2024-01-02",
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
-      ],
+    id: 2,
+    utilisateur: {
+      nom: "Jane",
     },
+    modele: {
+      nom: "BMW Serie 3",
+      marque: {
+        nom: "BMW",
+      },
+      categorie: {
+        nom: "Berline",
+      },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
+    },
+    description: "Voiture en bon état",
+    prix: 150000000,
+    dateAnnonce: "2024-01-02",
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
+    ],
     count: "8.9K",
   },
   {
-    annonce: {
-      id: 3,
-      utilisateur: {
-        nom: "Jack",
-      },
-      modele: {
-        nom: "Mercedes Classe C",
-        marque: {
-          nom: "Mercedes-Benz",
-        },
-        categorie: {
-          nom: "Berline",
-        },
-      },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 250000000,
-      dateAnnonce: "2024-01-03",
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
-      ],
+    id: 3,
+    utilisateur: {
+      nom: "Jack",
     },
+    modele: {
+      nom: "Mercedes Classe C",
+      marque: {
+        nom: "Mercedes-Benz",
+      },
+      categorie: {
+        nom: "Berline",
+      },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
+    },
+    description: "Voiture en bon état",
+    prix: 250000000,
+    dateAnnonce: "2024-01-03",
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
+    ],
     count: "5.7K",
   },
 ];
@@ -233,169 +227,170 @@ export var dataCategorie = [
 
 export var dataAnnonce = [
   {
-    annonce: {
-      id: 1,
-      utilisateur: {
-        nom: "John",
-      },
-      modele: {
-        nom: "Toyota Corolla",
-        marque: {
-          nom: "Toyota",
-        },
-        categorie: {
-          nom: "Compacte",
-        },
-      },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 10000000,
-      dateAnnonce: "2021-09-01",
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
-      ],
+    id: 1,
+    utilisateur: {
+      nom: "John",
     },
+    modele: {
+      nom: "Toyota Corolla",
+      marque: {
+        nom: "Toyota",
+      },
+      categorie: {
+        nom: "Compacte",
+      },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
+    },
+    description: "Voiture en bon état",
+    prix: 10000000,
+    dateAnnonce: "2021-09-01",
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
+    ],
     count: "5.7K",
   },
   {
-    annonce: {
-      id: 2,
-      utilisateur: {
-        nom: "Jane",
-      },
-      modele: {
-        nom: "BMW Serie 3",
-        marque: {
-          nom: "BMW",
-        },
-        categorie: {
-          nom: "Berline",
-        },
-      },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 15000000,
-      dateAnnonce: "2021-09-02",
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
-      ],
+    id: 2,
+    utilisateur: {
+      nom: "Jane",
     },
+    modele: {
+      nom: "BMW Serie 3",
+      marque: {
+        nom: "BMW",
+      },
+      categorie: {
+        nom: "Berline",
+      },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
+    },
+    description: "Voiture en bon état",
+    prix: 15000000,
+    dateAnnonce: "2021-09-02",
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
+    ],
     count: "1K",
   },
   {
-    annonce: {
-      id: 3,
-      utilisateur: {
-        nom: "Jack",
-      },
-      modele: {
-        nom: "Mercedes Classe C",
-        marque: {
-          nom: "Mercedes-Benz",
-        },
-        categorie: {
-          nom: "Berline",
-        },
-      },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 250000000,
-      dateAnnonce: "2021-09-03",
-      dateValidation: "2021-09-03",
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
-      ],
+    id: 3,
+    utilisateur: {
+      nom: "Jack",
     },
+    modele: {
+      nom: "Mercedes Classe C",
+      marque: {
+        nom: "Mercedes-Benz",
+      },
+      categorie: {
+        nom: "Berline",
+      },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
+    },
+    description: "Voiture en bon état",
+    prix: 250000000,
+    dateAnnonce: "2021-09-03",
+    dateValidation: "2021-09-03",
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
+    ],
     count: "103",
   },
   {
-    annonce: {
-      id: 4,
-      utilisateur: {
-        nom: "Jill",
-      },
-      modele: {
-        nom: "Honda Civic",
-        marque: {
-          nom: "Honda",
-        },
-        categorie: {
-          nom: "Compacte",
-        },
-      },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 200000000,
-      dateAnnonce: "2021-09-04",
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce4.png` },
-      ],
+    id: 4,
+    utilisateur: {
+      nom: "Jill",
     },
+    modele: {
+      nom: "Honda Civic",
+      marque: {
+        nom: "Honda",
+      },
+      categorie: {
+        nom: "Compacte",
+      },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
+    },
+    description: "Voiture en bon état",
+    prix: 200000000,
+    dateAnnonce: "2021-09-04",
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce4.png` },
+    ],
     count: "1.5K",
   },
   {
-    annonce: {
-      id: 5,
-      utilisateur: {
-        nom: "James",
-      },
-      modele: {
-        nom: "Ford Focus",
-        marque: {
-          nom: "Ford",
-        },
-        categorie: {
-          nom: "Compacte",
-        },
-      },
-      moteur: {
-        nom: "Moteur 2 temps",
-      },
-      vitesse: {
-        nom: "Manuelle",
-      },
-      energie: {
-        nom: "Essence",
-      },
-      description: "Voiture en bon état",
-      prix: 100000000,
-      dateAnnonce: "2021-09-05",
-      photoAnnonces: [
-        { path: `${process.env.PUBLIC_URL}/images/annonces/annonce5.png` },
-      ],
+    id: 5,
+    utilisateur: {
+      nom: "James",
     },
+    modele: {
+      nom: "Ford Focus",
+      marque: {
+        nom: "Ford",
+      },
+      categorie: {
+        nom: "Compacte",
+      },
+    },
+    moteur: {
+      nom: "Moteur 2 temps",
+    },
+    vitesse: {
+      nom: "Manuelle",
+    },
+    energie: {
+      nom: "Essence",
+    },
+    description: "Voiture en bon état",
+    prix: 100000000,
+    dateAnnonce: "2021-09-05",
+    photoAnnonces: [
+      { path: `${process.env.PUBLIC_URL}/images/annonces/annonce5.png` },
+    ],
     count: "405",
   },
 ];
+
+export var dataProfil = {
+  id: 1,
+  nom: "Toky",
+  email: "toky@email.com",
+  telephone: "0340596000",
+  date: "2004-12-14",
+  genre: "Homme",
+  fcm: null,
+  etat: 0,
+};

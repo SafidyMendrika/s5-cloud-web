@@ -1,14 +1,36 @@
 import { useEffect, useState } from "react";
+import { dataProfil } from "../../data/front-office";
+import { API_URL } from "../../context/UrlContext";
+import { jwtDecode } from "jwt-decode";
+import Skeleton from "react-loading-skeleton";
+import { format } from "date-fns";
 
 const Profil = () => {
   const [profil, setProfil] = useState(null);
+
+  const authUserClientToken = localStorage.getItem("authUserClient");
 
   useEffect(() => {
     fetchProfil();
   }, []);
 
   const fetchProfil = () => {
-    setProfil(null);
+    fetch(
+      `${API_URL}/utilisateurs/${jwtDecode(authUserClientToken).idutilisateur}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            setProfil(data.data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+
+    // setProfil(dataProfil);
   };
 
   return (
@@ -25,28 +47,37 @@ const Profil = () => {
           </div>
         </div>
         <div className="col-12 col-md-6">
-          <h3 className="mb-4">Informations personnelles</h3>
-          <p className="mb-2 fs-4">
-            <span className="fw-bold">Nom : </span> John Doe
-          </p>
-          <p className="mb-2 fs-4">
-            <span className="fw-bold">Prenom : </span> Doe
-          </p>
-          <p className="mb-2 fs-4">
-            <span className="fw-bold">Date de naissance : </span>
-            12 Decembre 2004
-          </p>
-          <p className="mb-2 fs-4">
-            <span className="fw-bold">Genre : </span> Homme
-          </p>
-          <p className="mb-2 fs-4">
-            <span className="fw-bold">Email : </span>
-            toky@gmail.com
-          </p>
-          <p className="mb-2 fs-4">
-            <span className="fw-bold">Telephone : </span>
-            +261 34 05 960 00
-          </p>
+          {profil ? (
+            <>
+              <h3 className="mb-4">Informations personnelles</h3>
+              <p className="mb-2 fs-4">
+                <span className="fw-bold">Nom : </span> {profil.nom}
+              </p>
+              <p className="mb-2 fs-4">
+                <span className="fw-bold">Date de naissance : </span>
+                {format(profil.date, "dd/MM/yyyy")}
+              </p>
+              <p className="mb-2 fs-4">
+                <span className="fw-bold">Genre : </span> {profil.genre}
+              </p>
+              <p className="mb-2 fs-4">
+                <span className="fw-bold">Email : </span>
+                {profil.email}
+              </p>
+              <p className="mb-2 fs-4">
+                <span className="fw-bold">Telephone : </span>
+                {profil.telephone}
+              </p>
+            </>
+          ) : (
+            <>
+              <Skeleton height={20} className="mb-3 w-25" />
+              <Skeleton height={20} className="mb-3 w-50" />
+              <Skeleton height={20} className="mb-3 w-25" />
+              <Skeleton height={20} className="mb-3 w-50" />
+              <Skeleton height={20} className="mb-3 w-50" />
+            </>
+          )}
         </div>
       </div>
     </div>
