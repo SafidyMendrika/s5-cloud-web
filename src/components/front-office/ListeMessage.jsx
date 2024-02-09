@@ -1,19 +1,29 @@
-const ListeMessage = () => {
+import Skeleton from "react-loading-skeleton";
+
+const ListeMessage = ({
+  messages,
+  currentIdUser,
+  indexMessageActive,
+  handleMessageActive,
+}) => {
   return (
     <>
       <nav>
-        <h3 className="mb-5">Messages (4)</h3>
-        <div className="list-group pe-3" style={{ borderRadius: "0px" }}>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map(
-            (item, index) =>
-              index === 0 ? (
+        <h3 className="mb-5">Messages ({messages ? messages.length : 0})</h3>
+
+        {messages ? (
+          <div className="list-group pe-3" style={{ borderRadius: "0px" }}>
+            {messages.map((message, index) =>
+              index === indexMessageActive ? (
                 <p
                   key={index}
                   href="##"
                   className="list-group-item list-group-item-action py-3 fs-4 rounded active"
                   style={{ cursor: "pointer", borderTopWidth: "1px" }}
                 >
-                  John Doe
+                  {message.users[0].id_utilisateur === currentIdUser
+                    ? message.users[1].nom_utilisateur
+                    : message.users[0].nom_utilisateur}
                 </p>
               ) : (
                 <p
@@ -21,12 +31,26 @@ const ListeMessage = () => {
                   href="##"
                   className="list-group-item list-group-item-action py-3 fs-4 rounded"
                   style={{ cursor: "pointer", borderTopWidth: "1px" }}
+                  onClick={() => handleMessageActive(index)}
                 >
-                  John Doe
+                  {message.users[0].id_utilisateur === currentIdUser
+                    ? message.users[1].nom_utilisateur
+                    : message.users[0].nom_utilisateur}
                 </p>
               )
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <Skeleton className="mb-3" height={"58px"} />
+            <Skeleton className="mb-3" height={"58px"} />
+            <Skeleton className="mb-3" height={"58px"} />
+            <Skeleton className="mb-3" height={"58px"} />
+            <Skeleton className="mb-3" height={"58px"} />
+            <Skeleton className="mb-3" height={"58px"} />
+            <Skeleton className="mb-3" height={"58px"} />
+          </>
+        )}
       </nav>
       <div className="clone"></div>
     </>

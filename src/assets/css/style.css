@@ -65,7 +65,7 @@ header#nav {
   }
 }
 
-@media (max-width: 1654px) {
+@media (max-width: 800px) {
   #filtre-annonce {
     display: none;
   }
@@ -170,6 +170,7 @@ header#nav {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
+
   #container-message .messages p {
     min-width: 250px;
   }

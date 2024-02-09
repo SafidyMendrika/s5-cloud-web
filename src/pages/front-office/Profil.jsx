@@ -11,6 +11,7 @@ const Profil = () => {
   const authUserClientToken = localStorage.getItem("authUserClient");
 
   useEffect(() => {
+    if (!localStorage.getItem("authUserClient")) window.location.href = "/";
     fetchProfil();
   }, []);
 

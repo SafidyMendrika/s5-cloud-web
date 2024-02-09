@@ -1,9 +1,72 @@
 import { format } from "date-fns";
 import Skeleton from "react-loading-skeleton";
+import { API_URL } from "../../context/UrlContext";
+import { jwtDecode } from "jwt-decode";
+import { useState } from "react";
 
 const CardAnnonce = ({ annonce, hasDetail = true }) => {
+  const authUserClientToken = localStorage.getItem("authUserClient");
+  const [loadingButton, setLoadingButton] = useState(false);
+
+  const handleContacter = () => {
+    setLoadingButton(true);
+    if (!authUserClientToken) {
+      document.querySelector(`#modalDetail-${annonce.id} .btn-close`).click();
+      document.querySelector(".btn-login").click();
+      setLoadingButton(false);
+    } else {
+      const currentIdUser = authUserClientToken
+        ? jwtDecode(authUserClientToken).idutilisateur
+        : null;
+      fetch(`${API_URL}/discussions`, {
+        method: "POST",
+        body: JSON.stringify({
+          users: [
+            {
+              id_utilisateur: currentIdUser,
+            },
+            {
+              id_utilisateur: annonce.utilisateur.id,
+            },
+          ],
+          messages: [],
+        }),
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("authUserClient"),
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            window.location.href = "/messages";
+            setLoadingButton(false);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
   const handleFavoris = (e) => {
+    if (!authUserClientToken) return;
+
+    console.log(e.target.classList);
     e.target.classList.toggle("active");
+
+    // const currentIdUser = authUserClientToken
+    //   ? jwtDecode(authUserClientToken).idutilisateur
+    //   : null;
+
+    // fetch(`${API_URL}/utilisateurs/fav`, {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     idutilisateur: currentIdUser,
+    //     idannonce: annonce.id,
+    //   }),
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("authUserClient"),
+    //     "Content-Type": "application/json",
+    //   },
+    // }).catch((err) => console.error(err));
   };
 
   return (
@@ -17,7 +80,7 @@ const CardAnnonce = ({ annonce, hasDetail = true }) => {
                 style={{ height: "200px" }}
               >
                 <img
-                  src={annonce.photoAnnonces[0].path}
+                  src={annonce.photoAnnonces[0]?.path}
                   className="card-img-top rounded-0 h-100 w-100"
                   style={{ objectFit: "cover" }}
                   alt="..."
@@ -146,7 +209,12 @@ const CardAnnonce = ({ annonce, hasDetail = true }) => {
                         Annonce de {annonce.utilisateur.nom}
                       </h1>
                       {localStorage.getItem("authUserClient") && (
-                        <h2 className="icon-favoris" onClick={handleFavoris}>
+                        <h2
+                          className={`icon-favoris ${
+                            annonce.favori ? "active" : ""
+                          }`}
+                          onClick={handleFavoris}
+                        >
                           <i className="ti ti-123 ti-heart me-3"></i>
                         </h2>
                       )}
@@ -225,26 +293,13 @@ const CardAnnonce = ({ annonce, hasDetail = true }) => {
                           {annonce.energie.nom}
                         </p>
                       </div>
+
                       <div className="d-flex mt-4">
-                        <button className="btn btn-outline-primary d-flex justify-content-center align-items-center">
-                          {false ? (
-                            <div
-                              className="spinner-border spinner-border-sm"
-                              role="status"
-                            >
-                              <span className="visually-hidden">
-                                Loading...
-                              </span>
-                            </div>
-                          ) : (
-                            "Interessé"
-                          )}
-                        </button>
-                        <a
-                          href="/messages"
-                          className="btn btn-outline-dark d-flex justify-content-center align-items-center ms-2"
+                        <button
+                          className="btn btn-dark d-flex justify-content-center align-items-center ms-2"
+                          onClick={handleContacter}
                         >
-                          {false ? (
+                          {loadingButton ? (
                             <div
                               className="spinner-border spinner-border-sm"
                               role="status"
@@ -256,7 +311,7 @@ const CardAnnonce = ({ annonce, hasDetail = true }) => {
                           ) : (
                             "Contacter"
                           )}
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </div>

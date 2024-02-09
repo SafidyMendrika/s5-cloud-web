@@ -80,7 +80,7 @@ const Header = () => {
               ) : (
                 <a
                   href="##"
-                  className="btn btn-primary rounded-pill fs-4"
+                  className="btn btn-primary rounded-pill fs-4 btn-login"
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#modalSignIn"

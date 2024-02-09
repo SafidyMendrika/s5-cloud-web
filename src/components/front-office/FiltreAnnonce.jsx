@@ -2,7 +2,16 @@ import { useEffect, useState } from "react";
 import { dataCategorie, dataMarque } from "../../data/front-office";
 import { API_URL } from "../../context/UrlContext";
 
-const FiltreAnnonce = () => {
+const FiltreAnnonce = ({
+  datePublication,
+  setDatePublication,
+  prixChecked,
+  setPrixChecked,
+  marquesChecked,
+  setMarquesChecked,
+  categoriesChecked,
+  setCategoriesChecked,
+}) => {
   const [categories, setCategories] = useState(null);
   const [marques, setMarques] = useState(null);
 
@@ -75,8 +84,23 @@ const FiltreAnnonce = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  value=""
+                  value="0"
                   name="date"
+                  onClick={(e) => setDatePublication(parseInt(e.target.value))}
+                  id="flexCheckDefault"
+                  defaultChecked
+                />
+                <label className="form-check-label" htmlFor="flexCheckDefault">
+                  Tout
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  value="1"
+                  name="date"
+                  onClick={(e) => setDatePublication(parseInt(e.target.value))}
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -87,8 +111,9 @@ const FiltreAnnonce = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  value=""
+                  value="2"
                   name="date"
+                  onClick={(e) => setDatePublication(parseInt(e.target.value))}
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -99,8 +124,9 @@ const FiltreAnnonce = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  value=""
+                  value="3"
                   name="date"
+                  onClick={(e) => setDatePublication(parseInt(e.target.value))}
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -133,7 +159,20 @@ const FiltreAnnonce = () => {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  value=""
+                  value="1"
+                  onClick={(e) => {
+                    if (e.target.checked)
+                      setPrixChecked([
+                        ...prixChecked,
+                        parseInt(e.target.value),
+                      ]);
+                    else
+                      setPrixChecked(
+                        prixChecked.filter(
+                          (prix) => prix !== parseInt(e.target.value)
+                        )
+                      );
+                  }}
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -144,7 +183,20 @@ const FiltreAnnonce = () => {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  value=""
+                  value="2"
+                  onClick={(e) => {
+                    if (e.target.checked)
+                      setPrixChecked([
+                        ...prixChecked,
+                        parseInt(e.target.value),
+                      ]);
+                    else
+                      setPrixChecked(
+                        prixChecked.filter(
+                          (prix) => prix !== parseInt(e.target.value)
+                        )
+                      );
+                  }}
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -155,7 +207,20 @@ const FiltreAnnonce = () => {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  value=""
+                  value="3"
+                  onClick={(e) => {
+                    if (e.target.checked)
+                      setPrixChecked([
+                        ...prixChecked,
+                        parseInt(e.target.value),
+                      ]);
+                    else
+                      setPrixChecked(
+                        prixChecked.filter(
+                          (prix) => prix !== parseInt(e.target.value)
+                        )
+                      );
+                  }}
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -193,8 +258,22 @@ const FiltreAnnonce = () => {
                         <input
                           className="form-check-input"
                           type="checkbox"
-                          value=""
+                          value={categorie.id}
                           id="flexCheckDefault"
+                          onClick={(e) => {
+                            if (e.target.checked)
+                              setCategoriesChecked([
+                                ...categoriesChecked,
+                                parseInt(e.target.value),
+                              ]);
+                            else
+                              setCategoriesChecked(
+                                categoriesChecked.filter(
+                                  (categorie) =>
+                                    categorie !== parseInt(e.target.value)
+                                )
+                              );
+                          }}
                         />
                         <label
                           className="form-check-label"
@@ -257,7 +336,21 @@ const FiltreAnnonce = () => {
                         <input
                           className="form-check-input"
                           type="checkbox"
-                          value=""
+                          value={marque.id}
+                          onClick={(e) => {
+                            if (e.target.checked)
+                              setMarquesChecked([
+                                ...marquesChecked,
+                                parseInt(e.target.value),
+                              ]);
+                            else
+                              setMarquesChecked(
+                                marquesChecked.filter(
+                                  (marque) =>
+                                    marque !== parseInt(e.target.value)
+                                )
+                              );
+                          }}
                           id="flexCheckDefault"
                         />
                         <label

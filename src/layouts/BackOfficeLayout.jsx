@@ -9,6 +9,15 @@ import { jwtDecode } from "jwt-decode";
 
 const BackOfficeLayout = ({ children }) => {
   useEffect(() => {
+    checkAuthUserAdmin();
+    const tokenCheckInterval = setInterval(() => {
+      checkAuthUserAdmin();
+    }, 1000);
+    // Nettoyer l'intervalle lors du démontage du composant
+    return () => clearInterval(tokenCheckInterval);
+  }, []);
+
+  useEffect(() => {
     const handleStorageChange = () => {
       checkAuthUserAdmin();
     };

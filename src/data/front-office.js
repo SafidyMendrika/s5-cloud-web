@@ -118,6 +118,7 @@ export var dataClassementsAnnonces = [
         nom: "Toyota",
       },
       categorie: {
+        id: 1,
         nom: "Compacte",
       },
     },
@@ -149,6 +150,7 @@ export var dataClassementsAnnonces = [
         nom: "BMW",
       },
       categorie: {
+        id: 2,
         nom: "Berline",
       },
     },
@@ -180,6 +182,7 @@ export var dataClassementsAnnonces = [
         nom: "Mercedes-Benz",
       },
       categorie: {
+        id: 2,
         nom: "Berline",
       },
     },
@@ -234,9 +237,11 @@ export var dataAnnonce = [
     modele: {
       nom: "Toyota Corolla",
       marque: {
+        id: 1,
         nom: "Toyota",
       },
       categorie: {
+        id: 1,
         nom: "Compacte",
       },
     },
@@ -256,6 +261,7 @@ export var dataAnnonce = [
       { path: `${process.env.PUBLIC_URL}/images/annonces/annonce1.png` },
     ],
     count: "5.7K",
+    favori: true,
   },
   {
     id: 2,
@@ -265,9 +271,11 @@ export var dataAnnonce = [
     modele: {
       nom: "BMW Serie 3",
       marque: {
+        id: 2,
         nom: "BMW",
       },
       categorie: {
+        id: 2,
         nom: "Berline",
       },
     },
@@ -287,6 +295,7 @@ export var dataAnnonce = [
       { path: `${process.env.PUBLIC_URL}/images/annonces/annonce2.png` },
     ],
     count: "1K",
+    favori: false,
   },
   {
     id: 3,
@@ -296,9 +305,11 @@ export var dataAnnonce = [
     modele: {
       nom: "Mercedes Classe C",
       marque: {
+        id: 3,
         nom: "Mercedes-Benz",
       },
       categorie: {
+        id: 2,
         nom: "Berline",
       },
     },
@@ -319,6 +330,7 @@ export var dataAnnonce = [
       { path: `${process.env.PUBLIC_URL}/images/annonces/annonce3.png` },
     ],
     count: "103",
+    favori: true,
   },
   {
     id: 4,
@@ -328,9 +340,11 @@ export var dataAnnonce = [
     modele: {
       nom: "Honda Civic",
       marque: {
+        id: 4,
         nom: "Honda",
       },
       categorie: {
+        id: 1,
         nom: "Compacte",
       },
     },
@@ -350,6 +364,7 @@ export var dataAnnonce = [
       { path: `${process.env.PUBLIC_URL}/images/annonces/annonce4.png` },
     ],
     count: "1.5K",
+    favori: true,
   },
   {
     id: 5,
@@ -359,9 +374,11 @@ export var dataAnnonce = [
     modele: {
       nom: "Ford Focus",
       marque: {
+        id: 5,
         nom: "Ford",
       },
       categorie: {
+        id: 1,
         nom: "Compacte",
       },
     },
@@ -381,6 +398,7 @@ export var dataAnnonce = [
       { path: `${process.env.PUBLIC_URL}/images/annonces/annonce5.png` },
     ],
     count: "405",
+    favori: false,
   },
 ];
 
@@ -394,3 +412,116 @@ export var dataProfil = {
   fcm: null,
   etat: 0,
 };
+
+export var dataMessage = [
+  {
+    id: "1",
+    users: [
+      {
+        id_utilisateur: 3,
+        nom_utilisateur: "Toky",
+        mail_utilisateur: null,
+      },
+      {
+        id_utilisateur: 4,
+        nom_utilisateur: "Mendrika",
+        mail_utilisateur: null,
+      },
+    ],
+    date_creation: "2024-02-09 06:35:06.036931435",
+    messages: [
+      {
+        user: {
+          id_utilisateur: 3,
+          nom_utilisateur: "Toky",
+          mail_utilisateur: null,
+        },
+        content: "Bonjour",
+        date_envoie: "2024-02-09 06:36:25",
+      },
+      {
+        user: {
+          id_utilisateur: 4,
+          nom_utilisateur: "Mendrika",
+          mail_utilisateur: null,
+        },
+        content: "Bonjour lesy",
+        date_envoie: "2024-02-09 06:40:20",
+      },
+      {
+        user: {
+          id_utilisateur: 3,
+          nom_utilisateur: "Toky",
+          mail_utilisateur: null,
+        },
+        content: "Cava bro ?",
+        date_envoie: "2024-02-09 06:36:25",
+      },
+    ],
+    closed: false,
+  },
+  {
+    id: "2",
+    users: [
+      {
+        id_utilisateur: 5,
+        nom_utilisateur: "Mirija",
+        mail_utilisateur: null,
+      },
+      {
+        id_utilisateur: 3,
+        nom_utilisateur: "Toky",
+        mail_utilisateur: null,
+      },
+    ],
+    date_creation: "2024-02-09 06:35:06.036931435",
+    messages: [
+      {
+        user: {
+          id_utilisateur: 3,
+          nom_utilisateur: "Toky",
+          mail_utilisateur: null,
+        },
+        content: "Nenlah ve mandeha ilay spring boot ?",
+        date_envoie: "2024-02-09 06:36:25",
+      },
+      {
+        user: {
+          id_utilisateur: 5,
+          nom_utilisateur: "Mirija",
+          mail_utilisateur: null,
+        },
+        content: "AAA, fa aona ?",
+        date_envoie: "2024-02-09 06:40:20",
+      },
+      {
+        user: {
+          id_utilisateur: 3,
+          nom_utilisateur: "Toky",
+          mail_utilisateur: null,
+        },
+        content: "Hay elah kay tsy mahay",
+        date_envoie: "2024-02-09 06:46:00",
+      },
+      {
+        user: {
+          id_utilisateur: 3,
+          nom_utilisateur: "Toky",
+          mail_utilisateur: null,
+        },
+        content: "Bonne nuit njuu",
+        date_envoie: "2024-02-09 06:47:12",
+      },
+      {
+        user: {
+          id_utilisateur: 5,
+          nom_utilisateur: "Mirija",
+          mail_utilisateur: null,
+        },
+        content: "Antay eh",
+        date_envoie: "2024-02-09 06:52:45",
+      },
+    ],
+    closed: false,
+  },
+];
