@@ -11,7 +11,11 @@ const AnnonceClassement = ({ data }) => {
         <div className="row">
           {data &&
             data.map((annonce) => (
-              <CardAnnonce key={annonce.id} annonce={annonce} />
+              <CardAnnonce
+                key={annonce.id}
+                annonce={annonce}
+                hasDetail={false}
+              />
             ))}
         </div>
 

@@ -49,24 +49,25 @@ const CardAnnonce = ({ annonce, hasDetail = true }) => {
   const handleFavoris = (e) => {
     if (!authUserClientToken) return;
 
-    console.log(e.target.classList);
-    e.target.classList.toggle("active");
+    if (!e.target.classList.contains("active")) {
+      e.target.classList.add("active");
 
-    // const currentIdUser = authUserClientToken
-    //   ? jwtDecode(authUserClientToken).idutilisateur
-    //   : null;
+      const currentIdUser = authUserClientToken
+        ? jwtDecode(authUserClientToken).idutilisateur
+        : null;
 
-    // fetch(`${API_URL}/utilisateurs/fav`, {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     idutilisateur: currentIdUser,
-    //     idannonce: annonce.id,
-    //   }),
-    //   headers: {
-    //     Authorization: "Bearer " + localStorage.getItem("authUserClient"),
-    //     "Content-Type": "application/json",
-    //   },
-    // }).catch((err) => console.error(err));
+      fetch(`${API_URL}/utilisateurs/fav`, {
+        method: "POST",
+        body: JSON.stringify({
+          idutilisateur: currentIdUser,
+          idannonce: annonce.id,
+        }),
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("authUserClient"),
+          "Content-Type": "application/json",
+        },
+      }).catch((err) => console.error(err));
+    }
   };
 
   return (
@@ -209,13 +210,12 @@ const CardAnnonce = ({ annonce, hasDetail = true }) => {
                         Annonce de {annonce.utilisateur.nom}
                       </h1>
                       {localStorage.getItem("authUserClient") && (
-                        <h2
-                          className={`icon-favoris ${
-                            annonce.favori ? "active" : ""
-                          }`}
-                          onClick={handleFavoris}
-                        >
-                          <i className="ti ti-123 ti-heart me-3"></i>
+                        <h2 className="icon-favoris" onClick={handleFavoris}>
+                          <i
+                            className={`ti ti-123 ti-heart me-3 ${
+                              annonce.favori ? "active" : ""
+                            }`}
+                          ></i>
                         </h2>
                       )}
                     </div>
