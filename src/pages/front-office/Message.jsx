@@ -37,6 +37,15 @@ const Message = () => {
           : []
         : null
     );
+
+    setFormDataMessage({
+      ...formDataMessage,
+      id_discussion: messages
+        ? messages[indexMessageActive]
+          ? messages[indexMessageActive].id
+          : ""
+        : "",
+    });
   }, [messages, indexMessageActive]);
 
   const fetchMessage = () => {
@@ -95,10 +104,6 @@ const Message = () => {
 
   const handleMessageActive = (index) => {
     setIndexMessageActive(index);
-    setFormDataMessage({
-      ...formDataMessage,
-      id_discussion: messages[index].id,
-    });
   };
 
   return (
